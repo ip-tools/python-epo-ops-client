@@ -3,6 +3,7 @@
 from setuptools import setup
 from setuptools.command.test import test as TestCommand
 import os
+import shlex
 import sys
 
 import epo_ops
@@ -28,7 +29,9 @@ with open('LICENSE') as f:
 class PyTest(TestCommand):
     def finalize_options(self):
         TestCommand.finalize_options(self)
-        self.test_args = ['tests']
+        self.test_args = shlex.split(
+            '--cov-report html --cov-report term --cov epo_ops tests'
+        )
         self.test_suite = True
 
     def run_tests(self):
@@ -64,5 +67,5 @@ setup(
 
     ),
     cmdclass={'test': PyTest},
-    test_require=['pytest'],
+    tests_require=['pytest'],
 )
