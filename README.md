@@ -27,3 +27,5 @@ client.access_token
 
 [EPO]: http://epo.org
 [OPS]: http://www.epo.org/searching/free/ops.html
+
+# TODO: Talk about how to run tests

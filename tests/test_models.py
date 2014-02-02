@@ -57,5 +57,8 @@ def test_epodoc_as_api_input():
     assert Epodoc(*params).as_api_input() == '(US08/921%2C321).(20140122)'
 
 
+# TODO: Test token expiration
+
+
 if __name__ == '__main__':
     pytest.main()
