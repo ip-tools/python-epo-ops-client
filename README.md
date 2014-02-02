@@ -28,4 +28,12 @@ client.access_token
 [EPO]: http://epo.org
 [OPS]: http://www.epo.org/searching/free/ops.html
 
-# TODO: Talk about how to run tests
+## Tests
+
+Tests are written using pytest. To run the tests:
+
+1.  Register a OPS user login with EPO
+2.  Create an app
+3.  Record the app's consumer key and secret in `tests/secrets.py` (see
+    `secrets.py.example`)
+4.  `py.test -s --cov-report html --cov-report term --cov epo_ops tests`
