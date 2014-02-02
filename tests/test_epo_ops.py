@@ -1,3 +1,5 @@
+from datetime import datetime
+
 import pytest
 
 from epo_ops import Client, RegisteredClient
@@ -30,6 +32,12 @@ def test_real_happy_registered(registered_client):
     )
     assert r.status_code == 200
     assert r.headers['X-API'] == 'ops-v3.1'
+
+
+def test_self_check_expired_token(registered_client):
+    old_token = registered_client.access_token.token
+    registered_client.access_token.expiration = datetime.now()
+    assert old_token != registered_client.access_token.token
 
 
 if __name__ == '__main__':

@@ -59,7 +59,6 @@ class RegisteredClient(Client):
         #TODO: Custom auth handler plugin to requests?
         if (not self._access_token) or \
            (self._access_token and self._access_token.is_expired):
-
             self.acquire_token()
         return self._access_token
 

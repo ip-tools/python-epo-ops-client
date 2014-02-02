@@ -1,8 +1,24 @@
+import json
+
 from pytest import raises
 import pytest
 
 from epo_ops.exceptions import InvalidDate, MissingRequiredValue
-from epo_ops.models import Docdb, Epodoc, Original
+from epo_ops.models import AccessToken, Docdb, Epodoc, Original
+
+
+@pytest.fixture
+def immediately_expired_response():
+    class Response(object):
+        content = json.dumps({'access_token': '', 'expires_in': '0'})
+    return Response
+
+
+@pytest.fixture
+def response():
+    class Response(object):
+        content = json.dumps({'access_token': '', 'expires_in': '1200'})
+    return Response
 
 
 def test_original_required():
@@ -57,7 +73,14 @@ def test_epodoc_as_api_input():
     assert Epodoc(*params).as_api_input() == '(US08/921%2C321).(20140122)'
 
 
-# TODO: Test token expiration
+def test_access_token_is_expired(immediately_expired_response):
+    token = AccessToken(immediately_expired_response)
+    assert token.is_expired is True
+
+
+def test_access_token_is_not_expired(response):
+    token = AccessToken(response)
+    assert token.is_expired is False
 
 
 if __name__ == '__main__':
