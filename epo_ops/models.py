@@ -1,3 +1,5 @@
+from datetime import datetime, timedelta
+import json
 import logging
 
 from .exceptions import MissingRequiredValue
@@ -45,3 +47,16 @@ class Docdb(BaseInput):
 class Epodoc(BaseInput):
     def __init__(self, number, kind_code=None, date=None):
         super(Epodoc, self).__init__(number, None, kind_code, date)
+
+
+class AccessToken(object):
+    def __init__(self, response):
+        self._content = json.loads(response.content)
+        self.response = response
+        self.token = self._content['access_token']
+        self.expiration = datetime.now() + \
+            timedelta(seconds=int(self._content['expires_in']))
+
+    @property
+    def is_expired(self):
+        return datetime.now() >= self.expiration
