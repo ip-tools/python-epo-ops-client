@@ -13,6 +13,7 @@ log = logging.getLogger(__name__)
 class Client(object):
     __auth_url__ = 'https://ops.epo.org/3.1/auth/accesstoken'
     __service_url_prefix__ = 'https://ops.epo.org/3.1/rest-services'
+    __published_data__ = 'published-data'
 
     def __init__(self, accept_type='xml'):
         self.accept_type = 'application/{}'.format(accept_type)
@@ -34,7 +35,7 @@ class Client(object):
             constituents = []
 
         url = make_service_request_url(
-            self, 'published-data', reference_type, input, endpoint,
+            self, self.__published_data__, reference_type, input, endpoint,
             constituents
         )
         return self.make_request(url, input.as_api_input())
