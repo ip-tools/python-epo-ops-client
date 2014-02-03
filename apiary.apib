@@ -1,41 +1,44 @@
 FORMAT: 1A
-HOST: https://ops.epo.org/3.1/rest-services
+HOST: https://ops.epo.org
 
-# OPS v3.1
+# OPS v3.1 Test Server
 Mock of EPO OPS v3.1 for testing purposes.
 
-# Group published-data
-Published data services
+# Group Published Data Service
+Test end points for the published-data service.
 
-## published-data POST [/published-data/publication/docdb/biblio]
-### AnonymousQuotaPerMinute exceeded [POST]
+## AnonymousQuotaPerMinute exceeded [/anonymous-mins-exceeded/publication/docdb/biblio]
+### [POST]
 + Request
+
     ```
     (Forbidden).(AnonymousQuotaPerMinute).(exceeded)
     ```
-
 + Response 403 (application/xml)
     + Headers
     
         ```
         X-Rejection-Reason: AnonymousQuotaPerMinute exceeded
         ```
-
     + Body
-    
         ```
         <error><code>403</code><message>This request has been rejected due to the violation of Fair Use policy</message><moreInfo>http://www.epo.org/searching/free/espacenet/fair-use.html</moreInfo></error>
         ```
 
-
-## published-data GET [/published-data/{type}/{format}/{number}/biblio]
-### Retrieve [GET]
-+ Response 200 (application/json)
-
+## Anonymous retrival [/anonymous-success/publication/docdb/biblio]
+### [POST]
++ Request
     ```
-    [{
-      "id": 1, "title": "Jogging in park"
-    }, {
-      "id": 2, "title": "Pick-up posters from post-office"
-    }]
+    (EP).(1000000).(A1)
     ```
+
++ Response 200 (application/xml)
+    + Headers
+    
+        ```
+        X-API: ops-v3.1
+        ```
+    + Body
+        ```
+        <content>Some XML</content>
+        ```
