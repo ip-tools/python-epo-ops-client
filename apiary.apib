@@ -31,7 +31,7 @@ be searches.
         ```
 
 ## AnonymousQuotaPerDay exceeded [/anonymous-per-day-exceeded/publication/docdb/biblio]
-Anonymous users are allowed up to access roughly 100MB of data per day.
+Anonymous users are allowed to access up to 100MB of data per day.
 
 ### POST
 + Request
@@ -44,6 +44,50 @@ Anonymous users are allowed up to access roughly 100MB of data per day.
     
         ```
         X-Rejection-Reason: AnonymousQuotaPerDay exceeded
+        ```
+
+    + Body
+        ```
+        <error><code>403</code><message>This request has been rejected due to the violation of Fair Use policy</message><moreInfo>http://www.epo.org/searching/free/espacenet/fair-use.html</moreInfo></error>
+        ```
+
+## IndividualQuotaPerHour exceeded [/individual-per-hour-exceeded/publication/docdb/biblio]
+Each registered user account is allowed to use 450MB per hour. Even though this
+is enforced for all users, anonymous users can never reach this threshold due
+to the 100MB/day limit.
+
+### POST
++ Request
+
+    ```
+    (Forbidden).(Quota).(exceeded)
+    ```
++ Response 403 (application/xml)
+    + Headers
+    
+        ```
+        X-Rejection-Reason: IndividualQuotaPerHour exceeded
+        ```
+
+    + Body
+        ```
+        <error><code>403</code><message>This request has been rejected due to the violation of Fair Use policy</message><moreInfo>http://www.epo.org/searching/free/espacenet/fair-use.html</moreInfo></error>
+        ```
+
+## RegisteredQuotaPerWeek exceeded [/registered-per-week-exceeded/publication/docdb/biblio]
+Each free registered user account is allowed to use 2.5GB per week.
+
+### POST
++ Request
+
+    ```
+    (Forbidden).(Quota).(exceeded)
+    ```
++ Response 403 (application/xml)
+    + Headers
+    
+        ```
+        X-Rejection-Reason: RegisteredQuotaPerWeek
         ```
 
     + Body
