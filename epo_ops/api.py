@@ -2,8 +2,10 @@ from base64 import b64encode
 import logging
 import xml.etree.ElementTree as ET
 
+from requests.exceptions import HTTPError
 import requests
 
+from . import exceptions
 from .models import AccessToken
 from .utils import make_service_request_url
 
@@ -13,10 +15,32 @@ log = logging.getLogger(__name__)
 class Client(object):
     __auth_url__ = 'https://ops.epo.org/3.1/auth/accesstoken'
     __service_url_prefix__ = 'https://ops.epo.org/3.1/rest-services'
-    __published_data__ = 'published-data'
+    __published_data_path__ = 'published-data'
 
     def __init__(self, accept_type='xml'):
         self.accept_type = 'application/{}'.format(accept_type)
+
+    def check_for_exceeded_quota(self, response):
+        if (response.status_code != 403) or \
+           ('X-Rejection-Reason' not in response.headers):
+            return response
+
+        reasons = (
+            'AnonymousQuotaPerMinute',
+            'AnonymousQuotaPerDay',
+        )
+
+        rejection = response.headers['X-Rejection-Reason']
+
+        for reason in reasons:
+            if reason.lower() in rejection.lower():
+                try:
+                    response.raise_for_status()
+                except HTTPError as e:
+                    klass = getattr(exceptions, '{}Exceeded'.format(reason))
+                    e.__class__ = klass
+                    raise
+        return response
 
     def issue_request(self, url, data, extra_headers=None):
         headers = {'Accept': self.accept_type}
@@ -25,6 +49,7 @@ class Client(object):
 
     def make_request(self, url, data):
         response = self.issue_request(url, data)
+        response = self.check_for_exceeded_quota(response)
         response.raise_for_status()
         return response
 
@@ -35,8 +60,8 @@ class Client(object):
             constituents = []
 
         url = make_service_request_url(
-            self, self.__published_data__, reference_type, input, endpoint,
-            constituents
+            self, self.__published_data_path__, reference_type, input,
+            endpoint, constituents
         )
         return self.make_request(url, input.as_api_input())
 
