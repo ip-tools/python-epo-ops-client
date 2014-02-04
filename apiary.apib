@@ -2,13 +2,17 @@ FORMAT: 1A
 HOST: https://ops.epo.org
 
 # OPS v3.1 Test Server
-Mock of EPO OPS v3.1 for testing purposes.
+Mock of EPO OPS v3.1 for testing purposes. These end points are based on v
+1.2.10 of the reference guide.
 
-# Group Published Data Service
-Test end points for the published-data service.
+# Group Service Quota Errors
+Test end points when user or app reaches OPS quota.
 
-## AnonymousQuotaPerMinute exceeded [/anonymous-mins-exceeded/publication/docdb/biblio]
-### [POST]
+## AnonymousQuotaPerMinute exceeded [/anonymous-per-min-exceeded/publication/docdb/biblio]
+Anonymous users are allowed up to 30 requests per minute, only 10 of which can
+be searches.
+
+### POST
 + Request
 
     ```
@@ -20,25 +24,29 @@ Test end points for the published-data service.
         ```
         X-Rejection-Reason: AnonymousQuotaPerMinute exceeded
         ```
+
     + Body
         ```
         <error><code>403</code><message>This request has been rejected due to the violation of Fair Use policy</message><moreInfo>http://www.epo.org/searching/free/espacenet/fair-use.html</moreInfo></error>
         ```
 
-## Anonymous retrival [/anonymous-success/publication/docdb/biblio]
-### [POST]
-+ Request
-    ```
-    (EP).(1000000).(A1)
-    ```
+## AnonymousQuotaPerDay exceeded [/anonymous-per-day-exceeded/publication/docdb/biblio]
+Anonymous users are allowed up to access roughly 100MB of data per day.
 
-+ Response 200 (application/xml)
+### POST
++ Request
+
+    ```
+    (Forbidden).(AnonymousQuotaPerDay).(exceeded)
+    ```
++ Response 403 (application/xml)
     + Headers
     
         ```
-        X-API: ops-v3.1
+        X-Rejection-Reason: AnonymousQuotaPerDay exceeded
         ```
+
     + Body
         ```
-        <content>Some XML</content>
+        <error><code>403</code><message>This request has been rejected due to the violation of Fair Use policy</message><moreInfo>http://www.epo.org/searching/free/espacenet/fair-use.html</moreInfo></error>
         ```
