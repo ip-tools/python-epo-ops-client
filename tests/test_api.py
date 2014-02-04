@@ -29,21 +29,9 @@ def registered_client():
     )
 
 
-@pytest.fixture(scope='module')
-def mock_anonymous_client():
-    c = Client()
-    c.__service_url_prefix__ = 'https://opsv31.apiary.io'
-    return c
-
-
 # Tests
 def test_real_happy_anonymous():
     service_success(Client())
-
-
-def test_mock_happy_anonymous(mock_anonymous_client):
-    mock_anonymous_client.__published_data__ = 'anonymous-success'
-    service_success(mock_anonymous_client)
 
 
 def test_real_get_access_token(registered_client):
