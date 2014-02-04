@@ -16,7 +16,7 @@ be searches.
 + Request
 
     ```
-    (Forbidden).(AnonymousQuotaPerMinute).(exceeded)
+    (Forbidden).(Quota).(exceeded)
     ```
 + Response 403 (application/xml)
     + Headers
@@ -37,7 +37,7 @@ Anonymous users are allowed up to access roughly 100MB of data per day.
 + Request
 
     ```
-    (Forbidden).(AnonymousQuotaPerDay).(exceeded)
+    (Forbidden).(Quota).(exceeded)
     ```
 + Response 403 (application/xml)
     + Headers
