@@ -28,6 +28,8 @@ class Client(object):
         reasons = (
             'AnonymousQuotaPerMinute',
             'AnonymousQuotaPerDay',
+            'IndividualQuotaPerHour',
+            'RegisteredQuotaPerWeek',
         )
 
         rejection = response.headers['X-Rejection-Reason']

@@ -17,3 +17,11 @@ class AnonymousQuotaPerMinuteExceeded(HTTPError):
 
 class AnonymousQuotaPerDayExceeded(HTTPError):
     """Anonymous per day quota exceeded."""
+
+
+class IndividualQuotaPerHourExceeded(HTTPError):
+    """Anonymous per day quota exceeded."""
+
+
+class RegisteredQuotaPerWeekExceeded(HTTPError):
+    """Anonymous per day quota exceeded."""

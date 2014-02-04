@@ -3,7 +3,8 @@ import pytest
 
 from epo_ops import Client
 from epo_ops.exceptions import (
-    AnonymousQuotaPerDayExceeded, AnonymousQuotaPerMinuteExceeded
+    AnonymousQuotaPerDayExceeded, AnonymousQuotaPerMinuteExceeded,
+    IndividualQuotaPerHourExceeded, RegisteredQuotaPerWeekExceeded
 )
 from epo_ops.models import Docdb
 
@@ -24,18 +25,18 @@ def mock_anonymous_client():
 
 
 # Tests
-def test_mock_anonymous_per_min_exceeded(mock_anonymous_client):
-    mock_anonymous_client.__published_data_path__ = \
-        'anonymous-per-min-exceeded'
-    with raises(AnonymousQuotaPerMinuteExceeded):
-        issue_request(mock_anonymous_client)
+def test_mock_quota_exceeded(mock_anonymous_client):
+    errors = {
+        'anonymous-per-min-exceeded': AnonymousQuotaPerMinuteExceeded,
+        'anonymous-per-day-exceeded': AnonymousQuotaPerDayExceeded,
+        'individual-per-hour-exceeded': IndividualQuotaPerHourExceeded,
+        'registered-per-week-exceeded': RegisteredQuotaPerWeekExceeded,
+    }
 
-
-def test_mock_anonymous_per_day_exceeded(mock_anonymous_client):
-    mock_anonymous_client.__published_data_path__ = \
-        'anonymous-per-day-exceeded'
-    with raises(AnonymousQuotaPerDayExceeded):
-        issue_request(mock_anonymous_client)
+    for path, exception_class in errors.items():
+        mock_anonymous_client.__published_data_path__ = path
+        with raises(exception_class):
+            issue_request(mock_anonymous_client)
 
 
 if __name__ == '__main__':
