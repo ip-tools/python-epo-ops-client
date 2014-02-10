@@ -3,7 +3,8 @@ import logging
 import os
 import urllib
 
-from .exceptions import InvalidDate
+from ..exceptions import InvalidDate
+from .json import datetime_parser
 
 log = logging.getLogger(__name__)
 
