@@ -1,26 +1,11 @@
+from codecs import open
 from datetime import datetime
-import json
+import os
 
 from dateutil.tz import tzutc
 import pytest
 
-
-def status_generator(timestamp, status, limit, retry_after=None):
-    return {
-        'timestamp': timestamp,
-        'status': status,
-        'limit': limit,
-        'retry_after': retry_after or 0,
-    }
-
-
-def status_dict(service, datetimes, service_status):
-    statuses = []
-    for dt, status in zip(datetimes, service_status):
-        statuses.append(status_generator(dt, *status))
-    return {
-        service: statuses
-    }
+from .helpers.conftest_helpers import ServiceHistory, ThrottleHistory
 
 
 @pytest.fixture
@@ -33,7 +18,7 @@ def datetimes():
 
 @pytest.fixture
 def service_status():
-    class Statuses(object):
+    class ServiceStatus(object):
         @property
         def green(self):
             return ('green', 200, None)
@@ -50,43 +35,26 @@ def service_status():
         def black(self):
             return ('black', 0, 60)
 
-    return Statuses()
+    return ServiceStatus()
 
 
 @pytest.fixture
-def throttle_status_base():
-    return {
-        'system_status': 'idle',  # idle, busy, overloaded
-        'services': {
-        }
-    }
-
-
-@pytest.fixture
-def images_status(datetimes, service_status):
-    return status_dict(
-        'images', datetimes,
-        (service_status.green, service_status.yellow)
+def images_history(datetimes, service_status):
+    return ServiceHistory(
+        'images', datetimes, (service_status.green, service_status.red)
     )
 
 
 @pytest.fixture
-def images_status_json(datetimes, service_status):
-    return status_dict(
-        'images', [dt.isoformat() for dt in datetimes],
-        (service_status.green, service_status.yellow)
+def throttle_history(images_history):
+    return ThrottleHistory(images_history)
+
+
+@pytest.fixture
+def generate_sample_json(throttle_history):
+    fpath = os.path.join(
+        os.path.dirname(os.path.abspath(__file__)), 'fixtures',
+        'throttle_history.json'
     )
-
-
-@pytest.fixture
-def throttle_status(throttle_status_base, images_status):
-    ts = throttle_status_base
-    ts['services'].update(images_status)
-    return ts
-
-
-@pytest.fixture
-def throttle_status_json(throttle_status_base, images_status_json):
-    ts = throttle_status_base
-    ts['services'].update(images_status_json)
-    return json.dumps(ts)
+    with open(fpath, 'w+', encoding='utf-8') as of:
+        of.write(throttle_history.as_json())
