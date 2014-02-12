@@ -1,8 +1,11 @@
 from __future__ import absolute_import
 
 import json
+import logging
 
 from dateutil.parser import parse
+
+log = logging.getLogger(__name__)
 
 
 def datetime_parser(dct):
@@ -19,7 +22,7 @@ class DateTimeJSONEncoder(json.JSONEncoder):
     def default(self, obj):
         try:
             return obj.isoformat()
-        except:
+        except:  # pragma: no cover
             return super(DateTimeJSONEncoder, self).default(obj)
 
 
