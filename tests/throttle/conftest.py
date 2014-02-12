@@ -38,6 +38,9 @@ def service_status():
     return ServiceStatus()
 
 
+# TODO: We can session scope these histories, that way we can randomly pick
+# statuses based on the number of datetimes. How do we make sure there is at
+# least one black?
 @pytest.fixture
 def images_history(datetimes, service_status):
     return ServiceHistory(
@@ -46,8 +49,42 @@ def images_history(datetimes, service_status):
 
 
 @pytest.fixture
-def throttle_history(images_history):
-    return ThrottleHistory(images_history)
+def inpadoc_history(datetimes, service_status):
+    return ServiceHistory(
+        'inpadoc', datetimes, (service_status.red, service_status.yellow)
+    )
+
+
+@pytest.fixture
+def other_history(datetimes, service_status):
+    return ServiceHistory(
+        'other', datetimes, (service_status.yellow, service_status.green)
+    )
+
+
+@pytest.fixture
+def retrieval_history(datetimes, service_status):
+    return ServiceHistory(
+        'retrieval', datetimes, (service_status.red, service_status.green)
+    )
+
+
+@pytest.fixture
+def search_history(datetimes, service_status):
+    return ServiceHistory(
+        'search', datetimes, (service_status.green, service_status.black)
+    )
+
+
+@pytest.fixture
+def throttle_history(
+    images_history, inpadoc_history, other_history, retrieval_history,
+    search_history
+):
+    return ThrottleHistory(
+        images_history, inpadoc_history, other_history, retrieval_history,
+        search_history
+    )
 
 
 @pytest.fixture

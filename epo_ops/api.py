@@ -7,9 +7,14 @@ import requests
 
 from . import exceptions
 from .models import AccessToken
+from .throttle import Throttler
 from .utils import make_service_request_url
 
 log = logging.getLogger(__name__)
+
+DEFAULT_THROTTLE_HISTORY = (
+    '/var/tmp/python-epo-ops-client/throttle_history.json'
+)
 
 
 class Client(object):
@@ -17,8 +22,11 @@ class Client(object):
     __service_url_prefix__ = 'https://ops.epo.org/3.1/rest-services'
     __published_data_path__ = 'published-data'
 
-    def __init__(self, accept_type='xml'):
+    def __init__(
+        self, accept_type='xml', throttle_history=DEFAULT_THROTTLE_HISTORY
+    ):
         self.accept_type = 'application/{}'.format(accept_type)
+        self.throttler = Throttler(throttle_history)
 
     def check_for_exceeded_quota(self, response):
         if (response.status_code != 403) or \
@@ -42,12 +50,12 @@ class Client(object):
                     klass = getattr(exceptions, '{}Exceeded'.format(reason))
                     e.__class__ = klass
                     raise
-        return response
+        return response  # pragma: no cover
 
     def issue_request(self, url, data, extra_headers=None):
         headers = {'Accept': self.accept_type}
         headers.update(extra_headers or {})
-        return requests.post(url, data=data, headers=headers)
+        return self.throttler.post(url, data=data, headers=headers)
 
     def make_request(self, url, data):
         response = self.issue_request(url, data)
