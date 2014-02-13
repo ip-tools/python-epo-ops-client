@@ -3,8 +3,9 @@ import logging
 import os
 import urllib
 
-from ..exceptions import InvalidDate
-from .json import datetime_parser
+from dateutil.tz import tzutc
+
+from .exceptions import InvalidDate
 
 log = logging.getLogger(__name__)
 
@@ -17,6 +18,17 @@ def make_service_request_url(
         input.__class__.__name__.lower(), endpoint, ','.join(constituents)
     ]
     return os.path.join(*filter(None, parts))
+
+
+def makedirs(path, mode=0777):
+    try:
+        os.makedirs(path, mode)
+    except OSError:
+        pass
+
+
+def now():
+    return datetime.now(tzutc())
 
 
 def quote(string):
