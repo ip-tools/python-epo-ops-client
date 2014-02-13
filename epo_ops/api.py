@@ -8,13 +8,10 @@ import requests
 from . import exceptions
 from .models import AccessToken
 from .throttle import Throttler
+from .throttle.storages import SQLite
 from .utils import make_service_request_url
 
 log = logging.getLogger(__name__)
-
-DEFAULT_THROTTLE_HISTORY = (
-    '/var/tmp/python-epo-ops-client/throttle_history.json'
-)
 
 
 class Client(object):
@@ -22,11 +19,9 @@ class Client(object):
     __service_url_prefix__ = 'https://ops.epo.org/3.1/rest-services'
     __published_data_path__ = 'published-data'
 
-    def __init__(
-        self, accept_type='xml', throttle_history=DEFAULT_THROTTLE_HISTORY
-    ):
+    def __init__(self, accept_type='xml', throttle_history_storage=SQLite()):
         self.accept_type = 'application/{}'.format(accept_type)
-        self.throttler = Throttler(throttle_history)
+        self.throttler = Throttler(throttle_history_storage)
 
     def check_for_exceeded_quota(self, response):
         if (response.status_code != 403) or \
@@ -77,8 +72,12 @@ class Client(object):
 
 
 class RegisteredClient(Client):
-    def __init__(self, key, secret, accept_type='xml'):
-        super(RegisteredClient, self).__init__(accept_type)
+    def __init__(
+        self, key, secret, accept_type='xml', throttle_history_storage=SQLite()
+    ):
+        super(RegisteredClient, self).__init__(
+            accept_type, throttle_history_storage
+        )
         self.key = key
         self.secret = secret
         self._access_token = None
