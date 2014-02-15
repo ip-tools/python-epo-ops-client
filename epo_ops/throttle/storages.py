@@ -5,9 +5,17 @@ import re
 import sqlite3
 from datetime import timedelta
 
+from dateutil.parser import parse
+
 from ..utils import makedirs, now
 
 log = logging.getLogger(__name__)
+
+
+def convert_timestamp(ts):
+    return parse(ts)
+
+sqlite3.register_converter('timestamp', convert_timestamp)
 
 
 class SQLite(object):
