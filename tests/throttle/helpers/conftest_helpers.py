@@ -1,22 +1,23 @@
 class ServiceSnapshot(object):
-    def __init__(self, service, service_status):
+    def __init__(self, service, status, limit):
         self.service = service
-        self.service_status = service_status
+        self.status = status
+        self.limit = limit
 
     def as_header(self):
-        return '{}={}:{}'.format(self.service, *self.service_status)
+        return '{}={}:{}'.format(self.service, self.status, self.limit)
 
     def as_dict(self):
         return {
             self.service: {
-                'status': self.service_status[0],
-                'limit': self.service_status[1],
+                'status': self.status,
+                'limit': self.limit,
             }
         }
 
 
 class ThrottleSnapshot(object):
-    def __init__(self, system_status, *service_statuses):
+    def __init__(self, system_status, service_statuses):
         self.system_status = system_status
         self.service_statuses = service_statuses
 
