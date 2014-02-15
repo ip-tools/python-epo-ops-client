@@ -8,13 +8,18 @@ from epo_ops.throttle.storages import SQLite
 from epo_ops.utils import now
 
 
-def single_value(storage, *params):
+def single_value_query(storage, *params):
     return storage.db.execute(*params).fetchone()[0]
 
 
 def table_count(storage):
     sql = 'SELECT COUNT(*) FROM throttle_history'
-    return single_value(storage, sql)
+    return single_value_query(storage, sql)
+
+
+def single_col_query(storage, col):
+    sql = 'SELECT {} FROM throttle_history LIMIT 1'.format(col)
+    return single_value_query(storage, sql)
 
 
 @pytest.fixture()
@@ -59,6 +64,14 @@ def test_table_creation(storage, cols):
     assert sorted(db_cols) == sorted(expected)
 
 
+def test_sqlite_timestamp_conversion(storage):
+    dt = now()
+    sql = 'INSERT INTO throttle_history(timestamp) VALUES (?)'
+    with storage.db:
+        storage.db.execute(sql, (dt,))
+    assert single_col_query(storage, 'timestamp') == dt
+
+
 def test_prune(storage, expired_timestamps, valid_timestamps):
     timestamps = expired_timestamps + valid_timestamps
     sql = 'INSERT INTO throttle_history(timestamp) VALUES (?)'
@@ -82,18 +95,16 @@ def test_update_with_header(
     start = now()
     storage.update(header)
     assert table_count(storage) == 1
-    sql = 'SELECT {} FROM throttle_history LIMIT 1'
-    insert_ts = single_value(storage, sql.format('timestamp'))
-    assert now() - insert_ts < now() - start
-    assert single_value(storage, sql.format('system_status')) ==\
+    assert now() > single_col_query(storage, 'timestamp') > start
+    assert single_col_query(storage, 'system_status') ==\
         throttle_history.system_status
     for s in throttle_history.service_statuses:
         for service, (col, val) in product(
             [s.service], zip(['status', 'limit'], s.service_status)
         ):
             col = '{}_{}'.format(service, col)
-            assert single_value(storage, sql.format(col)) == val
+            assert single_col_query(storage, col) == val
 
         if s.service_status[0].lower() == 'black':
             col = '{}_retry_after'.format(s.service)
-            assert single_value(storage, sql.format(col)) == retry_after_value
+            assert single_col_query(storage, col) == retry_after_value
