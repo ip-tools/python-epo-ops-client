@@ -36,3 +36,4 @@ nosetests.xml
 .pydevproject
 htmlcov
 secrets.py
+tests/throttle/sample
