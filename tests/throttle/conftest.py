@@ -1,19 +1,32 @@
 from codecs import open
-from datetime import datetime
+from datetime import timedelta
 import os
 
-from dateutil.tz import tzutc
 import pytest
+from requests.structures import CaseInsensitiveDict
 
-from .helpers.conftest_helpers import ServiceHistory, ThrottleHistory
+from epo_ops.utils import makedirs, now
+
+from .helpers.conftest_helpers import ServiceSnapshot, ThrottleSnapshot
+
+
+def generate_timestamps(deltas):
+    timestamps = []
+    for d in deltas:
+        timestamps.append(now() - timedelta(minutes=d))
+    return timestamps
 
 
 @pytest.fixture
-def datetimes():
-    return [
-        datetime(2014, 2, 5, 18, 15, 24, 474846, tzinfo=tzutc()),
-        datetime(2014, 2, 5, 18, 16, 24, 474846, tzinfo=tzutc()),
-    ]
+def expired_timestamps():
+    deltas = (2, 1.5)
+    return generate_timestamps(deltas)
+
+
+@pytest.fixture
+def valid_timestamps():
+    deltas = (.75, .5, 0)
+    return generate_timestamps(deltas)
 
 
 @pytest.fixture
@@ -21,77 +34,58 @@ def service_status():
     class ServiceStatus(object):
         @property
         def green(self):
-            return ('green', 200, None)
+            return ('green', 200)
 
         @property
         def yellow(self):
-            return ('yellow', 50, None)
+            return ('yellow', 50)
 
         @property
         def red(self):
-            return ('red', 5, None)
+            return ('red', 5)
 
         @property
         def black(self):
-            return ('black', 0, 60)
+            return ('black', 0)
 
     return ServiceStatus()
 
 
-# TODO: We can session scope these histories, that way we can randomly pick
-# statuses based on the number of datetimes. How do we make sure there is at
-# least one black?
 @pytest.fixture
-def images_history(datetimes, service_status):
-    return ServiceHistory(
-        'images', datetimes, (service_status.green, service_status.red)
+def retry_after_value():
+    return 60000
+
+
+@pytest.fixture
+def throttle_history(service_status):
+    return ThrottleSnapshot(
+        'idle',
+        ServiceSnapshot('images', service_status.green),
+        ServiceSnapshot('inpadoc', service_status.yellow),
+        ServiceSnapshot('other', service_status.red),
+        ServiceSnapshot('retrieval', service_status.black),
+        ServiceSnapshot('search', service_status.green),
     )
 
 
 @pytest.fixture
-def inpadoc_history(datetimes, service_status):
-    return ServiceHistory(
-        'inpadoc', datetimes, (service_status.red, service_status.yellow)
-    )
+def header(throttle_history, retry_after_value):
+    return CaseInsensitiveDict((
+        ('X-Throttling-Control', throttle_history.as_header()),
+        ('Retry-After', retry_after_value)
+    ))
 
 
 @pytest.fixture
-def other_history(datetimes, service_status):
-    return ServiceHistory(
-        'other', datetimes, (service_status.yellow, service_status.green)
+def generate_sample_throttle_history_reprs(throttle_history):
+    "Generate sample header and dict representations"
+    sample_path = os.path.join(
+        os.path.dirname(os.path.abspath(__file__)), 'sample'
     )
-
-
-@pytest.fixture
-def retrieval_history(datetimes, service_status):
-    return ServiceHistory(
-        'retrieval', datetimes, (service_status.red, service_status.green)
-    )
-
-
-@pytest.fixture
-def search_history(datetimes, service_status):
-    return ServiceHistory(
-        'search', datetimes, (service_status.green, service_status.black)
-    )
-
-
-@pytest.fixture
-def throttle_history(
-    images_history, inpadoc_history, other_history, retrieval_history,
-    search_history
-):
-    return ThrottleHistory(
-        images_history, inpadoc_history, other_history, retrieval_history,
-        search_history
-    )
-
-
-@pytest.fixture
-def generate_sample_json(throttle_history):
-    fpath = os.path.join(
-        os.path.dirname(os.path.abspath(__file__)), 'fixtures',
-        'throttle_history.json'
-    )
-    with open(fpath, 'w+', encoding='utf-8') as of:
-        of.write(throttle_history.as_json())
+    makedirs(sample_path)
+    fheader = os.path.join(sample_path, 'throttle_history.header')
+    fdict = os.path.join(sample_path, 'throttle_history.dict')
+    with open(fheader, 'w+', encoding='utf-8') as of:
+        of.write(throttle_history.as_header())
+    with open(fdict, 'w+', encoding='utf-8') as of:
+        of.write(str(throttle_history.as_dict()))
