@@ -82,23 +82,23 @@ def test_prune(storage, expired_timestamps, valid_timestamps):
     assert table_count(storage) == len(valid_timestamps)
 
 
-@pytest.mark.usefixtures('generate_sample_throttle_history_reprs')
-def test_parse_throttle_header(storage, throttle_history):
-    header = throttle_history.as_header()
-    expected = throttle_history.as_dict()
+@pytest.mark.usefixtures('generate_sample_throttle_snapshot_reprs')
+def test_parse_throttle_header(storage, throttle_snapshot):
+    header = throttle_snapshot.as_header()
+    expected = throttle_snapshot.as_dict()
     assert storage.parse_throttle(header) == expected
 
 
 def test_update_with_header(
-    storage, header, throttle_history, retry_after_value
+    storage, header, throttle_snapshot, retry_after_value
 ):
     start = now()
     storage.update(header)
     assert table_count(storage) == 1
     assert now() > single_col_query(storage, 'timestamp') > start
     assert single_col_query(storage, 'system_status') ==\
-        throttle_history.system_status
-    for s in throttle_history.service_statuses:
+        throttle_snapshot.system_status
+    for s in throttle_snapshot.service_statuses:
         for service, (col, val) in product(
             [s.service], zip(['status', 'limit'], s.service_status)
         ):

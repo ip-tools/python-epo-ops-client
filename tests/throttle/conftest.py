@@ -57,7 +57,7 @@ def retry_after_value():
 
 
 @pytest.fixture
-def throttle_history(service_status):
+def throttle_snapshot(service_status):
     return ThrottleSnapshot(
         'idle',
         ServiceSnapshot('images', service_status.green),
@@ -69,23 +69,23 @@ def throttle_history(service_status):
 
 
 @pytest.fixture
-def header(throttle_history, retry_after_value):
+def header(throttle_snapshot, retry_after_value):
     return CaseInsensitiveDict((
-        ('X-Throttling-Control', throttle_history.as_header()),
+        ('X-Throttling-Control', throttle_snapshot.as_header()),
         ('Retry-After', retry_after_value)
     ))
 
 
 @pytest.fixture
-def generate_sample_throttle_history_reprs(throttle_history):
+def generate_sample_throttle_snapshot_reprs(throttle_snapshot):
     "Generate sample header and dict representations"
     sample_path = os.path.join(
         os.path.dirname(os.path.abspath(__file__)), 'sample'
     )
     makedirs(sample_path)
-    fheader = os.path.join(sample_path, 'throttle_history.header')
-    fdict = os.path.join(sample_path, 'throttle_history.dict')
+    fheader = os.path.join(sample_path, 'throttle_snapshot.header')
+    fdict = os.path.join(sample_path, 'throttle_snapshot.dict')
     with open(fheader, 'w+', encoding='utf-8') as of:
-        of.write(throttle_history.as_header())
+        of.write(throttle_snapshot.as_header())
     with open(fdict, 'w+', encoding='utf-8') as of:
-        of.write(str(throttle_history.as_dict()))
+        of.write(str(throttle_snapshot.as_dict()))
