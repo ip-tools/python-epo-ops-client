@@ -1,6 +1,4 @@
 from itertools import product
-import os
-import tempfile
 
 import pytest
 
@@ -20,22 +18,6 @@ def table_count(storage):
 def single_col_query(storage, col):
     sql = 'SELECT {} FROM throttle_history LIMIT 1'.format(col)
     return single_value_query(storage, sql)
-
-
-@pytest.fixture()
-def storage(request):
-    temp_db = tempfile.mkstemp()[1]
-
-    def fin():
-        os.remove(temp_db)
-    request.addfinalizer(fin)
-
-    return SQLite(temp_db)
-
-
-@pytest.fixture()
-def cols(storage):
-    return storage.service_columns()
 
 
 def test_columns_generation(cols):
@@ -100,11 +82,31 @@ def test_update_with_header(
         throttle_snapshot.system_status
     for s in throttle_snapshot.service_statuses:
         for service, (col, val) in product(
-            [s.service], zip(['status', 'limit'], s.service_status)
+            [s.service], zip(('status', 'limit'), (s.status, s.limit))
         ):
             col = '{}_{}'.format(service, col)
             assert single_col_query(storage, col) == val
 
-        if s.service_status[0].lower() == 'black':
+        if s.status.lower() == 'black':
             col = '{}_retry_after'.format(s.service)
             assert single_col_query(storage, col) == retry_after_value
+
+
+def test_delay_no_history(storage):
+    for s in SQLite.SERVICES:
+        assert storage.delay_for(s) == 0
+
+
+def test_delay_expired_history(expired_throttle_history):
+    storage = expired_throttle_history
+    for s in SQLite.SERVICES:
+        assert storage.delay_for(s) == 0
+    assert table_count(storage) == 0
+
+
+def test_delay(throttle_history):
+    storage = throttle_history['storage']
+    expected = throttle_history['expected']
+    for k, v in expected.items():
+        # We round to account for db operation time
+        assert round(storage.delay_for(k), 2) == round(v, 2)
