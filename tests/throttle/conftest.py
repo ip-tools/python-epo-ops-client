@@ -23,15 +23,11 @@ def generate_timestamps(deltas):
     return timestamps
 
 
-def make_service_snapshots(services):
+def make_throttle_snapshot(system_status, services):
     snapshots = []
     for service, (status, limit) in services.items():
         snapshots.append(ServiceSnapshot(service, status, limit))
-    return snapshots
-
-
-def make_throttle_snapshot(status, services):
-    return ThrottleSnapshot(status, make_service_snapshots(services))
+    return ThrottleSnapshot(system_status, snapshots)
 
 
 def make_header(control, retry=None):
@@ -39,6 +35,22 @@ def make_header(control, retry=None):
     if retry:
         h['Retry-After'] = retry
     return h
+
+
+@pytest.fixture()
+def storage(request):
+    temp_db = tempfile.mkstemp()[1]
+
+    def fin():
+        os.remove(temp_db)
+    request.addfinalizer(fin)
+
+    return SQLite(temp_db)
+
+
+@pytest.fixture()
+def cols(storage):
+    return storage.service_columns()
 
 
 @pytest.fixture
@@ -95,8 +107,13 @@ def throttle_snapshot(service_status):
 
 
 @pytest.fixture
+def header(throttle_snapshot, retry_after_value):
+    return make_header(throttle_snapshot.as_header(), retry_after_value)
+
+
+@pytest.fixture
 def expired_throttle_history(storage, expired_timestamps):
-    def services_dict(limit):
+    def _services_dict(limit):
         sd = {}
         for s in SQLite.SERVICES:
             sd[s] = ('green', limit)
@@ -104,7 +121,7 @@ def expired_throttle_history(storage, expired_timestamps):
 
     limits = (1000, 2000)
     for limit in limits:
-        snapshot = make_throttle_snapshot('idle', services_dict(limit))
+        snapshot = make_throttle_snapshot('idle', _services_dict(limit))
         storage.update(make_header(snapshot.as_header()))
 
     sql = 'UPDATE throttle_history SET timestamp=? WHERE images_limit=?'
@@ -121,14 +138,18 @@ def throttle_history(expired_throttle_history, retry_after_value):
     is one snapshot where search service has black status and a retry-after
     value.
     """
-    system_statuses = ('idle', 'busy', 'overloaded')
+    storage = expired_throttle_history
+    system_stats = ('idle', 'busy', 'overloaded')
     lights = ('green', 'yellow', 'red')
     sample_count = 4
+    expected = {}
+    service_limits = {}
 
-    def _range(start, step=-10):
-        return range(start + -step * (sample_count - 1), start - 1, step)
+    def _range(end, step=-10):
+        start = end + -step * (sample_count - 1)
+        return range(start, end - 1, step)
 
-    def services_dicts(limits):
+    def _services_dicts(limits):
         snapshots = []
         for i in range(sample_count):
             sd = {}
@@ -137,58 +158,32 @@ def throttle_history(expired_throttle_history, retry_after_value):
             snapshots.append(sd)
         return snapshots
 
-    storage = expired_throttle_history
-    expected = {}
-    service_limits = {}
     for service, limit in zip(SQLite.SERVICES, (200, 100, 60, 10, 5)):
         expected[service] = 60./limit
         service_limits[service] = _range(limit)
         shuffle(service_limits[service])
 
-    for d in services_dicts(service_limits):
+    for d in _services_dicts(service_limits):
         storage.update(make_header(
-            make_throttle_snapshot(choice(system_statuses), d).as_header()
+            make_throttle_snapshot(choice(system_stats), d).as_header()
         ))
 
     # Make a special header with search=black with retry value
-    storage.update(make_header(
-        '{} (search=black:0, {})'.format(
-            choice(system_statuses),
-            ', '.join(
-                ['{}=green:1000'.format(s) for s in (
-                    'images', 'inpadoc', 'other', 'retrieval'
-                )]
-            )
-        ),
-        retry_after_value
-    ))
+    services = list(SQLite.SERVICES)
+    services.remove('search')
+    services = ', '.join(['{}=green:1000'.format(s) for s in services])
+    storage.update(
+        make_header(
+            '{} (search=black:0, {})'.format(choice(system_stats), services),
+            retry_after_value
+        )
+    )
 
     # Make sure to override expected
     expected['search'] = retry_after_value / 1000.
 
     th = {'expected': expected, 'storage': storage}
     return th
-
-
-@pytest.fixture
-def header(throttle_snapshot, retry_after_value):
-    return make_header(throttle_snapshot.as_header(), retry_after_value)
-
-
-@pytest.fixture()
-def storage(request):
-    temp_db = tempfile.mkstemp()[1]
-
-    def fin():
-        os.remove(temp_db)
-    request.addfinalizer(fin)
-
-    return SQLite(temp_db)
-
-
-@pytest.fixture()
-def cols(storage):
-    return storage.service_columns()
 
 
 @pytest.fixture

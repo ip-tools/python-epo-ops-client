@@ -93,6 +93,7 @@ def test_update_with_header(
 
 
 def test_delay_no_history(storage):
+    assert table_count(storage) == 0
     for s in SQLite.SERVICES:
         assert storage.delay_for(s) == 0
 
@@ -110,3 +111,4 @@ def test_delay(throttle_history):
     for k, v in expected.items():
         # We round to account for db operation time
         assert round(storage.delay_for(k), 2) == round(v, 2)
+    assert table_count(storage) == 5
