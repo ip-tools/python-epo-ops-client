@@ -28,3 +28,26 @@ def assert_family_success(client):
     assert_request_success(response)
     assert 'patent-family' in response.text
     return response
+
+
+def issue_published_data_search_request(client):
+    return client.published_data_search('applicant=IBM')
+
+
+def assert_published_data_search_success(client):
+    response = issue_published_data_search_request(client)
+    assert_request_success(response)
+    assert 'biblio-search' in response.text
+    return response
+
+
+def issue_published_data_search_request_with_range(client):
+    return client.published_data_search('applicant=IBM', 50, 60)
+
+
+def assert_published_data_search_with_range_success(client):
+    response = issue_published_data_search_request_with_range(client)
+    assert_request_success(response)
+    assert 'biblio-search' in response.text
+    assert 'range begin="50" end="60"' in response.text
+    return response

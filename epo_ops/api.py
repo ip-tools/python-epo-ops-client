@@ -1,5 +1,6 @@
 from base64 import b64encode
 import logging
+import os
 import xml.etree.ElementTree as ET
 
 from requests.exceptions import HTTPError
@@ -9,16 +10,27 @@ from . import exceptions
 from .models import AccessToken
 from .throttle import Throttler
 from .throttle.storages import SQLite
-from .utils import make_service_request_url
 
 log = logging.getLogger(__name__)
+
+
+def make_service_request_url(
+    client, service, reference_type, input, endpoint, constituents
+):
+    parts = [
+        client.__service_url_prefix__, service, reference_type,
+        input and input.__class__.__name__.lower(), endpoint,
+        ','.join(constituents)
+    ]
+    return os.path.join(*filter(None, parts))
 
 
 class Client(object):
     __auth_url__ = 'https://ops.epo.org/3.1/auth/accesstoken'
     __service_url_prefix__ = 'https://ops.epo.org/3.1/rest-services'
-    __published_data_path__ = 'published-data'
     __family_path__ = 'family'
+    __published_data_path__ = 'published-data'
+    __published_data_search_path__ = 'published-data/search'
 
     def __init__(self, accept_type='xml', throttle_history_storage=None):
         self.accept_type = 'application/{}'.format(accept_type)
@@ -53,8 +65,8 @@ class Client(object):
         headers.update(extra_headers or {})
         return self.throttler.post(url, data=data, headers=headers)
 
-    def make_request(self, url, data):
-        response = self.post(url, data)
+    def make_request(self, url, data, extra_headers=None):
+        response = self.post(url, data, extra_headers)
         response = self.check_for_exceeded_quota(response)
         response.raise_for_status()
         return response
@@ -63,11 +75,8 @@ class Client(object):
     def _service_request(
         self, path, reference_type, input, endpoint, constituents
     ):
-        if constituents is None:
-            constituents = []
-
         url = make_service_request_url(
-            self, path, reference_type, input, endpoint, constituents
+            self, path, reference_type, input, endpoint, constituents or []
         )
         return self.make_request(url, input.as_api_input())
 
@@ -82,6 +91,19 @@ class Client(object):
     def family(self, reference_type, input, endpoint=None, constituents=None):
         return self._service_request(
             self.__family_path__, reference_type, input, endpoint, constituents
+        )
+
+    def published_data_search(
+        self, cql, range_begin=1, range_end=25, constituents=None
+    ):
+        url = make_service_request_url(
+            self, self.__published_data_search_path__, None, None, None,
+            constituents or []
+        )
+        return self.make_request(
+            url,
+            {'q': cql},
+            {'X-OPS-Range': '{}-{}'.format(range_begin, range_end)}
         )
 
 
@@ -130,11 +152,12 @@ class RegisteredClient(Client):
             )
         return response
 
-    def make_request(self, url, data):
-        response = self.post(
-            url, data,
-            {'Authorization': 'Bearer {}'.format(self.access_token.token)}
-        )
+    def make_request(self, url, data, extra_headers=None):
+        extra_headers = extra_headers or {}
+        token = 'Bearer {}'.format(self.access_token.token)
+        extra_headers['Authorization'] = token
+
+        response = self.post(url, data, extra_headers)
         response = self.check_for_expired_token(response)
         response = self.check_for_exceeded_quota(response)
         response.raise_for_status()

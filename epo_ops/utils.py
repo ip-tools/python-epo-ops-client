@@ -10,16 +10,6 @@ from .exceptions import InvalidDate
 log = logging.getLogger(__name__)
 
 
-def make_service_request_url(
-    client, service, reference_type, input, endpoint, constituents
-):
-    parts = [
-        client.__service_url_prefix__, service, reference_type,
-        input.__class__.__name__.lower(), endpoint, ','.join(constituents)
-    ]
-    return os.path.join(*filter(None, parts))
-
-
 def makedirs(path, mode=0777):
     try:
         os.makedirs(path, mode)

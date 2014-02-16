@@ -5,29 +5,40 @@ from requests.exceptions import HTTPError
 import pytest
 
 from helpers.api_helpers import (
-    assert_family_success, assert_published_data_success,
-    issue_published_data_request
+    assert_family_success, assert_published_data_search_success,
+    assert_published_data_search_with_range_success,
+    assert_published_data_success, issue_published_data_request
 )
 
 
-def test_anonymous_published_data(client):
-    assert_published_data_success(client)
+def _service_test(func, *clients):
+    for c in clients:
+        func(c)
 
 
-def test_anonymous_family(client):
-    assert_family_success(client)
+def test_published_data(client, registered_client):
+    _service_test(assert_published_data_success, client, registered_client)
+
+
+def test_family(client, registered_client):
+    _service_test(assert_family_success, client, registered_client)
+
+
+def test_published_data_search(client, registered_client):
+    _service_test(
+        assert_published_data_search_success, client, registered_client
+    )
+
+
+def test_published_data_search_with_range(client, registered_client):
+    _service_test(
+        assert_published_data_search_with_range_success, client,
+        registered_client
+    )
 
 
 def test_get_access_token(registered_client):
     assert 'access_token' in registered_client.access_token._content
-
-
-def test_registered_published_data(registered_client):
-    assert_published_data_success(registered_client)
-
-
-def test_registered_family(registered_client):
-    assert_family_success(registered_client)
 
 
 def test_400_invalid_token(registered_client):
