@@ -4,24 +4,18 @@ from pytest import raises
 from requests.exceptions import HTTPError
 import pytest
 
-from epo_ops import Client, RegisteredClient
-
-from secrets import KEY, SECRET
 from helpers.api_helpers import (
     assert_published_data_success, issue_published_data_request,
     assert_family_success, issue_family_request,
 )
 
 
-@pytest.fixture(scope='module')
-def registered_client(module_storage):
-    return RegisteredClient(
-        KEY, SECRET, throttle_history_storage=module_storage
-    )
+def test_anonymous_published_data(client):
+    assert_published_data_success(client)
 
 
-def test_anonymous_published_data(storage):
-    assert_published_data_success(Client(throttle_history_storage=storage))
+def test_anonymous_family(client):
+    assert_family_success(client)
 
 
 def test_get_access_token(registered_client):
