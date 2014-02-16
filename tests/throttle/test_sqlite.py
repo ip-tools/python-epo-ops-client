@@ -6,6 +6,7 @@ from epo_ops.throttle.storages import SQLite
 from epo_ops.utils import now
 
 
+# Helpers
 def single_value_query(storage, *params):
     return storage.db.execute(*params).fetchone()[0]
 
@@ -20,6 +21,7 @@ def single_col_query(storage, col):
     return single_value_query(storage, sql)
 
 
+# Tests
 def test_columns_generation(cols):
     for service, field in product(
         SQLite.SERVICES, ('status', 'limit', 'retry_after')
