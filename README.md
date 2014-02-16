@@ -47,7 +47,7 @@ exceptions if you want to. The one case that's handled by the RegisteredClient
 is when its access token has expired: in this case, the client will
 automatically handle the HTTP 400 status and renew the token.
 
-Note the the Client does not attempt to interpret the data supplied by OPS, so
+Note that the Client does not attempt to interpret the data supplied by OPS, so
 it's your responsibility to parse the XML or JSON payload for your own purpose.
 
 The following custom exceptions are raised for cases when OPS quotas are
@@ -59,7 +59,10 @@ behavior:
 * IndividualQuotaPerHourExceeded
 * RegisteredQuotaPerWeekExceeded
 
-Currently the Client only knows how to issue the following services:
+Again, it's up to you to parse the response and decide what to do.
+
+Currently the Client only knows how to issue request for the following
+services:
 
 * /published-data/search (search)
 * /published-data (retrieval)
@@ -71,8 +74,8 @@ Please submit pull requests for other services by enhancing the
 ### Throttler
 
 Throttler is just a thin wrapper around the [Requests][] package. It contains
-all the logic handling different throttling scenarios. Since OPS throttling is
-based on a one minute rolling window, we must store historical (at least for
+all the logic for handling different throttling scenarios. Since OPS throttling
+is based on a one minute rolling window, we must store historical (at least for
 the past minute) throtting controls in order to know what the proper request
 frequency is. Each Throttler must be instantiated with a Storage object.
 
