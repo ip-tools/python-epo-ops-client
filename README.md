@@ -21,6 +21,8 @@ client.access_token  # To see the current token
 response = client.published_data(…)
 ```
 
+---
+
 ## Features
 
 python_epo_ops_client abstracts away the complexities of access EPO OPS:
@@ -38,34 +40,15 @@ Storage.
 The Client contains all the formatting and token handling logic and issues the
 requests using Throttler. The Client class is what you'll interact with mostly.
 
-### Throttler
+When you issue a request, the response is a
+[`requests.Response`][requests.Response] object. If `response.status_code !=
+200` then an exception will be raised, it's your responsibility to handle those
+exceptions if you want to. The one case that's handled by the RegisteredClient
+is when its access token has expired: in this case, the client will
+automatically handle the HTTP 400 status and renew the token.
 
-Throttler is just a thin wrapper around the [requests][] package. It contains
-all the logic handling different throttling scenarios. Since OPS throttling is
-based on a one minute rolling window, we must store historical (at least for
-the past minute) throtting controls in order to know what the proper request
-frequency is. Each Throttler must be instantiated with a Storage object.
-
-### Storage
-
-The Storage object is responsible for knowing how to update the historical
-record with each request, making sure to observe the one minute rolling window
-rule, and be able to calculate how long to wait before issuing the next
-request.
-
-Currently the only Storage type provided is SQLite, but you can easily write
-your own Storage type (such as file, Redis, etc.). Just pass the Storage object
-when you're instantiating a Client object. See
-`epo_ops.throttle.storages.Storage` for more implementation details.
-
----
-
-`response` is a [`requests.Response`][requests.Response] object. If
-`response.status_code != 200` then an exception will be raised, it's your
-responsibility to handle those exceptions if you want to. The one case that's
-handled by the RegisteredClient is when its access token has expired, in this
-case, the client will automatically handle the HTTP 400 status and renew the
-token.
+Note the the Client does not attempt to interpret the data supplied by OPS, so
+it's your responsibility to parse the XML or JSON payload for your own purpose.
 
 The following custom exceptions are raised for cases when OPS quotas are
 exceeded, they are all subclasses of `requests.HTTPError` and offer the same
@@ -75,6 +58,37 @@ behavior:
 * AnonymousQuotaPerDayExceeded
 * IndividualQuotaPerHourExceeded
 * RegisteredQuotaPerWeekExceeded
+
+Currently the Client only knows how to issue the following services:
+
+* /published-data/search (search)
+* /published-data (retrieval)
+* /family (inpadoc)
+
+Please submit pull requests for other services by enhancing the
+`epo_ops.api.Client` class.
+
+### Throttler
+
+Throttler is just a thin wrapper around the [Requests][] package. It contains
+all the logic handling different throttling scenarios. Since OPS throttling is
+based on a one minute rolling window, we must store historical (at least for
+the past minute) throtting controls in order to know what the proper request
+frequency is. Each Throttler must be instantiated with a Storage object.
+
+### Storage
+
+The Storage object is responsible for knowing how to update the historical
+record with each request (`Storage.update()`), making sure to observe the one
+minute rolling window rule, and be able to calculate how long to wait before
+issuing the next request (`Storage.delay_for()`).
+
+Currently the only Storage type provided is SQLite, but you can easily write
+your own Storage type (such as file, Redis, etc.). Just pass the Storage object
+when you're instantiating a Client object. See
+`epo_ops.throttle.storages.Storage` for more implementation details.
+
+---
 
 ## Tests
 
@@ -87,11 +101,12 @@ Tests are written using pytest. To run the tests:
 4.  `py.test -s --cov-report html --cov-report term --cov epo_ops tests`
 
 The tests must be run with a working internet connection, since both OPS and
-the mock Apiary services are online.
+the [mock Apiary services][Apiary OPS] are online.
 
 
 [EPO]: http://epo.org
 [OPS]: http://www.epo.org/searching/free/ops.html
 [refguide]: http://documents.epo.org/projects/babylon/eponet.nsf/0/7AF8F1D2B36F3056C1257C04002E0AD6/$File/OPS_RWS_ReferenceGuide_version1210_EN.pdf
-[requests]: http://requests.readthedocs.org/en/latest/
+[Requests]: http://requests.readthedocs.org/en/latest/
 [requests.Response]: http://requests.readthedocs.org/en/latest/user/advanced/#request-and-response-objects
+[Apiary OPS]: http://docs.opsv31.apiary.io
