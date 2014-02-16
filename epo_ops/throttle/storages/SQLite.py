@@ -7,7 +7,8 @@ from datetime import timedelta
 
 from dateutil.parser import parse
 
-from ..utils import makedirs, now
+from ...utils import makedirs, now
+from .Storage import Storage
 
 log = logging.getLogger(__name__)
 
@@ -18,7 +19,7 @@ def convert_timestamp(ts):
 sqlite3.register_converter('timestamp', convert_timestamp)
 
 
-class SQLite(object):
+class SQLite(Storage):
     SERVICES = ('images', 'inpadoc', 'other', 'retrieval', 'search')
 
     def __init__(
