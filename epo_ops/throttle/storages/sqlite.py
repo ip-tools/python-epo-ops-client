@@ -8,7 +8,7 @@ from datetime import timedelta
 from dateutil.parser import parse
 
 from ...utils import makedirs, now
-from .Storage import Storage
+from .storage import Storage
 
 log = logging.getLogger(__name__)
 

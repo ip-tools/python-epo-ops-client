@@ -1,2 +1,2 @@
-from .Storage import Storage
-from .SQLite import SQLite
+from .storage import Storage
+from .sqlite import SQLite
