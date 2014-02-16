@@ -19,9 +19,9 @@ class Client(object):
     __service_url_prefix__ = 'https://ops.epo.org/3.1/rest-services'
     __published_data_path__ = 'published-data'
 
-    def __init__(self, accept_type='xml', throttle_history_storage=SQLite()):
+    def __init__(self, accept_type='xml', throttle_history_storage=None):
         self.accept_type = 'application/{}'.format(accept_type)
-        self.throttler = Throttler(throttle_history_storage)
+        self.throttler = Throttler(throttle_history_storage or SQLite())
 
     def check_for_exceeded_quota(self, response):
         if (response.status_code != 403) or \
