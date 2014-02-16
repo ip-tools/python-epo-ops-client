@@ -18,6 +18,7 @@ class Client(object):
     __auth_url__ = 'https://ops.epo.org/3.1/auth/accesstoken'
     __service_url_prefix__ = 'https://ops.epo.org/3.1/rest-services'
     __published_data_path__ = 'published-data'
+    __family_path__ = 'family'
 
     def __init__(self, accept_type='xml', throttle_history_storage=None):
         self.accept_type = 'application/{}'.format(accept_type)
@@ -47,28 +48,41 @@ class Client(object):
                     raise
         return response  # pragma: no cover
 
-    def issue_request(self, url, data, extra_headers=None):
+    def post(self, url, data, extra_headers=None):
         headers = {'Accept': self.accept_type}
         headers.update(extra_headers or {})
         return self.throttler.post(url, data=data, headers=headers)
 
     def make_request(self, url, data):
-        response = self.issue_request(url, data)
+        response = self.post(url, data)
         response = self.check_for_exceeded_quota(response)
         response.raise_for_status()
         return response
 
-    def published_data(
-        self, reference_type, input, endpoint='biblio', constituents=None
+    # Service requests
+    def _service_request(
+        self, path, reference_type, input, endpoint, constituents
     ):
         if constituents is None:
             constituents = []
 
         url = make_service_request_url(
-            self, self.__published_data_path__, reference_type, input,
-            endpoint, constituents
+            self, path, reference_type, input, endpoint, constituents
         )
         return self.make_request(url, input.as_api_input())
+
+    def published_data(
+        self, reference_type, input, endpoint='biblio', constituents=None
+    ):
+        return self._service_request(
+            self.__published_data_path__, reference_type, input, endpoint,
+            constituents
+        )
+
+    def family(self, reference_type, input, endpoint=None, constituents=None):
+        return self._service_request(
+            self.__family_path__, reference_type, input, endpoint, constituents
+        )
 
 
 class RegisteredClient(Client):
@@ -117,10 +131,11 @@ class RegisteredClient(Client):
         return response
 
     def make_request(self, url, data):
-        response = self.issue_request(
+        response = self.post(
             url, data,
             {'Authorization': 'Bearer {}'.format(self.access_token.token)}
         )
         response = self.check_for_expired_token(response)
+        response = self.check_for_exceeded_quota(response)
         response.raise_for_status()
         return response

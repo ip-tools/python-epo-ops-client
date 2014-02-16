@@ -1,5 +1,4 @@
 * Client.search()
-* Family service
 * Legal service
 * Number service
 * Register service

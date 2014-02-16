@@ -5,8 +5,8 @@ from requests.exceptions import HTTPError
 import pytest
 
 from helpers.api_helpers import (
-    assert_published_data_success, issue_published_data_request,
-    assert_family_success, issue_family_request,
+    assert_family_success, assert_published_data_success,
+    issue_published_data_request
 )
 
 
@@ -24,6 +24,10 @@ def test_get_access_token(registered_client):
 
 def test_registered_published_data(registered_client):
     assert_published_data_success(registered_client)
+
+
+def test_registered_family(registered_client):
+    assert_family_success(registered_client)
 
 
 def test_400_invalid_token(registered_client):
