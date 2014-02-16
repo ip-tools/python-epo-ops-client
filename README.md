@@ -13,7 +13,7 @@ response = anonymous_client.published_data(
   reference_type = 'publication',  # publication, application, priority
   input = epo_ops.Docdb('1000000', 'EP', 'A1'),  # original, docdb, epodoc
   endpoint = 'biblio',  # optional, defaults to biblio in case of published_data
-  constituents = []  # optional, array of optional constituents
+  constituents = []  # optional, list of constituents
 )
 
 client = epo_ops.RegisteredClient(key='abc', secret='xyz')
