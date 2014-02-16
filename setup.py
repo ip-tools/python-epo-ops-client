@@ -16,7 +16,7 @@ packages = [
     'epo_ops',
 ]
 
-requires = []
+requires = ['python-dateutil', 'requests']
 
 with open('README.md') as f:
     readme = f.read()
