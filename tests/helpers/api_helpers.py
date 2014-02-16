@@ -13,7 +13,10 @@ def issue_published_data_request(client):
 
 
 def assert_published_data_success(client):
-    assert_request_success(issue_published_data_request(client))
+    response = issue_published_data_request(client)
+    assert_request_success(response)
+    assert 'bibliographic-data' in response.text
+    return response
 
 
 def issue_family_request(client):
@@ -21,4 +24,7 @@ def issue_family_request(client):
 
 
 def assert_family_success(client):
-    assert_request_success(issue_family_request(client))
+    response = issue_family_request(client)
+    assert_request_success(response)
+    assert 'patent-family' in response.text
+    return response
