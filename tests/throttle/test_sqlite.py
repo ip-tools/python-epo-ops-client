@@ -114,3 +114,7 @@ def test_delay(throttle_history):
         # We round to account for db operation time
         assert round(storage.delay_for(k), 1) == round(v, 1)
     assert table_count(storage) == 5
+
+
+if __name__ == '__main__':
+    pytest.main()

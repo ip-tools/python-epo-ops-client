@@ -21,3 +21,7 @@ def urls():
 def test_return_right_service_for_url(urls):
     for url, service in urls:
         assert service_for_url(url) == service
+
+
+if __name__ == '__main__':
+    pytest.main()
