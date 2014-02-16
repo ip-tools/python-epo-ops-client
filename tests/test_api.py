@@ -23,15 +23,15 @@ def service_success(client):
 
 # Fixtures
 @pytest.fixture(scope='module')
-def registered_client():
+def registered_client(module_storage):
     return RegisteredClient(
-        KEY, SECRET
+        KEY, SECRET, throttle_history_storage=module_storage
     )
 
 
 # Tests
-def test_real_happy_anonymous():
-    service_success(Client())
+def test_real_happy_anonymous(storage):
+    service_success(Client(throttle_history_storage=storage))
 
 
 def test_real_get_access_token(registered_client):

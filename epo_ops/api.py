@@ -73,10 +73,10 @@ class Client(object):
 
 class RegisteredClient(Client):
     def __init__(
-        self, key, secret, accept_type='xml', throttle_history_storage=SQLite()
+        self, key, secret, accept_type='xml', throttle_history_storage=None
     ):
         super(RegisteredClient, self).__init__(
-            accept_type, throttle_history_storage
+            accept_type, throttle_history_storage or SQLite()
         )
         self.key = key
         self.secret = secret

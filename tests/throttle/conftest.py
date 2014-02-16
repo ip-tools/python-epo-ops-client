@@ -5,7 +5,6 @@ from datetime import timedelta
 from pprint import pformat
 from random import choice, shuffle
 import os
-import tempfile
 
 from requests.structures import CaseInsensitiveDict
 import pytest
@@ -35,17 +34,6 @@ def make_header(control, retry=None):
     if retry:
         h['Retry-After'] = retry
     return h
-
-
-@pytest.fixture()
-def storage(request):
-    temp_db = tempfile.mkstemp()[1]
-
-    def fin():
-        os.remove(temp_db)
-    request.addfinalizer(fin)
-
-    return SQLite(temp_db)
 
 
 @pytest.fixture()
