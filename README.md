@@ -3,7 +3,7 @@ python-epo-ops-client
 
 python-epo-ops-client is an Apache2 Licensed client library for accessing the
 [European Patent Office][EPO]'s ("EPO") [Open Patent Services][OPS] ("OPS")
-v.3.1 (based on [v 1.2.10 of the reference guide][refguide]).
+v.3.1 (based on [v 1.2.10 of the reference guide][OPS guide]).
 
 ```
 import epo_ops
@@ -78,23 +78,26 @@ frequency is. Each Throttler must be instantiated with a Storage object.
 
 ### Storage
 
-The Storage object is responsible for knowing how to update the historical
-record with each request (`Storage.update()`), making sure to observe the one
-minute rolling window rule, and be able to calculate how long to wait before
-issuing the next request (`Storage.delay_for()`).
+The Storage object is responsible for:
 
-Currently the only Storage type provided is SQLite, but you can easily write
-your own Storage type (such as file, Redis, etc.). Just pass the Storage object
-when you're instantiating a Client object. See
-`epo_ops.throttle.storages.Storage` for more implementation details.
+1.  Knowing how to update the historical record with each request
+    (`Storage.update()`), making sure to observe the one minute rolling window
+    rule.
+2.  Calculating how long to wait before issuing the next request
+    (`Storage.delay_for()`).
+
+Currently the only Storage backend provided is SQLite, but you can easily write
+your own Storage backend (such as file, Redis, etc.). To use a custom Storage
+type, just pass the Storage object when you're instantiating a Client object.
+See `epo_ops.throttle.storages.Storage` for more implementation details.
 
 ---
 
 ## Tests
 
-Tests are written using pytest. To run the tests:
+Tests are written using [pytest][]. To run the tests:
 
-1.  Register a OPS user login with EPO
+1.  [Register a OPS user login with EPO][OPS registration]
 2.  Create an app
 3.  Record the app's consumer key and secret in `tests/secrets.py` (see
     `secrets.py.example`)
@@ -106,7 +109,9 @@ the [mock Apiary services][Apiary OPS] are online.
 
 [EPO]: http://epo.org
 [OPS]: http://www.epo.org/searching/free/ops.html
-[refguide]: http://documents.epo.org/projects/babylon/eponet.nsf/0/7AF8F1D2B36F3056C1257C04002E0AD6/$File/OPS_RWS_ReferenceGuide_version1210_EN.pdf
+[OPS registration]: https://developers.epo.org/user/register
+[OPS guide]: http://documents.epo.org/projects/babylon/eponet.nsf/0/7AF8F1D2B36F3056C1257C04002E0AD6/$File/OPS_RWS_ReferenceGuide_version1210_EN.pdf
 [Requests]: http://requests.readthedocs.org/en/latest/
 [requests.Response]: http://requests.readthedocs.org/en/latest/user/advanced/#request-and-response-objects
+[pytest]: http://pytest.org/latest/
 [Apiary OPS]: http://docs.opsv31.apiary.io
