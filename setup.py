@@ -6,7 +6,8 @@ import os
 import shlex
 import sys
 
-import epo_ops
+from __version__ import __version__
+
 
 if sys.argv[-1] == 'publish':
     os.system('python setup.py sdist upload')
@@ -41,7 +42,7 @@ class PyTest(TestCommand):
 
 setup(
     name='python-epo-ops-client',
-    version=epo_ops.__version__,
+    version=__version__,
     description='Python client for EPO OPS.',
     long_description=readme + '\n\n' + history,
     author='George Song',
