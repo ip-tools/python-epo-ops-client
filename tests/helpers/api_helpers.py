@@ -1,10 +1,12 @@
+import requests
+
 from epo_ops.models import Docdb
 
 data = ('publication', Docdb('1000000', 'EP', 'A1'))
 
 
 def assert_request_success(response):
-    assert response.status_code == 200
+    assert response.status_code == requests.codes.ok
     assert response.headers['X-API'] == 'ops-v3.1'
 
 

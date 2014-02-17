@@ -37,7 +37,7 @@ class Client(object):
         self.throttler = Throttler(throttle_history_storage or SQLite())
 
     def check_for_exceeded_quota(self, response):
-        if (response.status_code != 403) or \
+        if (response.status_code != requests.codes.forbidden) or \
            ('X-Rejection-Reason' not in response.headers):
             return response
 
@@ -141,7 +141,7 @@ class RegisteredClient(Client):
         return self._access_token
 
     def check_for_expired_token(self, response):
-        if response.status_code != 400:
+        if response.status_code != requests.codes.bad:
             return response
 
         message = ET.fromstring(response.content)
