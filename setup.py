@@ -46,7 +46,7 @@ setup(
     long_description=readme + '\n\n' + history,
     author='George Song',
     author_email='george@55minutes.com',
-    url='http://python-requests.org',  # TODO: URL
+    url='https://github.com/55minutes/python-epo-ops-client',
     packages=packages,
     package_data={'': ['LICENSE']},
     package_dir={'epo_ops': 'epo_ops'},
@@ -54,16 +54,13 @@ setup(
     install_requires=requires,
     license=license,
     zip_safe=False,
-    classifiers=(  # TODO: Get the right classifiers
-        'Development Status :: 5 - Production/Stable',
+    classifiers=(
+        'Development Status :: 4 - Beta',
         'Intended Audience :: Developers',
         'Natural Language :: English',
         'License :: OSI Approved :: Apache Software License',
         'Programming Language :: Python',
-        'Programming Language :: Python :: 2.6',
         'Programming Language :: Python :: 2.7',
-        'Programming Language :: Python :: 3',
-        'Programming Language :: Python :: 3.3',
 
     ),
     cmdclass={'test': PyTest},
