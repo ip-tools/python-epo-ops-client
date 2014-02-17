@@ -43,11 +43,18 @@ class PyTest(TestCommand):
 setup(
     name='python-epo-ops-client',
     version=__version__,
-    description='Python client for EPO OPS.',
+    description=(
+        "Python Client for the European Patent Office's "
+        "Open Patent Services API"
+    ),
     long_description=readme + '\n\n' + history,
     author='George Song',
     author_email='george@55minutes.com',
     url='https://github.com/55minutes/python-epo-ops-client',
+    download_url=(
+        'https://github.com/55minutes/python-epo-ops-client/archive/'
+        'v{}.tar.gz'.format(__version__)
+    ),
     packages=packages,
     package_data={'': ['LICENSE']},
     package_dir={'epo_ops': 'epo_ops'},
