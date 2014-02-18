@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 from base64 import b64encode
 import logging
 import os
@@ -7,9 +9,9 @@ from requests.exceptions import HTTPError
 import requests
 
 from . import exceptions
-from .models import AccessToken
-from .throttle import Throttler
-from .throttle.storages import SQLite
+from .middlewares import Throttler
+from .middlewares.throttle.storages import SQLite
+from .models import AccessToken, Request
 
 log = logging.getLogger(__name__)
 
@@ -32,9 +34,12 @@ class Client(object):
     __published_data_path__ = 'published-data'
     __published_data_search_path__ = 'published-data/search'
 
-    def __init__(self, accept_type='xml', throttle_history_storage=None):
+    def __init__(self, accept_type='xml', middlewares=None):
         self.accept_type = 'application/{}'.format(accept_type)
-        self.throttler = Throttler(throttle_history_storage or SQLite())
+        self.middlewares = middlewares
+        if not middlewares:
+            self.middlewares = [Throttler(SQLite())]
+        self.request = Request(self.middlewares)
 
     def check_for_exceeded_quota(self, response):
         if (response.status_code != requests.codes.forbidden) or \
@@ -63,7 +68,7 @@ class Client(object):
     def post(self, url, data, extra_headers=None):
         headers = {'Accept': self.accept_type}
         headers.update(extra_headers or {})
-        return self.throttler.post(url, data=data, headers=headers)
+        return self.request.post(url, data=data, headers=headers)
 
     def make_request(self, url, data, extra_headers=None):
         response = self.post(url, data, extra_headers)
@@ -109,11 +114,9 @@ class Client(object):
 
 class RegisteredClient(Client):
     def __init__(
-        self, key, secret, accept_type='xml', throttle_history_storage=None
+        self, key, secret, accept_type='xml', middlewares=None
     ):
-        super(RegisteredClient, self).__init__(
-            accept_type, throttle_history_storage or SQLite()
-        )
+        super(RegisteredClient, self).__init__(accept_type, middlewares)
         self.key = key
         self.secret = secret
         self._access_token = None

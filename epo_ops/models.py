@@ -1,6 +1,10 @@
+# -*- coding: utf-8 -*-
+
 from datetime import datetime, timedelta
 import json
 import logging
+
+import requests
 
 from .exceptions import MissingRequiredValue
 from .utils import quote, validate_date
@@ -60,3 +64,24 @@ class AccessToken(object):
     @property
     def is_expired(self):
         return datetime.now() >= self.expiration
+
+
+class Request(object):
+    def __init__(self, middlewares):
+        self.middlewares = middlewares
+
+    def post(self, url, data=None, **kwargs):
+        for mw in self.middlewares:
+            url, args, kwargs, response = mw.process_request(
+                url, data, **kwargs
+            )
+            if response:
+                break
+
+        if not response:
+            response = requests.post(url, *args, **kwargs)
+
+        for mw in reversed(self.middlewares):
+            response = mw.process_response(response)
+
+        return response
