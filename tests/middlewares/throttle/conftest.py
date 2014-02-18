@@ -9,7 +9,7 @@ import os
 from requests.structures import CaseInsensitiveDict
 import pytest
 
-from epo_ops.throttle.storages import SQLite
+from epo_ops.middlewares.throttle.storages import SQLite
 from epo_ops.utils import makedirs, now
 
 from .helpers.conftest_helpers import ServiceSnapshot, ThrottleSnapshot

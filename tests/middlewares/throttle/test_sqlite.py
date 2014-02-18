@@ -2,7 +2,7 @@ from itertools import product
 
 import pytest
 
-from epo_ops.throttle.storages import SQLite
+from epo_ops.middlewares.throttle.storages import SQLite
 from epo_ops.utils import now
 
 

@@ -4,7 +4,7 @@ import os
 import pytest
 
 from epo_ops.api import Client
-from epo_ops.throttle.utils import URLPATTERNS, service_for_url
+from epo_ops.middlewares.throttle.utils import URLPATTERNS, service_for_url
 
 
 @pytest.fixture

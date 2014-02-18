@@ -4,6 +4,8 @@ from pytest import raises
 from requests.exceptions import HTTPError
 import pytest
 
+from epo_ops.api import Client, RegisteredClient
+
 from helpers.api_helpers import (
     assert_family_success, assert_published_data_search_success,
     assert_published_data_search_with_range_success,
@@ -14,6 +16,11 @@ from helpers.api_helpers import (
 def _service_test(func, *clients):
     for c in clients:
         func(c)
+
+
+def test_instantiate_simple_client():
+    assert len(Client().middlewares) == 1
+    assert len(RegisteredClient('key', 'secret').middlewares) == 1
 
 
 def test_published_data(client, registered_client):

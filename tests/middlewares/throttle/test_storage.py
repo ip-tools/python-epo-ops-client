@@ -1,6 +1,6 @@
 import pytest
 
-from epo_ops.throttle.storages import Storage
+from epo_ops.middlewares.throttle.storages import Storage
 
 
 def test_storage_base_class_not_implemented():

@@ -1,0 +1,6 @@
+{'services': {'images': {'limit': 200, 'status': 'green'},
+              'inpadoc': {'limit': 50, 'status': 'yellow'},
+              'other': {'limit': 5, 'status': 'red'},
+              'retrieval': {'limit': 0, 'status': 'black'},
+              'search': {'limit': 200, 'status': 'green'}},
+ 'system_status': 'idle'}

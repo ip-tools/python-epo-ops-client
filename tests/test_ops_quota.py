@@ -8,6 +8,7 @@ from epo_ops.exceptions import (
     AnonymousQuotaPerDayExceeded, AnonymousQuotaPerMinuteExceeded,
     IndividualQuotaPerHourExceeded, RegisteredQuotaPerWeekExceeded
 )
+from epo_ops.middlewares import Throttler
 from epo_ops.models import Docdb
 
 from secrets import KEY, SECRET
@@ -28,14 +29,14 @@ def _mock(client):
 
 @pytest.fixture(scope='module')
 def mock_client(module_storage):
-    client = Client(throttle_history_storage=module_storage)
+    client = Client(middlewares=[Throttler(module_storage)])
     return _mock(client)
 
 
 @pytest.fixture(scope='module')
 def mock_registered_client(module_storage):
     client = RegisteredClient(
-        KEY, SECRET, throttle_history_storage=module_storage
+        KEY, SECRET, middlewares=[Throttler(module_storage)]
     )
     return _mock(client)
 
