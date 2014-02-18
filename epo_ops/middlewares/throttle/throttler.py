@@ -1,9 +1,12 @@
+# -*- coding: utf-8 -*-
+
 from time import sleep
 import logging
 
 from dogpile.cache import make_region
 import requests
 
+from ..middleware import Middleware
 from .utils import service_for_url
 
 log = logging.getLogger(__name__)
@@ -50,12 +53,22 @@ region = make_region(function_key_generator=kwargs_key_generator).configure(
 )
 
 
-class Throttler(object):
+class Throttler(Middleware):
     def __init__(self, history_storage):
         self.history = history_storage
 
     def __str__(self):
         return '{}.{}'.format(self.__module__, self.__class__.__name__)
+
+    def process_request(self, url, *args, **kwargs):
+        service = service_for_url(url)
+        sleep(self.history.delay_for(service))
+        response = None
+        return url, args, kwargs, response
+
+    def process_response(self, response):
+        self.history.update(response.headers)
+        return response
 
     @region.cache_on_arguments(
         namespace=[kwarg_data_handler, kwarg_header_handler],

@@ -1,3 +1,10 @@
+# -*- coding: utf-8 -*-
+
+import logging
+
+log = logging.getLogger(__name__)
+
+
 class Storage(object):
     def delay_for(self, service):
         """
