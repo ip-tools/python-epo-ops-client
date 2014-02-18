@@ -20,15 +20,18 @@ def convert_timestamp(ts):
 
 sqlite3.register_converter('timestamp', convert_timestamp)
 
+DEFAULT_DB_PATH = '/var/tmp/python-epo-ops-client/throttle_history.db'
+
 
 class SQLite(Storage):
     SERVICES = ('images', 'inpadoc', 'other', 'retrieval', 'search')
 
-    def __init__(
-        self, db='/var/tmp/python-epo-ops-client/throttle_history.db'
-    ):
-        makedirs(os.path.dirname(db))
-        self.db = sqlite3.connect(db, detect_types=sqlite3.PARSE_DECLTYPES)
+    def __init__(self, db_path=DEFAULT_DB_PATH):
+        self.db_path = db_path
+        makedirs(os.path.dirname(db_path))
+        self.db = sqlite3.connect(
+            db_path, detect_types=sqlite3.PARSE_DECLTYPES
+        )
         self.db.row_factory = sqlite3.Row
         self.prepare()
 
