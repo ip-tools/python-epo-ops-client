@@ -1,4 +1,10 @@
+# -*- coding: utf-8 -*-
+
+import logging
+
 from requests.exceptions import HTTPError
+
+log = logging.getLogger(__name__)
 
 
 # Query errors
