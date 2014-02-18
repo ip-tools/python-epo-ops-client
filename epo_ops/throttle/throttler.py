@@ -37,6 +37,10 @@ def kwargs_key_generator(kwargs_handlers, func):
     return generate_key
 
 
+def is_response_cacheable(response):
+    return response.status_code == requests.codes.ok
+
+
 region = make_region(function_key_generator=kwargs_key_generator).configure(
     'dogpile.cache.dbm',
     expiration_time=3600,
@@ -54,7 +58,8 @@ class Throttler(object):
         return '{}.{}'.format(self.__module__, self.__class__.__name__)
 
     @region.cache_on_arguments(
-        namespace=[kwarg_data_handler, kwarg_header_handler]
+        namespace=[kwarg_data_handler, kwarg_header_handler],
+        should_cache_fn=is_response_cacheable,
     )
     def post(self, url, data=None, **kwargs):
         service = service_for_url(url)
