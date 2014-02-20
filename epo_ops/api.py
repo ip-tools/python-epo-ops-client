@@ -10,7 +10,6 @@ import requests
 
 from . import exceptions
 from .middlewares import Throttler
-from .middlewares.throttle.storages import SQLite
 from .models import AccessToken, Request
 
 log = logging.getLogger(__name__)
@@ -38,7 +37,7 @@ class Client(object):
         self.accept_type = 'application/{}'.format(accept_type)
         self.middlewares = middlewares
         if not middlewares:
-            self.middlewares = [Throttler(SQLite())]
+            self.middlewares = [Throttler()]
         self.request = Request(self.middlewares)
 
     def check_for_exceeded_quota(self, response):
