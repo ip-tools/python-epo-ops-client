@@ -9,18 +9,25 @@ def storage(request):
     return mksqlite(request)
 
 
-@pytest.fixture(scope='module')
+@pytest.fixture
 def reset_cached_client(request):
     from epo_ops import Client
     return Client(middlewares=[mkcache(request), mkthrottler(request)])
 
 
-@pytest.fixture(scope='module')
+@pytest.fixture
 def reset_cached_registered_client(request):
     from epo_ops import RegisteredClient
     return RegisteredClient(
         KEY, SECRET, middlewares=[mkcache(request), mkthrottler(request)]
     )
+
+
+@pytest.fixture(
+    params=['reset_cached_client', 'reset_cached_registered_client']
+)
+def reset_cached_clients(request):
+    return request.getfuncargvalue(request.param)
 
 
 @pytest.fixture(scope='module')

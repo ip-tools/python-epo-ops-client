@@ -5,17 +5,10 @@ import pytest
 from epo_ops.middlewares.throttle.storages import SQLite
 from epo_ops.utils import now
 
+from .helpers.sqlite_helpers import single_value_query, table_count
+
 
 # Helpers
-def single_value_query(storage, *params):
-    return storage.db.execute(*params).fetchone()[0]
-
-
-def table_count(storage):
-    sql = 'SELECT COUNT(*) FROM throttle_history'
-    return single_value_query(storage, sql)
-
-
 def single_col_query(storage, col):
     sql = 'SELECT {} FROM throttle_history LIMIT 1'.format(col)
     return single_value_query(storage, sql)
