@@ -16,3 +16,4 @@
 * Number service
 * Register service
 * Images retrieval
+* Bulk operations
