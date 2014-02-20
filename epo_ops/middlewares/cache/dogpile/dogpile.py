@@ -8,7 +8,7 @@ from dogpile.cache import make_region
 from dogpile.cache.api import NO_VALUE
 import requests
 
-from ....__version__ import __version__
+from .... import __version__
 from ...middleware import Middleware
 from .helpers import kwarg_range_header_handler
 
