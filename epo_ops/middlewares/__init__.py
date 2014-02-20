@@ -4,5 +4,5 @@ from .throttle import Throttler
 
 try:
     from .cache import Dogpile
-except ImportError:
+except ImportError:  # pragma: no cover
     pass
