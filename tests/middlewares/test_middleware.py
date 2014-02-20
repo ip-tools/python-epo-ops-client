@@ -5,9 +5,10 @@ from epo_ops.middlewares.middleware import Middleware
 
 def test_storage_base_class_not_implemented():
     o = Middleware()
-    for m in (o.process_request, o.process_response):
-        with pytest.raises(NotImplementedError):
-            m('something')
+    with pytest.raises(NotImplementedError):
+        o.process_request(*['x'] * 3)
+    with pytest.raises(NotImplementedError):
+        o.process_response(*['x'] * 2)
 
 
 if __name__ == '__main__':

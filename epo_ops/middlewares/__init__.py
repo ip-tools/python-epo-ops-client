@@ -1,3 +1,4 @@
 # -*- coding: utf-8 -*-
 
-from throttle import Throttler
+from .cache import Dogpile
+from .throttle import Throttler

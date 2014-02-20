@@ -36,7 +36,7 @@ def make_header(control, retry=None):
     return h
 
 
-@pytest.fixture()
+@pytest.fixture
 def cols(storage):
     return storage.service_columns()
 

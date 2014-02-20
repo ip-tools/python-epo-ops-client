@@ -3,54 +3,10 @@
 from time import sleep
 import logging
 
-from dogpile.cache import make_region
-import requests
-
 from ..middleware import Middleware
 from .utils import service_for_url
 
 log = logging.getLogger(__name__)
-
-
-def kwarg_data_handler(**kwargs):
-    if 'data' not in kwargs:
-        return ''
-    return '{}={}'.format('data', kwargs['data'])
-
-
-def kwarg_header_handler(**kwargs):
-    headers = kwargs.get('headers', None)
-    if (not headers) or 'X-OPS-Range' not in headers:
-        return ''
-    return '{}={}'.format('headers.X-OPS-Range', headers['X-OPS-Range'])
-
-
-def kwargs_key_generator(kwargs_handlers, func):
-    fname = func.__name__
-
-    def generate_key(*args, **kwargs):
-        key = [fname] + map(str, args)
-
-        for handler in kwargs_handlers:
-            s = handler(**kwargs)
-            if s:
-                key.append(s)
-
-        return '|'.join(key)
-    return generate_key
-
-
-def is_response_cacheable(response):
-    return response.status_code == requests.codes.ok
-
-
-region = make_region(function_key_generator=kwargs_key_generator).configure(
-    'dogpile.cache.dbm',
-    expiration_time=3600,
-    arguments={
-        'filename': '/var/tmp/python-epo-ops-client/cache.dbm',
-    }
-)
 
 
 class Throttler(Middleware):
@@ -60,23 +16,13 @@ class Throttler(Middleware):
     def __str__(self):
         return '{}.{}'.format(self.__module__, self.__class__.__name__)
 
-    def process_request(self, url, *args, **kwargs):
-        service = service_for_url(url)
-        sleep(self.history.delay_for(service))
-        response = None
-        return url, args, kwargs, response
+    def process_request(self, env, url, data, **kwargs):
+        if not env['from-cache']:
+            service = service_for_url(url)
+            sleep(self.history.delay_for(service))
+        return url, data, kwargs
 
-    def process_response(self, response):
-        self.history.update(response.headers)
-        return response
-
-    @region.cache_on_arguments(
-        namespace=[kwarg_data_handler, kwarg_header_handler],
-        should_cache_fn=is_response_cacheable,
-    )
-    def post(self, url, data=None, **kwargs):
-        service = service_for_url(url)
-        sleep(self.history.delay_for(service))
-        response = requests.post(url, data, **kwargs)
-        self.history.update(response.headers)
+    def process_response(self, env, response):
+        if not env['from-cache']:
+            self.history.update(response.headers)
         return response

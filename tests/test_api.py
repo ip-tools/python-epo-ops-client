@@ -5,6 +5,7 @@ from requests.exceptions import HTTPError
 import pytest
 
 from epo_ops.api import Client, RegisteredClient
+from epo_ops.middlewares.throttle.storages import sqlite
 
 from helpers.api_helpers import (
     assert_family_success, assert_published_data_search_success,
@@ -19,53 +20,55 @@ def _service_test(func, *clients):
 
 
 def test_instantiate_simple_client():
-    assert len(Client().middlewares) == 1
-    assert len(RegisteredClient('key', 'secret').middlewares) == 1
+    client = Client()
+    assert len(client.middlewares) == 1
+    assert client.middlewares[0].history.db_path == sqlite.DEFAULT_DB_PATH
+
+    client = RegisteredClient('key', 'secret')
+    assert len(client.middlewares) == 1
+    assert client.middlewares[0].history.db_path == sqlite.DEFAULT_DB_PATH
 
 
-def test_published_data(client, registered_client):
-    _service_test(assert_published_data_success, client, registered_client)
+def test_published_data(all_clients):
+    assert_published_data_success(all_clients)
 
 
-def test_family(client, registered_client):
-    _service_test(assert_family_success, client, registered_client)
+def test_family(all_clients):
+    assert_family_success(all_clients)
 
 
-def test_published_data_search(client, registered_client):
-    _service_test(
-        assert_published_data_search_success, client, registered_client
-    )
+def test_published_data_search(all_clients):
+    assert_published_data_search_success(all_clients)
 
 
-def test_published_data_search_with_range(client, registered_client):
-    _service_test(
-        assert_published_data_search_with_range_success, client,
-        registered_client
-    )
+def test_published_data_search_with_range(all_clients):
+    assert_published_data_search_with_range_success(all_clients)
 
 
-def test_get_access_token(registered_client):
-    assert 'access_token' in registered_client.access_token._content
+def test_get_access_token(registered_clients):
+    assert 'access_token' in registered_clients.access_token._content
 
 
-def test_400_invalid_token(registered_client):
+def test_400_invalid_token(default_registered_client):
     # Put in a token that's invalid, the server will raise 400
-    registered_client.access_token.token = 'x34NdKmpABZ8ukqi4juRNQCrv5C5'
+    token = 'x34NdKmpABZ8ukqi4juRNQCrv5C5'
+    default_registered_client.access_token.token = token
     with raises(HTTPError):
-        issue_published_data_request(registered_client)
+        issue_published_data_request(default_registered_client)
 
 
-def test_400_expired_token(registered_client):
+def test_400_expired_token(default_registered_client):
     # Put in a token that's expired, the server will raise 400 but we should
     # handle it gracefully
-    registered_client.access_token.token = 'm34NdKmpABZ8ukqi4juRNQCrv5C5'
-    assert_published_data_success(registered_client)
+    token = 'm34NdKmpABZ8ukqi4juRNQCrv5C5'
+    default_registered_client.access_token.token = token
+    assert_published_data_success(default_registered_client)
 
 
-def test_self_check_expired_token(registered_client):
-    old_token = registered_client.access_token.token
-    registered_client.access_token.expiration = datetime.now()
-    assert old_token != registered_client.access_token.token
+def test_self_check_expired_token(registered_clients):
+    old_token = registered_clients.access_token.token
+    registered_clients.access_token.expiration = datetime.now()
+    assert old_token != registered_clients.access_token.token
 
 
 if __name__ == '__main__':

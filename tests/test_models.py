@@ -7,18 +7,19 @@ from epo_ops.exceptions import InvalidDate, MissingRequiredValue
 from epo_ops.models import AccessToken, Docdb, Epodoc, Original
 
 
+class Response(object):
+    def __init__(self, data):
+        self.content = json.dumps(data)
+
+
 @pytest.fixture
 def immediately_expired_response():
-    class Response(object):
-        content = json.dumps({'access_token': '', 'expires_in': '0'})
-    return Response
+    return Response({'access_token': '', 'expires_in': '0'})
 
 
 @pytest.fixture
 def response():
-    class Response(object):
-        content = json.dumps({'access_token': '', 'expires_in': '1200'})
-    return Response
+    return Response({'access_token': '', 'expires_in': '1200'})
 
 
 def test_original_required():

@@ -1,48 +1,73 @@
-import tempfile
-import os
-
 import pytest
 
 from secrets import KEY, SECRET
+from helpers import mkcache, mksqlite, mkthrottler
 
 
-def _storage(request):
-    from epo_ops.middlewares.throttle.storages import SQLite, sqlite
-
-    temp_db = tempfile.mkstemp()[1]
-
-    def fin():
-        os.remove(temp_db)
-    request.addfinalizer(fin)
-
-    db = SQLite(temp_db)
-    assert db.db_path != sqlite.DEFAULT_DB_PATH
-    return db
-
-
-@pytest.fixture()
+@pytest.fixture
 def storage(request):
-    return _storage(request)
+    return mksqlite(request)
 
 
 @pytest.fixture(scope='module')
-def module_storage(request):
-    return _storage(request)
-
-
-@pytest.fixture(scope='module')
-def client(module_storage):
+def reset_cached_client(request):
     from epo_ops import Client
-    from epo_ops.middlewares import Throttler
-
-    return Client(middlewares=[Throttler(module_storage)])
+    return Client(middlewares=[mkcache(request), mkthrottler(request)])
 
 
 @pytest.fixture(scope='module')
-def registered_client(module_storage):
+def reset_cached_registered_client(request):
     from epo_ops import RegisteredClient
-    from epo_ops.middlewares import Throttler
-
     return RegisteredClient(
-        KEY, SECRET, middlewares=[Throttler(module_storage)]
+        KEY, SECRET, middlewares=[mkcache(request), mkthrottler(request)]
     )
+
+
+@pytest.fixture(scope='module')
+def module_cache(request):
+    return mkcache(request)
+
+
+@pytest.fixture(scope='module')
+def default_client(request):
+    from epo_ops import Client
+    return Client(middlewares=[mkthrottler(request)])
+
+
+@pytest.fixture(scope='module')
+def cached_client(request, module_cache):
+    from epo_ops import Client
+    return Client(middlewares=[module_cache, mkthrottler(request)])
+
+
+@pytest.fixture(scope='module')
+def default_registered_client(request):
+    from epo_ops import RegisteredClient
+    return RegisteredClient(KEY, SECRET, middlewares=[mkthrottler(request)])
+
+
+@pytest.fixture(scope='module')
+def cached_registered_client(request, module_cache):
+    from epo_ops import RegisteredClient
+    return RegisteredClient(
+        KEY, SECRET, middlewares=[module_cache, mkthrottler(request)]
+    )
+
+
+@pytest.fixture(
+    scope='module',
+    params=['default_registered_client', 'cached_registered_client']
+)
+def registered_clients(request):
+    return request.getfuncargvalue(request.param)
+
+
+@pytest.fixture(
+    scope='module',
+    params=[
+        'default_client', 'cached_client', 'default_registered_client',
+        'cached_registered_client'
+    ]
+)
+def all_clients(request):
+    return request.getfuncargvalue(request.param)

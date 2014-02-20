@@ -69,19 +69,28 @@ class AccessToken(object):
 class Request(object):
     def __init__(self, middlewares):
         self.middlewares = middlewares
+        self.reset_env()
+
+    @property
+    def default_env(self):
+        return {'cache-key': None, 'from-cache': False, 'response': None}
+
+    def reset_env(self):
+        self.env = {}
+        self.env.update(self.default_env)
 
     def post(self, url, data=None, **kwargs):
-        for mw in self.middlewares:
-            url, args, kwargs, response = mw.process_request(
-                url, data, **kwargs
-            )
-            if response:
-                break
+        self.reset_env()
 
-        if not response:
-            response = requests.post(url, *args, **kwargs)
+        for mw in self.middlewares:
+            url, data, kwargs = mw.process_request(
+                self.env, url, data, **kwargs
+            )
+
+        response = self.env['response'] or requests.post(url, data, **kwargs)
 
         for mw in reversed(self.middlewares):
-            response = mw.process_response(response)
+            response = mw.process_response(self.env, response)
 
+        self.reset_env()
         return response

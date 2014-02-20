@@ -1,17 +1,11 @@
-from itertools import product
-
 from pytest import raises
 import pytest
 
-from epo_ops import Client, RegisteredClient
 from epo_ops.exceptions import (
     AnonymousQuotaPerDayExceeded, AnonymousQuotaPerMinuteExceeded,
     IndividualQuotaPerHourExceeded, RegisteredQuotaPerWeekExceeded
 )
-from epo_ops.middlewares import Throttler
 from epo_ops.models import Docdb
-
-from secrets import KEY, SECRET
 
 
 # Helpers
@@ -22,27 +16,11 @@ def issue_request(client):
     )
 
 
-def _mock(client):
-    client.__service_url_prefix__ = 'https://opsv31.apiary.io'
-    return client
-
-
-@pytest.fixture(scope='module')
-def mock_client(module_storage):
-    client = Client(middlewares=[Throttler(module_storage)])
-    return _mock(client)
-
-
-@pytest.fixture(scope='module')
-def mock_registered_client(module_storage):
-    client = RegisteredClient(
-        KEY, SECRET, middlewares=[Throttler(module_storage)]
-    )
-    return _mock(client)
-
-
 # Tests
-def test_mock_quota_exceeded(mock_client, mock_registered_client):
+def test_mock_quota_exceeded(all_clients, monkeypatch):
+    monkeypatch.setattr(
+        all_clients, '__service_url_prefix__', 'https://opsv31.apiary.io'
+    )
     errors = {
         'anonymous-per-min-exceeded': AnonymousQuotaPerMinuteExceeded,
         'anonymous-per-day-exceeded': AnonymousQuotaPerDayExceeded,
@@ -50,11 +28,12 @@ def test_mock_quota_exceeded(mock_client, mock_registered_client):
         'registered-per-week-exceeded': RegisteredQuotaPerWeekExceeded,
     }
 
-    a_list = product((mock_client, mock_registered_client), errors.items())
-    for client, (path, exception_class) in a_list:
-        client.__published_data_path__ = path
+    for path, exception_class in errors.items():
+        monkeypatch.setattr(
+            all_clients, '__published_data_path__', path
+        )
         with raises(exception_class):
-            issue_request(client)
+            issue_request(all_clients)
 
 
 if __name__ == '__main__':
