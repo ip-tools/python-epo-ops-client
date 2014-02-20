@@ -71,6 +71,14 @@ def registered_clients(request):
 
 @pytest.fixture(
     scope='module',
+    params=['cached_client', 'cached_registered_client']
+)
+def cached_clients(request):
+    return request.getfuncargvalue(request.param)
+
+
+@pytest.fixture(
+    scope='module',
     params=[
         'default_client', 'cached_client', 'default_registered_client',
         'cached_registered_client'
