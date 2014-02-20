@@ -49,8 +49,6 @@ class Dogpile(Middleware):
     def process_request(self, env, url, data, **kwargs):
         key = self.generate_key(url, data, **kwargs)
         env['cache-key'] = key
-        env['from-cache'] = False
-        env['response'] = None
         response = self.region.get(key)
         if response != NO_VALUE:
             env['from-cache'] = True
@@ -58,6 +56,7 @@ class Dogpile(Middleware):
         return url, data, kwargs
 
     def process_response(self, env, response):
-        if self.is_response_cacheable(response):
+        if (not env['from-cache']) and self.is_response_cacheable(response):
             self.region.set(env['cache-key'], response)
+            env['is-cached'] = True
         return response
