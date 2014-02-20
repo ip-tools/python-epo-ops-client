@@ -8,7 +8,6 @@
   same request with different argument order are still a hit
 
 ## Testing
-* Make sure cache is working
 * Replace Apiary tests with monkeypatch?
 * Travis CI
 

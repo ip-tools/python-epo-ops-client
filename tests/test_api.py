@@ -66,5 +66,12 @@ def test_self_check_expired_token(registered_clients):
     assert old_token != registered_clients.access_token.token
 
 
+def test_caching(cached_clients, monkeypatch):
+    assert_published_data_success(cached_clients)
+    monkeypatch.delattr('requests.request')
+    for i in range(2):
+        assert_published_data_success(cached_clients)
+
+
 if __name__ == '__main__':
     pytest.main()
