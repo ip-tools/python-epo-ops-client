@@ -8,8 +8,9 @@ from dogpile.cache import make_region
 from dogpile.cache.api import NO_VALUE
 import requests
 
+from ....__version__ import __version__
 from ...middleware import Middleware
-from .helpers import kwarg_data_handler, kwarg_range_header_handler
+from .helpers import kwarg_range_header_handler
 
 log = logging.getLogger(__name__)
 
@@ -29,12 +30,10 @@ class Dogpile(Middleware):
 
         self.kwargs_handlers = kwargs_handlers
         if not self.kwargs_handlers:
-            self.kwargs_handlers = [
-                kwarg_data_handler, kwarg_range_header_handler
-            ]
+            self.kwargs_handlers = [kwarg_range_header_handler]
 
     def generate_key(self, *args, **kwargs):
-        key = map(str, args)
+        key = ['epo-ops-{}'.format(__version__)] + map(str, args)
 
         for handler in self.kwargs_handlers:
             s = handler(**kwargs)
