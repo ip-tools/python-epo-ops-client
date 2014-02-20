@@ -14,11 +14,6 @@ from helpers.api_helpers import (
 )
 
 
-def _service_test(func, *clients):
-    for c in clients:
-        func(c)
-
-
 def test_instantiate_simple_client():
     client = Client()
     assert len(client.middlewares) == 1
