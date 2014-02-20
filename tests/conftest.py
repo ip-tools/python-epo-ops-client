@@ -63,9 +63,17 @@ def cached_registered_client(request, module_cache):
 
 @pytest.fixture(
     scope='module',
-    params=['default_registered_client', 'cached_registered_client']
+    params=['cached_registered_client', 'default_registered_client']
 )
 def registered_clients(request):
+    return request.getfuncargvalue(request.param)
+
+
+@pytest.fixture(
+    scope='module',
+    params=['default_client', 'default_registered_client']
+)
+def non_cached_clients(request):
     return request.getfuncargvalue(request.param)
 
 
@@ -80,8 +88,8 @@ def cached_clients(request):
 @pytest.fixture(
     scope='module',
     params=[
-        'default_client', 'cached_client', 'default_registered_client',
-        'cached_registered_client'
+        'cached_client', 'cached_registered_client', 'default_client',
+        'default_registered_client'
     ]
 )
 def all_clients(request):

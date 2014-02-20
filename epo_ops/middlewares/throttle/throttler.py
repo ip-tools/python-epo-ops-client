@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
-from time import sleep
 import logging
+import time
 
 from ..middleware import Middleware
 from .utils import service_for_url
@@ -16,7 +16,7 @@ class Throttler(Middleware):
     def process_request(self, env, url, data, **kwargs):
         if not env['from-cache']:
             service = service_for_url(url)
-            sleep(self.history.delay_for(service))
+            time.sleep(self.history.delay_for(service))
         return url, data, kwargs
 
     def process_response(self, env, response):

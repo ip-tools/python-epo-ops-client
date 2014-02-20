@@ -7,7 +7,7 @@ import pytest
 from epo_ops.api import Client, RegisteredClient
 from epo_ops.middlewares.throttle.storages import sqlite
 
-from helpers.api_helpers import (
+from .helpers.api_helpers import (
     assert_family_success, assert_published_data_search_success,
     assert_published_data_search_with_range_success,
     assert_published_data_success, issue_published_data_request
@@ -71,6 +71,16 @@ def test_caching(cached_clients, monkeypatch):
     monkeypatch.delattr('requests.request')
     for i in range(2):
         assert_published_data_success(cached_clients)
+
+
+def test_throttling(non_cached_clients, monkeypatch):
+    def mock_sleep(service):
+        raise RuntimeError('Sleeping!')
+
+    assert_published_data_success(non_cached_clients)
+    monkeypatch.setattr('time.sleep', mock_sleep)
+    with raises(RuntimeError):
+        assert_published_data_success(non_cached_clients)
 
 
 if __name__ == '__main__':
