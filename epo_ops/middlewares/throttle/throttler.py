@@ -13,9 +13,6 @@ class Throttler(Middleware):
     def __init__(self, history_storage):
         self.history = history_storage
 
-    def __str__(self):
-        return '{}.{}'.format(self.__module__, self.__class__.__name__)
-
     def process_request(self, env, url, data, **kwargs):
         if not env['from-cache']:
             service = service_for_url(url)
