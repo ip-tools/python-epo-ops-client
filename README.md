@@ -2,9 +2,9 @@ python-epo-ops-client
 =====================
 
 python-epo-ops-client is an [Apache2 Licensed][Apache license] client library
-for accessing the [European Patent Office][EPO]'s ("EPO") [Open Patent
-  Services][OPS] ("OPS") v.3.1 (based on [v 1.2.10 of the reference guide][OPS
-  guide]).
+for accessing the [European Patent Office][EPO]'s ("EPO")
+[Open Patent Services][OPS] ("OPS") v.3.1 (based on
+[v 1.2.10 of the reference guide][OPS guide]).
 
 ```python
 import epo_ops
