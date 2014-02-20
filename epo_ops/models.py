@@ -73,7 +73,10 @@ class Request(object):
 
     @property
     def default_env(self):
-        return {'cache-key': None, 'from-cache': False, 'response': None}
+        return {
+            'cache-key': None, 'from-cache': False, 'is-cached': False,
+            'response': None
+        }
 
     def reset_env(self):
         self.env = {}
