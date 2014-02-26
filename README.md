@@ -109,25 +109,25 @@ registered_client = epo_ops.RegisteredClient(
 #### Dogpile
 
 Dogpile is based on (surprise) [dogpile.cache][]. By default it is instantiated
-with a DBMBackend region with a timeout of 1 week, but you can use any kind of
+with a DBMBackend region with timeout of 1 week, but you can use any kind of
 region you want.
 
 Dogpile can also take a list of keyword argument handlers, which it will use to
 process the kwargs passed to the request object in order to extract elements
 for generating the cache key.  Currently one handler is implemented (and
-  instantiated by default) to make sure that the X-OPS-Range header is part of
-  the cache key.
+  instantiated by default) to make sure that the X-OPS-Range request header is
+  part of the cache key.
 
-**Note**: dogpile.cache is not installed by default, if you want to use it, `pip
-install dogpile.cache` in your project.
+**Note**: dogpile.cache is not installed by default, if you want to use it,
+`pip install dogpile.cache` in your project.
 
 #### Throttler
 
 Throttler contains all the logic for handling different throttling scenarios.
-Since OPS throttling is based on a one minute rolling window, we must store
-historical (at least for the past minute) throtting controls in order to know
-what the proper request frequency is. Each Throttler must be instantiated with
-a Storage object.
+Since OPS throttling is based on a one minute rolling window, we must persist
+historical (at least for the past minute) throtting data in order to know what
+the proper request frequency is. Each Throttler must be instantiated with a
+Storage object.
 
 ##### Storage
 
@@ -155,7 +155,7 @@ Tests are written using [pytest][]. To run the tests:
 2.  Create an app
 3.  Record the app's consumer key and secret in `tests/secrets.py` (see
     `secrets.py.example`)
-4.  `py.test -s --cov-report html --cov-report term --cov epo_ops tests`
+4.  `py.test -s -v --lf --cov-report html --cov-report term --cov epo_ops tests`
 
 The tests must be run with a working internet connection, since both OPS and
 the [mock Apiary services][Apiary OPS] are online.

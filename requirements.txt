@@ -1,8 +1,9 @@
 # Install
-dogpile.cache=0.5.3
+dogpile.cache==0.5.3
 python-dateutil==2.2
 requests==2.2.1
 
 # Test
+pytest-cache==1.0
 pytest-cov==1.6
 pytest==2.5.2

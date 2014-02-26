@@ -45,7 +45,7 @@ setup(
     include_package_data=True,
     install_requires=requires,
     license=license,
-    tests_require=['pytest'],
+    tests_require=['pytest', 'pytest-cache', 'pytest-cov'],
     zip_safe=False,
     classifiers=[
         'Development Status :: 4 - Beta',
