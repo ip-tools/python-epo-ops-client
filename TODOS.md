@@ -8,7 +8,8 @@
   same request with different argument order are still a hit
 
 ## Testing
-* Replace Apiary tests with monkeypatch?
+* Replace Apiary tests with monkeypatch? Or
+  <https://pypi.python.org/pypi/pytest-localserver>.
 * Travis CI
 
 ## Additional services
