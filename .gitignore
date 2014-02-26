@@ -37,3 +37,4 @@ nosetests.xml
 htmlcov
 secrets.py
 tests/throttle/sample
+.cache
