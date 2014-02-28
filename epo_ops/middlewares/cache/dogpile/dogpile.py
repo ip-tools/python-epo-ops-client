@@ -15,7 +15,7 @@ from .helpers import kwarg_range_header_handler
 log = logging.getLogger(__name__)
 
 DEFAULT_DBM_PATH = '/var/tmp/python-epo-ops-client/cache.dbm'
-DEFAULT_TIMEOUT = 604800  # 1 week in seconds
+DEFAULT_TIMEOUT = 60 * 60 * 24 * 7 * 2  # 2 weeks in seconds
 
 
 class Dogpile(Middleware):
