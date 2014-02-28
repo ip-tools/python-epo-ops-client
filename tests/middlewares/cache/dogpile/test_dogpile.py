@@ -14,6 +14,11 @@ def prefix(s):
     return 'epo-ops-{}|{}'.format(epo_ops.__version__, s)
 
 
+@pytest.fixture(params=[200, 400, 404, 405, 413, 503])
+def http_status_codes(request):
+    return request.param
+
+
 def test_default_instantiation():
     d = Dogpile()
     assert d.region.backend.filename == dogpile.DEFAULT_DBM_PATH
@@ -28,11 +33,11 @@ def test_generate_key(module_cache):
     ) == prefix('a|b|headers.X-OPS-Range=5')
 
 
-def test_process_request_and_response(module_cache):
+def test_process_request_and_response(module_cache, http_status_codes):
     env = Request([]).default_env
     url = 'x'
-    data = 'y'
-    response = Response(200)
+    data = http_status_codes
+    response = Response(http_status_codes)
     response._secret = 'me'
     key = module_cache.generate_key(url, data)
 

@@ -43,7 +43,14 @@ class Dogpile(Middleware):
         return '|'.join(key)
 
     def is_response_cacheable(self, response):
-        return response.status_code == requests.codes.ok
+        return response.status_code in (
+            requests.codes.ok,  # 200
+            requests.codes.bad_request,  # 400
+            requests.codes.not_found,  # 404
+            requests.codes.method_not_allowed,  # 405
+            requests.codes.request_entity_too_large,  # 413
+            requests.codes.service_unavailable,  # 503
+        )
 
     def process_request(self, env, url, data, **kwargs):
         key = self.generate_key(url, data, **kwargs)
