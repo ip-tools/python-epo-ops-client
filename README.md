@@ -84,8 +84,8 @@ Each middleware should subclass `middlewares.Middleware` and implement the
 
 There are two middleware classes out of the box: Throttler and Dogpile.
 Throttler is in charge of the OPS throttling rules and will delay requests
-accordingly. Dogpile is an optional cache which will cache all HTTP status 200
-responses.
+accordingly. Dogpile is an optional cache which will cache all HTTP status 200,
+404, 405, and 413 responses.
 
 By default, only the Throttler middleware is enabled, if you want to enable
 caching:
@@ -109,14 +109,19 @@ registered_client = epo_ops.RegisteredClient(
 #### Dogpile
 
 Dogpile is based on (surprise) [dogpile.cache][]. By default it is instantiated
-with a DBMBackend region with timeout of 1 week, but you can use any kind of
-region you want.
+with a DBMBackend region with timeout of 2 weeks.
 
-Dogpile can also take a list of keyword argument handlers, which it will use to
-process the kwargs passed to the request object in order to extract elements
-for generating the cache key.  Currently one handler is implemented (and
-  instantiated by default) to make sure that the X-OPS-Range request header is
-  part of the cache key.
+Dogpile takes three optional instantiation parameters:
+
+* `region`: You can pass whatever valid [dogpile.cache Region][] you want to
+  backend the cache
+* `kwargs_handlers`: A list of keyword argument handlers, which it will use to
+  process the kwargs passed to the request object in order to extract elements
+  for generating the cache key.  Currently one handler is implemented (and
+    instantiated by default) to make sure that the X-OPS-Range request header
+    is part of the cache key.
+* `http_status_codes`: A list of HTTP status codes that you would like to have
+  cached. By default 200, 404, 405, and 413 responses are cached.
 
 **Note**: dogpile.cache is not installed by default, if you want to use it,
 `pip install dogpile.cache` in your project.
@@ -171,3 +176,4 @@ the [mock Apiary services][Apiary OPS] are online.
 [Apiary OPS]: http://docs.opsv31.apiary.io
 [Apache license]: http://www.apache.org/licenses/LICENSE-2.0
 [dogpile.cache]: https://bitbucket.org/zzzeek/dogpile.cache
+[dogpile.cache Region]: http://dogpilecache.readthedocs.org/en/latest/api.html#module-dogpile.cache.region
