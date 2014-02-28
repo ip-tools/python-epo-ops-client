@@ -19,18 +19,29 @@ DEFAULT_TIMEOUT = 604800  # 1 week in seconds
 
 
 class Dogpile(Middleware):
-    def __init__(self, region=None, kwargs_handlers=None):
-        self.region = region
-        if not self.region:
-            self.region = make_region().configure(
+    def __init__(
+        self, region=None, kwargs_handlers=None, http_status_codes=None
+    ):
+        if not region:
+            region = make_region().configure(
                 'dogpile.cache.dbm',
                 expiration_time=DEFAULT_TIMEOUT,
                 arguments={'filename': DEFAULT_DBM_PATH}
             )
+        self.region = region
 
+        if not kwargs_handlers:
+            kwargs_handlers = [kwarg_range_header_handler]
         self.kwargs_handlers = kwargs_handlers
-        if not self.kwargs_handlers:
-            self.kwargs_handlers = [kwarg_range_header_handler]
+
+        if not http_status_codes:
+            http_status_codes = (
+                requests.codes.ok,  # 200
+                requests.codes.not_found,  # 404
+                requests.codes.method_not_allowed,  # 405
+                requests.codes.request_entity_too_large,  # 413
+            )
+        self.http_status_codes = http_status_codes
 
     def generate_key(self, *args, **kwargs):
         key = ['epo-ops-{}'.format(__version__)] + map(str, args)
@@ -43,14 +54,7 @@ class Dogpile(Middleware):
         return '|'.join(key)
 
     def is_response_cacheable(self, response):
-        return response.status_code in (
-            requests.codes.ok,  # 200
-            requests.codes.bad_request,  # 400
-            requests.codes.not_found,  # 404
-            requests.codes.method_not_allowed,  # 405
-            requests.codes.request_entity_too_large,  # 413
-            requests.codes.service_unavailable,  # 503
-        )
+        return response.status_code in self.http_status_codes
 
     def process_request(self, env, url, data, **kwargs):
         key = self.generate_key(url, data, **kwargs)

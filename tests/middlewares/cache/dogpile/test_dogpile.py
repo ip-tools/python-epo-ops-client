@@ -14,7 +14,7 @@ def prefix(s):
     return 'epo-ops-{}|{}'.format(epo_ops.__version__, s)
 
 
-@pytest.fixture(params=[200, 400, 404, 405, 413, 503])
+@pytest.fixture(params=[200, 404, 405, 413])
 def http_status_codes(request):
     return request.param
 
