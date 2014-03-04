@@ -1,16 +1,15 @@
 # -*- coding: utf-8 -*-
 
+import logging
+
+from .__version__ import __version__
+from .api import Client, RegisteredClient
+
 __title__ = 'python-epo-ops-client'
 __ops_version__ = '3.1'
 __author__ = 'George Song'
 __license__ = 'Apache 2.0'
 __copyright__ = 'Copyright 2014 55 Minutes'
-
-
-import logging
-
-from .__version__ import __version__
-from .api import Client, RegisteredClient
 
 
 # Set default logging handler to avoid "No handler found" warnings.
