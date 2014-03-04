@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+# -*- coding: utf-8 -*-
 
 from setuptools import setup
 import os
@@ -17,13 +18,9 @@ packages = [
 
 requires = ['python-dateutil', 'requests']
 
-with open('README.md') as f:
-    readme = f.read()
-with open('HISTORY.md') as f:
-    history = f.read()
-with open('LICENSE') as f:
-    license = f.read()
-
+readme = open('README.md').read()
+history = open('HISTORY.md').read()
+license = open('LICENSE').read()
 
 setup(
     name='python-epo-ops-client',
@@ -38,7 +35,7 @@ setup(
     url='https://github.com/55minutes/python-epo-ops-client',
     download_url=(
         'https://github.com/55minutes/python-epo-ops-client/archive/'
-        'v{}.tar.gz'.format(__version__)
+        'v%s.tar.gz' % __version__
     ),
     packages=packages,
     package_dir={'epo_ops': 'epo_ops'},
