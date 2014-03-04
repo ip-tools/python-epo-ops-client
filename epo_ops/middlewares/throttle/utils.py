@@ -6,12 +6,12 @@ import re
 log = logging.getLogger(__name__)
 
 URLPATTERNS = (
-    ('published-data/search',       'search'),
-    ('published-data/images',       'images'),
-    ('published-data',              'retrieval'),
-    ('family',                      'inpadoc'),
-    ('legal',                       'inpadoc'),
-    ('classification/cpc/media',    'images'),
+    ('published-data/search', 'search'),
+    ('published-data/images', 'images'),
+    ('published-data', 'retrieval'),
+    ('family', 'inpadoc'),
+    ('legal', 'inpadoc'),
+    ('classification/cpc/media', 'images'),
 )
 
 

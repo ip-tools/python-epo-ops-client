@@ -147,7 +147,7 @@ def throttle_history(expired_throttle_history, retry_after_value):
         return snapshots
 
     for service, limit in zip(SQLite.SERVICES, (200, 100, 60, 10, 5)):
-        expected[service] = 60./limit
+        expected[service] = 60. / limit
         service_limits[service] = _range(limit)
         shuffle(service_limits[service])
 
