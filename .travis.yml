@@ -8,10 +8,6 @@ env:
     - TOXENV=py27
     - TOXENV=py33
     - TOXENV=lint
-install:
-  - pip install tox
-script:
-  - tox
-after_success:
-  - ls -al
-  - coveralls
+install: pip install tox coveralls
+script: tox
+after_success: coveralls
