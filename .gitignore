@@ -37,3 +37,4 @@ nosetests.xml
 htmlcov
 tests/throttle/sample
 .cache
+.coveralls.yml
