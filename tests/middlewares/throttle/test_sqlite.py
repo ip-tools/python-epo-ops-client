@@ -105,7 +105,7 @@ def test_delay(throttle_history):
     expected = throttle_history['expected']
     for k, v in expected.items():
         # We round to account for db operation time
-        assert round(storage.delay_for(k), 1) == round(v, 1)
+        assert round(storage.delay_for(k), 0) == round(v, 0)
     assert table_count(storage) == 5
 
 
