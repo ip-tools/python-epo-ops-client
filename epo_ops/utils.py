@@ -4,10 +4,7 @@ from datetime import datetime
 import logging
 import os
 
-try:
-    from urllib.parse import quote as _quote
-except:
-    from urllib import quote as _quote
+from six.moves import urllib
 
 from dateutil.tz import tzutc
 
@@ -28,7 +25,7 @@ def now():
 
 
 def quote(string):
-    return _quote(string, safe='/\\')
+    return urllib.parse.quote(string, safe='/\\')
 
 
 def validate_date(date):
