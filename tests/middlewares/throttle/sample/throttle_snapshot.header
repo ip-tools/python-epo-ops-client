@@ -1,1 +1,1 @@
-idle (images=green:200, inpadoc=yellow:50, search=green:200, other=red:5, retrieval=black:0)
+idle (search=green:200, retrieval=black:0, images=green:200, inpadoc=yellow:50, other=red:5)
