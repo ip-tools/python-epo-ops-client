@@ -26,7 +26,8 @@ install-virtualenv-hooks:
 	cp -afi $(PWD)/bin/postactivate $(VIRTUAL_ENV)/bin/
 	cp -afi $(PWD)/bin/postdeactivate $(VIRTUAL_ENV)/bin/
 	@echo
-	$(call bold-yellow-echo, "Don't forget to set the proper OPS credentials in ${VIRTUAL_ENV}/bin/postactivate, then reactivate this virtualenv.")
+	$(call bold-yellow-echo, "Don't forget to set the proper OPS credentials in ${VIRTUAL_ENV}/bin/postactivate")
+	$(call bold-yellow-echo, "And then reactivate this virtualenv")
 
 clean: clean-build clean-pyc
 
