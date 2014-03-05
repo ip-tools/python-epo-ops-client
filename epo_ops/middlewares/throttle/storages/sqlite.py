@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 
+from __future__ import division
+
 from itertools import cycle
 import logging
 import os
@@ -39,15 +41,15 @@ class SQLite(Storage):
         columns = []
         for service in self.SERVICES:
             columns.extend([
-                '{}_status'.format(service),
-                '{}_limit'.format(service),
-                '{}_retry_after'.format(service)
+                '{0}_status'.format(service),
+                '{0}_limit'.format(service),
+                '{0}_retry_after'.format(service)
             ])
         if include_type:
             for i, pair in enumerate(
                 zip(columns, cycle(['text', 'integer', 'integer']))
             ):
-                columns[i] = '{} {}'.format(*pair)
+                columns[i] = '{0} {1}'.format(*pair)
 
         return columns
 
@@ -55,7 +57,7 @@ class SQLite(Storage):
         sql = """\
         CREATE TABLE throttle_history(
             timestamp timestamp primary key,
-            system_status text, {}
+            system_status text, {0}
         )
         """
         try:
@@ -75,7 +77,7 @@ class SQLite(Storage):
             self.db.execute(sql)
 
     def parse_throttle(self, throttle):
-        re_str = '{}=(\w+):(\d+)'
+        re_str = '{0}=(\w+):(\d+)'
         status = {'services': {}}
         status['system_status'] = re.search('^(\\w+) \\(', throttle).group(1)
         for service in self.SERVICES:
@@ -88,8 +90,8 @@ class SQLite(Storage):
 
     def convert(self, status, retry):
         sql = (
-            'INSERT INTO throttle_history(timestamp, system_status, {}) '
-            'VALUES ({})'
+            'INSERT INTO throttle_history(timestamp, system_status, {0}) '
+            'VALUES ({1})'
         ).format(', '.join(self.service_columns()), ', '.join(['?'] * 17))
         values = [now(), status['system_status']]
         for service in self.SERVICES:
@@ -105,10 +107,10 @@ class SQLite(Storage):
         "This method is a public interface for a throttle storage class"
 
         _now = now()
-        limit = '{}_limit'.format(service)
+        limit = '{0}_limit'.format(service)
         self.prune()
         sql = (
-            'SELECT * FROM throttle_history ORDER BY {} limit 1'
+            'SELECT * FROM throttle_history ORDER BY {0} limit 1'
         ).format(limit)
         with self.db:
             r = self.db.execute(sql).fetchone()
@@ -117,10 +119,12 @@ class SQLite(Storage):
             next_run = _now
         elif r[limit] == 0:
             next_run = r['timestamp'] +\
-                timedelta(milliseconds=r['{}_retry_after'.format(service)])
+                timedelta(milliseconds=r['{0}_retry_after'.format(service)])
         else:
             next_run = _now + timedelta(seconds=60. / r[limit])
-        return (next_run - _now).total_seconds()
+        td = (next_run - _now)
+        ts = (td.microseconds + (td.seconds + td.days * 24 * 3600) * 10 ** 6)
+        return ts / 10 ** 6
 
     def update(self, headers):
         "This method is a public interface for a throttle storage class"

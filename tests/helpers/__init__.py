@@ -1,5 +1,5 @@
 from random import choice
-from string import letters
+from string import ascii_letters
 import os
 import shutil
 import tempfile
@@ -10,7 +10,7 @@ from dogpile.cache import make_region
 def mkfile(request):
     temp_dir = tempfile.mkdtemp()
     temp_file = os.path.join(
-        temp_dir, ''.join(choice(letters) for i in range(10))
+        temp_dir, ''.join(choice(ascii_letters) for i in range(10))
     )
 
     def fin():

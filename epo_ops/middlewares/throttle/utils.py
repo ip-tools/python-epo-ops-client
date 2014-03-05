@@ -17,7 +17,7 @@ URLPATTERNS = (
 
 def service_for_url(url):
     for pattern, service in URLPATTERNS:
-        if re.search('rest-services/{}'.format(pattern), url):
+        if re.search('rest-services/{0}'.format(pattern), url):
             return service
 
     return 'other'

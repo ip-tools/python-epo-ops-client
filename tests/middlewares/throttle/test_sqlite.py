@@ -10,7 +10,7 @@ from .helpers.sqlite_helpers import single_value_query, table_count
 
 # Helpers
 def single_col_query(storage, col):
-    sql = 'SELECT {} FROM throttle_history LIMIT 1'.format(col)
+    sql = 'SELECT {0} FROM throttle_history LIMIT 1'.format(col)
     return single_value_query(storage, sql)
 
 
@@ -19,7 +19,7 @@ def test_columns_generation(cols):
     for service, field in product(
         SQLite.SERVICES, ('status', 'limit', 'retry_after')
     ):
-        assert '{}_{}'.format(service, field) in cols
+        assert '{0}_{1}'.format(service, field) in cols
 
 
 def test_columns_generation_with_types(storage):
@@ -28,7 +28,7 @@ def test_columns_generation_with_types(storage):
         SQLite.SERVICES,
         ('status text', 'limit integer', 'retry_after integer')
     ):
-        assert '{}_{}'.format(service, field) in cols
+        assert '{0}_{1}'.format(service, field) in cols
 
 
 def test_table_creation(storage, cols):
@@ -36,7 +36,7 @@ def test_table_creation(storage, cols):
         storage.prepare()
     with storage.db:
         c = storage.db.execute('SELECT * FROM throttle_history')
-    db_cols = list(zip(*c.description)[0])
+    db_cols = list(zip(*c.description))[0]
     expected = list(cols) + ['timestamp', 'system_status']
     assert sorted(db_cols) == sorted(expected)
 
@@ -79,11 +79,11 @@ def test_update_with_header(
         for service, (col, val) in product(
             [s.service], zip(('status', 'limit'), (s.status, s.limit))
         ):
-            col = '{}_{}'.format(service, col)
+            col = '{0}_{1}'.format(service, col)
             assert single_col_query(storage, col) == val
 
         if s.status.lower() == 'black':
-            col = '{}_retry_after'.format(s.service)
+            col = '{0}_retry_after'.format(s.service)
             assert single_col_query(storage, col) == retry_after_value
 
 

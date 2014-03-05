@@ -1,7 +1,7 @@
 import pytest
 
-from secrets import KEY, SECRET
-from helpers import mkcache, mksqlite, mkthrottler
+from .secrets import KEY, SECRET
+from .helpers import mkcache, mksqlite, mkthrottler
 
 
 @pytest.fixture

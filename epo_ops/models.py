@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 
 from datetime import datetime, timedelta
-import json
 import logging
 
 import requests
@@ -13,7 +12,7 @@ log = logging.getLogger(__name__)
 
 
 def _prepare_part(part):
-    return u'({})'.format(quote(part))
+    return u'({0})'.format(quote(part))
 
 
 class BaseInput(object):
@@ -55,7 +54,7 @@ class Epodoc(BaseInput):
 
 class AccessToken(object):
     def __init__(self, response):
-        self._content = json.loads(response.content)
+        self._content = response.json()
         self.response = response
         self.token = self._content['access_token']
         self.expiration = datetime.now() + \

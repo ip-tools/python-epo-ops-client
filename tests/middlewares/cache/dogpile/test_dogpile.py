@@ -11,7 +11,7 @@ class Response(object):
 
 
 def prefix(s):
-    return 'epo-ops-{}|{}'.format(epo_ops.__version__, s)
+    return 'epo-ops-{0}|{1}'.format(epo_ops.__version__, s)
 
 
 @pytest.fixture(params=[200, 404, 405, 413])

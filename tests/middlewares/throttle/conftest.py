@@ -148,7 +148,7 @@ def throttle_history(expired_throttle_history, retry_after_value):
 
     for service, limit in zip(SQLite.SERVICES, (200, 100, 60, 10, 5)):
         expected[service] = 60. / limit
-        service_limits[service] = _range(limit)
+        service_limits[service] = list(_range(limit))
         shuffle(service_limits[service])
 
     for d in _services_dicts(service_limits):
@@ -159,10 +159,10 @@ def throttle_history(expired_throttle_history, retry_after_value):
     # Make a special header with search=black with retry value
     services = list(SQLite.SERVICES)
     services.remove('search')
-    services = ', '.join(['{}=green:1000'.format(s) for s in services])
+    services = ', '.join(['{0}=green:1000'.format(s) for s in services])
     storage.update(
         make_header(
-            '{} (search=black:0, {})'.format(choice(system_stats), services),
+            '{0} (search=black:0, {1})'.format(choice(system_stats), services),
             retry_after_value
         )
     )

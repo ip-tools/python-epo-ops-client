@@ -3,7 +3,11 @@
 from datetime import datetime
 import logging
 import os
-import urllib
+
+try:
+    from urllib.parse import quote as _quote
+except:
+    from urllib import quote as _quote
 
 from dateutil.tz import tzutc
 
@@ -12,7 +16,7 @@ from .exceptions import InvalidDate
 log = logging.getLogger(__name__)
 
 
-def makedirs(path, mode=0777):
+def makedirs(path, mode=0o777):
     try:
         os.makedirs(path, mode)
     except OSError:
@@ -24,7 +28,7 @@ def now():
 
 
 def quote(string):
-    return urllib.quote(string, safe='/\\')
+    return _quote(string, safe='/\\')
 
 
 def validate_date(date):
@@ -34,4 +38,4 @@ def validate_date(date):
         datetime.strptime(date, '%Y%m%d')
         return date
     except ValueError:
-        raise InvalidDate('{} is not a valid YYYYMMDD date.'.format(date))
+        raise InvalidDate('{0} is not a valid YYYYMMDD date.'.format(date))

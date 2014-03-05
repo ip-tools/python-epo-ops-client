@@ -5,7 +5,7 @@ class ServiceSnapshot(object):
         self.limit = limit
 
     def as_header(self):
-        return '{}={}:{}'.format(self.service, self.status, self.limit)
+        return '{0}={1}:{2}'.format(self.service, self.status, self.limit)
 
     def as_dict(self):
         return {
@@ -32,7 +32,7 @@ class ThrottleSnapshot(object):
         services = []
         for status in self.service_statuses:
             services.append(status.as_header())
-        return '{} ({})'.format(self.system_status, ', '.join(services))
+        return '{0} ({1})'.format(self.system_status, ', '.join(services))
 
     def as_dict(self):
         ts = {

@@ -44,7 +44,7 @@ class Dogpile(Middleware):
         self.http_status_codes = http_status_codes
 
     def generate_key(self, *args, **kwargs):
-        key = ['epo-ops-{}'.format(__version__)] + map(str, args)
+        key = ['epo-ops-{0}'.format(__version__)] + list(map(str, args))
 
         for handler in self.kwargs_handlers:
             s = handler(**kwargs)

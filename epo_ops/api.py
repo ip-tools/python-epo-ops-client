@@ -34,7 +34,7 @@ class Client(object):
     __published_data_search_path__ = 'published-data/search'
 
     def __init__(self, accept_type='xml', middlewares=None):
-        self.accept_type = 'application/{}'.format(accept_type)
+        self.accept_type = 'application/{0}'.format(accept_type)
         self.middlewares = middlewares
         if not middlewares:
             self.middlewares = [Throttler()]
@@ -59,7 +59,7 @@ class Client(object):
                 try:
                     response.raise_for_status()
                 except HTTPError as e:
-                    klass = getattr(exceptions, '{}Exceeded'.format(reason))
+                    klass = getattr(exceptions, '{0}Exceeded'.format(reason))
                     e.__class__ = klass
                     raise
         return response  # pragma: no cover
@@ -107,7 +107,7 @@ class Client(object):
         return self.make_request(
             url,
             {'q': cql},
-            {'X-OPS-Range': '{}-{}'.format(range_begin, range_end)}
+            {'X-OPS-Range': '{0}-{1}'.format(range_begin, range_end)}
         )
 
 
@@ -122,8 +122,10 @@ class RegisteredClient(Client):
 
     def acquire_token(self):
         headers = {
-            'Authorization': 'Basic {}'.format(
-                b64encode('{}:{}'.format(self.key, self.secret))
+            'Authorization': 'Basic {0}'.format(
+                b64encode(
+                    '{0}:{1}'.format(self.key, self.secret).encode('ascii')
+                ).decode('ascii')
             ),
             'Content-Type': 'application/x-www-form-urlencoded',
         }
@@ -156,7 +158,7 @@ class RegisteredClient(Client):
 
     def make_request(self, url, data, extra_headers=None):
         extra_headers = extra_headers or {}
-        token = 'Bearer {}'.format(self.access_token.token)
+        token = 'Bearer {0}'.format(self.access_token.token)
         extra_headers['Authorization'] = token
 
         response = self.post(url, data, extra_headers)

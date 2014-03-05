@@ -11,6 +11,9 @@ class Response(object):
     def __init__(self, data):
         self.content = json.dumps(data)
 
+    def json(self):
+        return json.loads(self.content)
+
 
 @pytest.fixture
 def immediately_expired_response():
