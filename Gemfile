@@ -4,5 +4,6 @@ source 'https://rubygems.org'
 # Note `:require => false` for those gems that are purely command-line tools.
 #
 group :development do
-  gem 'apiaryio'
+  gem 'travis'
+  gem 'travis-lint'
 end
