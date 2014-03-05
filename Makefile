@@ -37,8 +37,8 @@ coverage:
 	open htmlcov/index.html
 
 release: clean
-	python setup.py sdist upload 
-	python setup.py bdist_wheel upload
+	python setup.py sdist upload -r pypi
+	python setup.py bdist_wheel upload -r pypi
 	open https://pypi.python.org/pypi/python-epo-ops-client
 
 release-test: clean
