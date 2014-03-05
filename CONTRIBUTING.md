@@ -64,7 +64,7 @@ development.
     ```
     $ mkvirtualenv python-epo-ops-client
     $ cd python-epo-ops-client/
-    $ pip install -r requirements.txt
+    $ pip install -r requirements-dev.txt
     $ pip install -e .
     ```
 
@@ -80,19 +80,16 @@ development.
 
     1.  [Register a OPS user login with EPO][OPS registration]
     2.  Create an app
-    3.  Record the app's consumer key and secret in `tests/secrets.py` (see
-        `secrets.py.example`)
+    3.  Set the `OPS_KEY` and `OPS_SECRET` environment variables accordingly
 
 5.  When you're done making changes, check that your changes pass flake8 and
     the tests, including testing other Python versions with tox:
 
     ```
-    $ flake8 epo_ops tests
-    $ py.test -s -v --lf --cov-report html --cov-report term --cov epo_ops tests
+    $ make test
+    $ make lint
     $ tox
     ```
-
-    To get flake8 and tox, just pip install them into your virtualenv. 
 
 6.  Commit your changes and push your branch to GitHub::
 
@@ -112,9 +109,9 @@ Before you submit a pull request, check that it meets these guidelines:
 2.  If the pull request adds functionality, the docs should be updated. Put
     your new functionality into a function with a docstring, and add the
     feature to the list in README.md.
-3.  The pull request should work for Python 2.6, 2.7, and 3.3, and for PyPy.
-    Check https://travis-ci.org/55minutes/python-epo-ops-client/pull_requests
-    and make sure that the tests pass for all supported Python versions.
+3.  The pull request should work for Python 2.6, 2.7, and 3.3.  Check
+    https://travis-ci.org/55minutes/python-epo-ops-client/pull_requests and
+    make sure that the tests pass for all supported Python versions.
 
 ## Tips
 

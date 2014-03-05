@@ -1,5 +1,12 @@
-python-epo-ops-client
-=====================
+# python-epo-ops-client
+
+[![PyPI version](https://badge.fury.io/py/python-epo-ops-client.png)](http://badge.fury.io/py/python-epo-ops-client)
+
+.. image:: https://travis-ci.org/gsong/django-omni-bootstrap.png?branch=master
+    :target: https://travis-ci.org/gsong/django-omni-bootstrap
+
+.. image:: https://coveralls.io/repos/gsong/django-omni-bootstrap/badge.png?branch=master
+    :target: https://coveralls.io/r/gsong/django-omni-bootstrap?branch=master
 
 python-epo-ops-client is an [Apache2 Licensed][Apache license] client library
 for accessing the [European Patent Office][EPO]'s ("EPO")
@@ -158,9 +165,8 @@ Tests are written using [pytest][]. To run the tests:
 
 1.  [Register a OPS user login with EPO][OPS registration]
 2.  Create an app
-3.  Record the app's consumer key and secret in `tests/secrets.py` (see
-    `secrets.py.example`)
-4.  `py.test -s -v --lf --cov-report html --cov-report term --cov epo_ops tests`
+3.  Set the `OPS_KEY` and `OPS_SECRET` environment variables accordingly
+4.  `make test`
 
 The tests must be run with a working internet connection, since both OPS and
 the [mock Apiary services][Apiary OPS] are online.
