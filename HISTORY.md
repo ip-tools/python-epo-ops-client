@@ -1,5 +1,9 @@
 # Release History
 
+## 0.1.2 (2014-03-04)
+
+* Python 2.6 and 3.3 compatibility
+
 ## 0.1.1 (2014-03-01)
 
 * Allow configuration of which HTTP responses (based on status code) to cache
