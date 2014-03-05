@@ -10,7 +10,6 @@
 ## Testing
 * Replace Apiary tests with monkeypatch? Or
   <https://pypi.python.org/pypi/pytest-localserver>.
-* Travis CI
 
 ## Additional services
 * Legal service
@@ -18,3 +17,6 @@
 * Register service
 * Images retrieval
 * Bulk operations
+
+## Makefile
+* Comma in `echo` statements?
