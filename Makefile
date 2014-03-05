@@ -1,15 +1,32 @@
-.PHONY: clean-pyc clean-build
+.PHONY: clean-build clean-pyc install-virtualenv-hooks
 
 help:
-	@echo "clean-build - remove build artifacts"
-	@echo "clean-pyc - remove Python file artifacts"
-	@echo "lint - check style with flake8"
-	@echo "test - run tests quickly with the default Python"
-	@echo "testall - run tests on every Python version with tox"
-	@echo "coverage - check code coverage quickly with the default Python"
-	@echo "release - package and upload a release"
-	@echo "release-test - package and upload a release to testpypi"
-	@echo "sdist - package"
+	@echo "install-virtualenv-hooks: install post activate and deactivate hooks"
+	@echo "clean: clean-build then clean-pyc"
+	@echo "clean-build: remove build artifacts"
+	@echo "clean-pyc: remove Python file artifacts"
+	@echo "lint: check style with flake8"
+	@echo "test: run tests quickly with the default Python"
+	@echo "tox: run tests on every Python version with tox"
+	@echo "coverage: check code coverage quickly with the default Python"
+	@echo "release: package and upload a release to pypi"
+	@echo "release-test: package and upload a release to testpypi"
+	@echo "sdist: package"
+
+PWD = $(shell pwd)
+
+define bold-yellow-echo
+	@tput bold
+	@tput setaf 3
+	@echo $1
+	@tput sgr0
+endef
+
+install-virtualenv-hooks:
+	cp -afi $(PWD)/bin/postactivate $(VIRTUAL_ENV)/bin/
+	cp -afi $(PWD)/bin/postdeactivate $(VIRTUAL_ENV)/bin/
+	@echo
+	$(call bold-yellow-echo, "Don't forget to set the proper OPS credentials in ${VIRTUAL_ENV}/bin/postactivate.")
 
 clean: clean-build clean-pyc
 
@@ -26,13 +43,13 @@ clean-pyc:
 lint:
 	flake8 --ignore=F401 epo_ops tests
 
-test:
+test: clean
 	py.test -s -v --lf --cov-report term --cov epo_ops tests
 
-test-all:
+tox: clean
 	tox
 
-coverage:
+coverage: clean
 	py.test -s -v --cov-report html --cov-report term --cov epo_ops tests
 	open htmlcov/index.html
 
