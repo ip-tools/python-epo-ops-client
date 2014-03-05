@@ -10,4 +10,4 @@ env:
     - TOXENV=lint
 install: pip install tox coveralls
 script: tox
-after_success: coveralls
+after_success: coveralls -v
