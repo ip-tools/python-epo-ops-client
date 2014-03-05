@@ -38,3 +38,4 @@ htmlcov
 tests/throttle/sample
 .cache
 .coveralls.yml
+tests/middlewares/throttle/sample
