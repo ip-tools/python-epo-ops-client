@@ -34,7 +34,6 @@ test-all:
 
 coverage:
 	py.test -s -v --cov-report html --cov-report term --cov epo_ops tests
-	coveralls
 	open htmlcov/index.html
 
 release: clean
