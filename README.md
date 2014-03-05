@@ -38,12 +38,11 @@ python_epo_ops_client abstracts away the complexities of access EPO OPS:
 * Add optional caching to minimize impact on the OPS servers
 
 There are two main layers to python_epo_ops_client: Client and Middleware.
-Storage.
 
 ### Client
 
-The Client contains all the formatting and token handling logic. The Client
-class is what you'll interact with mostly.
+The Client contains all the formatting and token handling logic and is what
+you'll interact with mostly.
 
 When you issue a request, the response is a
 [`requests.Response`][requests.Response] object. If `response.status_code !=
