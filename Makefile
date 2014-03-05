@@ -39,10 +39,12 @@ coverage:
 release: clean
 	python setup.py sdist upload 
 	python setup.py bdist_wheel upload
+	open https://pypi.python.org/pypi/python-epo-ops-client
 
 release-test: clean
 	python setup.py sdist upload -r test
 	python setup.py bdist_wheel upload -r test
+	open https://testpypi.python.org/pypi/python-epo-ops-client
 
 sdist: clean
 	python setup.py sdist
