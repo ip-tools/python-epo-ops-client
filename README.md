@@ -1,12 +1,8 @@
 # python-epo-ops-client
 
 [![PyPI version](https://badge.fury.io/py/python-epo-ops-client.png)](http://badge.fury.io/py/python-epo-ops-client)
-
-.. image:: https://travis-ci.org/gsong/django-omni-bootstrap.png?branch=master
-    :target: https://travis-ci.org/gsong/django-omni-bootstrap
-
-.. image:: https://coveralls.io/repos/gsong/django-omni-bootstrap/badge.png?branch=master
-    :target: https://coveralls.io/r/gsong/django-omni-bootstrap?branch=master
+[![Build Status](https://travis-ci.org/55minutes/python-epo-ops-client.png?branch=master)](https://travis-ci.org/55minutes/python-epo-ops-client)
+[![Coverage Status](https://coveralls.io/repos/55minutes/python-epo-ops-client/badge.png)](https://coveralls.io/r/55minutes/python-epo-ops-client)
 
 python-epo-ops-client is an [Apache2 Licensed][Apache license] client library
 for accessing the [European Patent Office][EPO]'s ("EPO")
