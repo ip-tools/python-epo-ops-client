@@ -130,7 +130,7 @@ class SQLite(Storage):
         "This method is a public interface for a throttle storage class"
 
         self.prune()
-        if not 'x-throttling-control' in headers:
+        if 'x-throttling-control' not in headers:
             return
         status = self.parse_throttle(headers['x-throttling-control'])
         retry_after = int(headers.get('retry-after', 0))

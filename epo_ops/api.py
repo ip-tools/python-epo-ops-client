@@ -138,7 +138,7 @@ class RegisteredClient(Client):
 
     @property
     def access_token(self):
-        #TODO: Custom auth handler plugin to requests?
+        # TODO: Custom auth handler plugin to requests?
         if (not self._access_token) or \
            (self._access_token and self._access_token.is_expired):
             self.acquire_token()
