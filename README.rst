@@ -1,9 +1,9 @@
 python-epo-ops-client
 =====================
 
-|PyPI version|
-|Build Status|
-|Coverage Status|
+|PyPI Version|_
+|Build Status|_
+|Coverage Status|_
 
 python-epo-ops-client is an `Apache2
 Licensed <http://www.apache.org/licenses/LICENSE-2.0>`__ client library
@@ -189,9 +189,9 @@ The tests must be run with a working internet connection, since both OPS
 and the `mock Apiary services <http://docs.opsv31.apiary.io>`__ are
 online.
 
-.. |PyPI version| image:: http://img.shields.io/pypi/v/python-epo-ops-client.svg
-   :target: https://pypi.python.org/pypi/python-epo-ops-client
+.. |PyPI Version| image:: http://img.shields.io/pypi/v/python-epo-ops-client.svg
+.. _PyPI Version: https://pypi.python.org/pypi/python-epo-ops-client
 .. |Build Status| image:: http://img.shields.io/travis/55minutes/python-epo-ops-client.svg
-   :target: https://travis-ci.org/55minutes/python-epo-ops-client
+.. _Build Status: https://travis-ci.org/55minutes/python-epo-ops-client
 .. |Coverage Status| image:: http://img.shields.io/coveralls/55minutes/python-epo-ops-client.svg
-   :target: https://coveralls.io/r/55minutes/python-epo-ops-client
+.. _Coverage Status: https://coveralls.io/r/55minutes/python-epo-ops-client
