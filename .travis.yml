@@ -13,3 +13,9 @@ env:
 install: pip install tox coveralls
 script: tox
 after_success: coveralls -v
+
+# whitelist
+branches:
+  only:
+    - master
+    - development
