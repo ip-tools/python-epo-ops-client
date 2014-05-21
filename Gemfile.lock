@@ -24,7 +24,7 @@ GEM
     launchy (2.4.2)
       addressable (~> 2.3)
     method_source (0.8.2)
-    multi_json (1.9.3)
+    multi_json (1.10.1)
     multipart-post (2.0.0)
     net-http-persistent (2.9.4)
     net-http-pipeline (1.0.1)
@@ -37,7 +37,7 @@ GEM
       websocket (~> 1.0)
     safe_yaml (0.9.7)
     slop (3.5.0)
-    travis (1.6.10)
+    travis (1.6.11)
       addressable (~> 2.3)
       backports
       faraday (~> 0.9)
@@ -47,13 +47,13 @@ GEM
       launchy (~> 2.1)
       pry (~> 0.9)
       pusher-client (~> 0.4)
-      typhoeus (~> 0.6)
+      typhoeus (~> 0.6, >= 0.6.8)
     travis-lint (1.8.0)
       hashr (~> 0.0.22)
       safe_yaml (~> 0.9.0)
     typhoeus (0.6.8)
       ethon (>= 0.7.0)
-    websocket (1.1.2)
+    websocket (1.1.4)
 
 PLATFORMS
   ruby
