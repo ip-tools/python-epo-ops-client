@@ -1,6 +1,12 @@
 Release History
 ===============
 
+0.1.3 (2014-05-21)
+------------------
+
+-  Python 3.4 compatibility
+-  Updated ``requests`` dependency to 2.3.0
+
 0.1.2 (2014-03-04)
 ------------------
 
