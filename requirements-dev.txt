@@ -3,7 +3,7 @@
 dogpile.cache==0.5.3
 
 # Test
-coveralls==0.4.1
+coveralls==0.4.2
 flake8==2.1.0
 pytest-cache==1.0
 pytest-cov==1.6
