@@ -9,8 +9,8 @@ python-epo-ops-client is an `Apache2
 Licensed <http://www.apache.org/licenses/LICENSE-2.0>`__ client library
 for accessing the `European Patent Office <http://epo.org>`__'s ("EPO")
 `Open Patent Services <http://www.epo.org/searching/free/ops.html>`__
-("OPS") v.3.1 (based on `v 1.2.10 of the reference
-guide <http://documents.epo.org/projects/babylon/eponet.nsf/0/7AF8F1D2B36F3056C1257C04002E0AD6/$File/OPS_RWS_ReferenceGuide_version1210_EN.pdf>`__).
+("OPS") v.3.1 (based on `v 1.2.11 of the reference
+guide <http://documents.epo.org/projects/babylon/eponet.nsf/0/7AF8F1D2B36F3056C1257C04002E0AD6/$File/OPS_v3.1_documentation_version_1.2.11_en.pdf>`__).
 
 .. code:: python
 
