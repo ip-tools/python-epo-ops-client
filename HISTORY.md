@@ -1,5 +1,9 @@
 # Release History
 
+## 0.1.4 (2014-10-10)
+* Verified PyPy3 support
+* Updated various dependency pacakges
+
 ## 0.1.3 (2014-05-21)
 * Python 3.4 compatibility
 * Updated `requests` dependency to 2.3.0

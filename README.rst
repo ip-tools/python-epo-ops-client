@@ -1,16 +1,14 @@
 python-epo-ops-client
 =====================
 
-|PyPI Version|_
-|Build Status|_
-|Coverage Status|_
+|PyPI version| |Build Status| |Coverage Status|
 
 python-epo-ops-client is an `Apache2
 Licensed <http://www.apache.org/licenses/LICENSE-2.0>`__ client library
 for accessing the `European Patent Office <http://epo.org>`__'s ("EPO")
 `Open Patent Services <http://www.epo.org/searching/free/ops.html>`__
-("OPS") v.3.1 (based on `v 1.2.11 of the reference
-guide <http://documents.epo.org/projects/babylon/eponet.nsf/0/7AF8F1D2B36F3056C1257C04002E0AD6/$File/OPS_v3.1_documentation_version_1.2.11_en.pdf>`__).
+("OPS") v.3.1 (based on `v 1.2.12 of the reference
+guide <http://documents.epo.org/projects/babylon/eponet.nsf/0/7AF8F1D2B36F3056C1257C04002E0AD6/$File/OPS_v3.1_documentation_version_1.2.12_en.pdf>`__).
 
 .. code:: python
 
@@ -157,10 +155,10 @@ Storage
 
 The Storage object is responsible for:
 
-#. Knowing how to update the historical record with each request
+1. Knowing how to update the historical record with each request
    (``Storage.update()``), making sure to observe the one minute rolling
    window rule.
-#. Calculating how long to wait before issuing the next request
+2. Calculating how long to wait before issuing the next request
    (``Storage.delay_for()``).
 
 Currently the only Storage backend provided is SQLite, but you can
@@ -178,20 +176,20 @@ Tests
 Tests are written using `pytest <http://pytest.org/latest/>`__. To run
 the tests:
 
-#. `Register a OPS user login with
+1. `Register a OPS user login with
    EPO <https://developers.epo.org/user/register>`__
-#. Create an app
-#. Set the ``OPS_KEY`` and ``OPS_SECRET`` environment variables
+2. Create an app
+3. Set the ``OPS_KEY`` and ``OPS_SECRET`` environment variables
    accordingly
-#. ``make test``
+4. ``make test``
 
 The tests must be run with a working internet connection, since both OPS
 and the `mock Apiary services <http://docs.opsv31.apiary.io>`__ are
 online.
 
-.. |PyPI Version| image:: http://img.shields.io/pypi/v/python-epo-ops-client.svg
-.. _PyPI Version: https://pypi.python.org/pypi/python-epo-ops-client
+.. |PyPI version| image:: http://img.shields.io/pypi/v/python-epo-ops-client.svg
+   :target: https://pypi.python.org/pypi/python-epo-ops-client
 .. |Build Status| image:: http://img.shields.io/travis/55minutes/python-epo-ops-client.svg
-.. _Build Status: https://travis-ci.org/55minutes/python-epo-ops-client
+   :target: https://travis-ci.org/55minutes/python-epo-ops-client
 .. |Coverage Status| image:: http://img.shields.io/coveralls/55minutes/python-epo-ops-client.svg
-.. _Coverage Status: https://coveralls.io/r/55minutes/python-epo-ops-client
+   :target: https://coveralls.io/r/55minutes/python-epo-ops-client
