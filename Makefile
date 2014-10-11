@@ -7,6 +7,7 @@ help:
 	@echo "clean-pyc: remove Python file artifacts"
 	@echo "lint: check style with flake8"
 	@echo "test: run tests quickly with the default Python"
+	@echo "test-ci: run tests in CI environment with the default Python"
 	@echo "tox: run tests on every Python version with tox"
 	@echo "coverage: check code coverage quickly with the default Python"
 	@echo "release: package and upload a release to pypi"
