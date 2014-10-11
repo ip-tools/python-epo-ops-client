@@ -10,6 +10,7 @@ help:
 	@echo "test-ci: run tests in CI environment with the default Python"
 	@echo "tox: run tests on every Python version with tox"
 	@echo "coverage: check code coverage quickly with the default Python"
+	@echo "docs: convert README and HISTORY md to rst"
 	@echo "release: package and upload a release to pypi"
 	@echo "release-test: package and upload a release to testpypi"
 	@echo "sdist: package"
@@ -57,6 +58,10 @@ tox: clean
 coverage: clean
 	py.test -s -v --cov-report html --cov-report term --cov epo_ops tests
 	open htmlcov/index.html
+
+docs:
+	pandoc HISTORY.md -o HISTORY.rst
+	pandoc README.md -o README.rst
 
 release: clean
 	python setup.py sdist upload -r pypi
