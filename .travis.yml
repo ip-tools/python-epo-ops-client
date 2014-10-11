@@ -3,16 +3,15 @@ env:
   global:
     - secure: Rl0tqDNzXYDC6R9cc6VLUdPG96hyvYKCADb9FTGBuf0F28gq6kvEJmZkgHxB/RZ93xDiO9P7g0N6BWZqrEcGEftOVXEa49BgUHq4DPFFZdtAp8/S1LRleVhGAY7tMhoPUdhv5gghswXZBxhIKXgY5IpZie2Q1oCiuAduIM7HMLI=
     - secure: Cmnq3jelfSV53YTUQsOZf6hONKJRepQlal1y6dtGA2RjKcIBsi3Rdaxooo9CRtNgEBqHJp2VUFbW4YNOTLoDNy+dQZxCHYWcNb3qLhe+2q+qjm1zdBAKlvRvCNqyWvoEWLY0Z0XdMWVKq7GOgpETvCeSzUQLIFWyGinmFOkHYic=
-  matrix:
-    - TOXENV=py26
-    - TOXENV=py27
-    - TOXENV=py33
-    - TOXENV=py34
-    - TOXENV=pypy
-    - TOXENV=pypy3
-    - TOXENV=lint
-install: pip install tox coveralls
-script: tox
+python:
+  - "2.6"
+  - "2.7"
+  - "3.3"
+  - "3.4"
+  - "pypy"
+  - "pypy3"
+install: pip install -r requirements-dev.txt
+script: py.test -v --cov epo_ops --cov-report term-missing
 after_success: coveralls -v
 
 # whitelist
