@@ -40,7 +40,7 @@ There are two main layers to python_epo_ops_client: Client and Middleware.
 
 The Client contains all the formatting and token handling logic and is what you'll interact with mostly.
 
-When you issue a request, the response is a [`requests.Response`][requests.Response] object. If `response.status_code != 200` then an exception will be raised, it's your responsibility to handle those exceptions if you want to. The one case that's handled by the RegisteredClient is when its access token has expired: in this case, the client will automatically handle the HTTP 400 status and renew the token.
+When you issue a request, the response is a [requests.Response][requests.Response] object. If `response.status_code != 200` then an exception will be raised, it's your responsibility to handle those exceptions if you want to. The one case that's handled by the RegisteredClient is when its access token has expired: in this case, the client will automatically handle the HTTP 400 status and renew the token.
 
 Note that the Client does not attempt to interpret the data supplied by OPS, so it's your responsibility to parse the XML or JSON payload for your own purpose.
 
