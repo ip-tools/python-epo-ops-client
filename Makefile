@@ -47,6 +47,9 @@ lint:
 test: clean
 	py.test -s -v --lf --cov-report term --cov epo_ops tests
 
+test-ci: clean
+	py.test -v --cov epo_ops --cov-report term-missing
+
 tox: clean
 	tox
 

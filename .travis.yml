@@ -11,7 +11,7 @@ python:
   - "pypy"
   - "pypy3"
 install: pip install -r requirements-dev.txt
-script: py.test -v --cov epo_ops --cov-report term-missing
+script: make test-ci
 after_success: coveralls -v
 
 # whitelist
