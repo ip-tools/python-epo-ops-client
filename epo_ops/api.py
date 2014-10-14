@@ -32,6 +32,8 @@ class Client(object):
     __family_path__ = 'family'
     __published_data_path__ = 'published-data'
     __published_data_search_path__ = 'published-data/search'
+    __register_path__ = 'register'
+    __register_search_path__ = 'register/search'
 
     def __init__(self, accept_type='xml', middlewares=None):
         self.accept_type = 'application/{0}'.format(accept_type)
@@ -92,6 +94,14 @@ class Client(object):
             constituents
         )
 
+    def register(
+        self, reference_type, input, endpoint='biblio', constituents=None
+    ):
+        return self._service_request(
+            self.__register_path__, reference_type, input, endpoint,
+            constituents
+        )
+
     def family(self, reference_type, input, endpoint=None, constituents=None):
         return self._service_request(
             self.__family_path__, reference_type, input, endpoint, constituents
@@ -102,6 +112,19 @@ class Client(object):
     ):
         url = make_service_request_url(
             self, self.__published_data_search_path__, None, None, None,
+            constituents or []
+        )
+        return self.make_request(
+            url,
+            {'q': cql},
+            {'X-OPS-Range': '{0}-{1}'.format(range_begin, range_end)}
+        )
+
+    def register_search(
+        self, cql, range_begin=1, range_end=25, constituents=None
+    ):
+        url = make_service_request_url(
+            self, self.__register_search_path__, None, None, None,
             constituents or []
         )
         return self.make_request(

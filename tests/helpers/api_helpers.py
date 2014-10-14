@@ -1,8 +1,10 @@
 import requests
 
 from epo_ops.models import Docdb
+from epo_ops.models import Epodoc
 
 data = ('publication', Docdb('1000000', 'EP', 'A1'))
+rdata = ('publication', Epodoc('EP1000000'))
 
 
 def assert_request_success(response):
@@ -16,6 +18,17 @@ def issue_published_data_request(client):
 
 def assert_published_data_success(client):
     response = issue_published_data_request(client)
+    assert_request_success(response)
+    assert 'bibliographic-data' in response.text
+    return response
+
+
+def issue_register_request(client):
+    return client.register(*rdata)
+
+
+def assert_register_success(client):
+    response = issue_register_request(client)
     assert_request_success(response)
     assert 'bibliographic-data' in response.text
     return response
@@ -53,3 +66,16 @@ def assert_published_data_search_with_range_success(client):
     assert 'biblio-search' in response.text
     assert 'range begin="50" end="60"' in response.text
     return response
+
+
+def issue_register_search_request(client):
+    return client.register_search('applicant=IBM')
+
+
+def assert_register_search_success(client):
+    response = issue_register_search_request(client)
+    assert_request_success(response)
+    assert 'register-search' in response.text
+    return response
+
+
