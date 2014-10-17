@@ -10,8 +10,9 @@ from epo_ops.middlewares.throttle.storages import sqlite
 from .helpers.api_helpers import (
     assert_family_success, assert_published_data_search_success,
     assert_published_data_search_with_range_success,
-    assert_published_data_success, issue_published_data_request,
-    assert_register_search_success, assert_register_success,
+    assert_published_data_success, assert_register_search_success,
+    assert_register_search_with_range_success, assert_register_success,
+    issue_published_data_request
 )
 
 
@@ -25,16 +26,12 @@ def test_instantiate_simple_client():
     assert client.middlewares[0].history.db_path == sqlite.DEFAULT_DB_PATH
 
 
-def test_published_data(all_clients):
-    assert_published_data_success(all_clients)
-
-
-def test_register(all_clients):
-    assert_register_success(all_clients)
-
-
 def test_family(all_clients):
     assert_family_success(all_clients)
+
+
+def test_published_data(all_clients):
+    assert_published_data_success(all_clients)
 
 
 def test_published_data_search(all_clients):
@@ -45,8 +42,16 @@ def test_published_data_search_with_range(all_clients):
     assert_published_data_search_with_range_success(all_clients)
 
 
+def test_register(all_clients):
+    assert_register_success(all_clients)
+
+
 def test_register_search(all_clients):
     assert_register_search_success(all_clients)
+
+
+def test_register_search_with_range(all_clients):
+    assert_register_search_with_range_success(all_clients)
 
 
 def test_get_access_token(registered_clients):

@@ -29,6 +29,7 @@ def make_service_request_url(
 class Client(object):
     __auth_url__ = 'https://ops.epo.org/3.1/auth/accesstoken'
     __service_url_prefix__ = 'https://ops.epo.org/3.1/rest-services'
+
     __family_path__ = 'family'
     __published_data_path__ = 'published-data'
     __published_data_search_path__ = 'published-data/search'
@@ -86,25 +87,17 @@ class Client(object):
         )
         return self.make_request(url, input.as_api_input())
 
+    def family(self, reference_type, input, endpoint=None, constituents=None):
+        return self._service_request(
+            self.__family_path__, reference_type, input, endpoint, constituents
+        )
+
     def published_data(
         self, reference_type, input, endpoint='biblio', constituents=None
     ):
         return self._service_request(
             self.__published_data_path__, reference_type, input, endpoint,
             constituents
-        )
-
-    def register(
-        self, reference_type, input, endpoint='biblio', constituents=None
-    ):
-        return self._service_request(
-            self.__register_path__, reference_type, input, endpoint,
-            constituents
-        )
-
-    def family(self, reference_type, input, endpoint=None, constituents=None):
-        return self._service_request(
-            self.__family_path__, reference_type, input, endpoint, constituents
         )
 
     def published_data_search(
@@ -120,17 +113,21 @@ class Client(object):
             {'X-OPS-Range': '{0}-{1}'.format(range_begin, range_end)}
         )
 
-    def register_search(
-        self, cql, range_begin=1, range_end=25, constituents=None
-    ):
+    def register(self, reference_type, input, constituents=None):
+        if not constituents:
+            constituents = ['biblio']
+        return self._service_request(
+            self.__register_path__, reference_type, input, None, constituents
+        )
+
+    def register_search(self, cql, range_begin=1, range_end=25):
         url = make_service_request_url(
-            self, self.__register_search_path__, None, None, None,
-            constituents or []
+            self, self.__register_search_path__, None, None, None, []
         )
         return self.make_request(
             url,
             {'q': cql},
-            {'X-OPS-Range': '{0}-{1}'.format(range_begin, range_end)}
+            {'Range': '{0}-{1}'.format(range_begin, range_end)}
         )
 
 
