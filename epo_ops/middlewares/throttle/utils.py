@@ -5,13 +5,15 @@ import re
 
 log = logging.getLogger(__name__)
 
+# Since patterns are searched in order, we need to specify from most to least
+# specific
 URLPATTERNS = (
-    ('published-data/search', 'search'),
-    ('published-data/images', 'images'),
-    ('published-data', 'retrieval'),
+    ('classification/cpc/media', 'images'),
     ('family', 'inpadoc'),
     ('legal', 'inpadoc'),
-    ('classification/cpc/media', 'images'),
+    ('published-data/images', 'images'),
+    ('published-data/search', 'search'),
+    ('published-data', 'retrieval'),
 )
 
 
