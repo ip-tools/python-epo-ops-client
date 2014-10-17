@@ -7,6 +7,8 @@ from epo_ops.exceptions import (
 )
 from epo_ops.models import Docdb
 
+from .secrets import APIARY_URL
+
 
 # Helpers
 def issue_request(client):
@@ -19,7 +21,7 @@ def issue_request(client):
 # Tests
 def test_mock_quota_exceeded(all_clients, monkeypatch):
     monkeypatch.setattr(
-        all_clients, '__service_url_prefix__', 'https://opsv31.apiary.io'
+        all_clients, '__service_url_prefix__', APIARY_URL
     )
     errors = {
         'anonymous-per-min-exceeded': AnonymousQuotaPerMinuteExceeded,
