@@ -6,7 +6,9 @@ log = logging.getLogger(__name__)
 
 
 def kwarg_range_header_handler(**kwargs):
-    headers = kwargs.get('headers', None)
-    if (not headers) or 'X-OPS-Range' not in headers:
-        return ''
-    return 'headers.X-OPS-Range={0}'.format(headers['X-OPS-Range'])
+    keys = []
+    range_headers = ['X-OPS-Range', 'Range']
+    headers = kwargs.get('headers', {})
+    for header in range_headers & headers.keys():
+        keys.append("headers.{0}={1}".format(header, headers[header]))
+    return '|'.join(keys)
