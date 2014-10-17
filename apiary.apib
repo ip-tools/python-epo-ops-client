@@ -20,7 +20,7 @@ be searches.
     ```
 + Response 403 (application/xml)
     + Headers
-    
+
         ```
         X-Rejection-Reason: AnonymousQuotaPerMinute exceeded
         ```
@@ -41,7 +41,7 @@ Anonymous users are allowed to access up to 100MB of data per day.
     ```
 + Response 403 (application/xml)
     + Headers
-    
+
         ```
         X-Rejection-Reason: AnonymousQuotaPerDay exceeded
         ```
@@ -64,7 +64,7 @@ to the 100MB/day limit.
     ```
 + Response 403 (application/xml)
     + Headers
-    
+
         ```
         X-Rejection-Reason: IndividualQuotaPerHour exceeded
         ```
@@ -85,7 +85,7 @@ Each free registered user account is allowed to use 2.5GB per week.
     ```
 + Response 403 (application/xml)
     + Headers
-    
+
         ```
         X-Rejection-Reason: RegisteredQuotaPerWeek
         ```
