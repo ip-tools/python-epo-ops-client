@@ -10,7 +10,7 @@ rdata = ('publication', Epodoc('EP1000000'))
 
 
 def find_range(document, pattern):
-    return re.search("range.*{}".format(pattern), document)
+    return re.search("range.*{0}".format(pattern), document)
 
 
 def assert_request_success(response):
