@@ -31,8 +31,8 @@ guide <http://documents.epo.org/projects/babylon/eponet.nsf/0/7AF8F1D2B36F3056C1
 Features
 --------
 
-python\_epo\_ops\_client abstracts away the complexities of access EPO
-OPS:
+python\_epo\_ops\_client abstracts away the complexities of accessing
+EPO OPS:
 
 -  Format the requests properly
 -  Bubble up quota problems as proper HTTP errors
@@ -51,19 +51,21 @@ what you'll interact with mostly.
 
 When you issue a request, the response is a
 `requests.Response <http://requests.readthedocs.org/en/latest/user/advanced/#request-and-response-objects>`__
-object. If ``response.status_code != 200`` then an exception will be
-raised, it's your responsibility to handle those exceptions if you want
-to. The one case that's handled by the RegisteredClient is when its
-access token has expired: in this case, the client will automatically
-handle the HTTP 400 status and renew the token.
+object. If ``response.status_code != 200`` then a ``requests.HTTPError``
+exception will be raised — it's your responsibility to handle those
+exceptions if you want to. The one case that's handled by the
+RegisteredClient is when its access token has expired: in this case, the
+client will automatically handle the HTTP 400 status and renew the
+token.
 
 Note that the Client does not attempt to interpret the data supplied by
 OPS, so it's your responsibility to parse the XML or JSON payload for
 your own purpose.
 
 The following custom exceptions are raised for cases when OPS quotas are
-exceeded, they are all subclasses of ``requests.HTTPError`` and offer
-the same behavior:
+exceeded, they are all in the ``epo_ops.exceptions`` module and are
+subclasses of ``requests.HTTPError``, and therefore offer the same
+behaviors:
 
 -  AnonymousQuotaPerMinuteExceeded
 -  AnonymousQuotaPerDayExceeded
@@ -72,25 +74,34 @@ the same behavior:
 
 Again, it's up to you to parse the response and decide what to do.
 
-Currently the Client only knows how to issue request for the following
+Currently the Client knows how to issue request for the following
 services:
 
-+--------------------------------------+--------------------------+-------------+
-| method                               | API end point            | throttle    |
-+======================================+==========================+=============+
-| ``client.family()``                  | /family                  | inpadoc     |
-+--------------------------------------+--------------------------+-------------+
-| ``client.published_data()``          | /published-data          | retrieval   |
-+--------------------------------------+--------------------------+-------------+
-| ``client.published_data_search()``   | /published-data/search   | search      |
-+--------------------------------------+--------------------------+-------------+
-| ``client.register()``                | /register                | other       |
-+--------------------------------------+--------------------------+-------------+
-| ``client.register_search()``         | /register/search         | other       |
-+--------------------------------------+--------------------------+-------------+
++-----------------------------------------------------------------------------------+-------------------------+-------------+
+| Client method                                                                     | API end point           | throttle    |
++===================================================================================+=========================+=============+
+| ``family(reference_type, input, endpoint=None, constituents=None)``               | family                  | inpadoc     |
++-----------------------------------------------------------------------------------+-------------------------+-------------+
+| ``published_data(reference_type, input, endpoint='biblio', constituents=None)``   | published-data          | retrieval   |
++-----------------------------------------------------------------------------------+-------------------------+-------------+
+| ``published_data_search(cql, range_begin=1, range_end=25, constituents=None)``    | published-data/search   | search      |
++-----------------------------------------------------------------------------------+-------------------------+-------------+
+| ``register(reference_type, input, constituents=['biblio'])``                      | register                | other       |
++-----------------------------------------------------------------------------------+-------------------------+-------------+
+| ``register_search(cql, range_begin=1, range_end=25)``                             | register/search         | other       |
++-----------------------------------------------------------------------------------+-------------------------+-------------+
 
-Please submit pull requests for other services by enhancing the
-``epo_ops.api.Client`` class.
+See the `OPS
+guide <http://documents.epo.org/projects/babylon/eponet.nsf/0/7AF8F1D2B36F3056C1257C04002E0AD6/$File/OPS_v3.1_documentation_version_1.2.12_en.pdf>`__
+for more information on how to use each service.
+
+Please submit pull requests for the following services by enhancing the
+``epo_ops.api.Client`` class:
+
+-  Legal service
+-  Number service
+-  Images retrieval
+-  Bulk operations
 
 Middleware
 ~~~~~~~~~~
