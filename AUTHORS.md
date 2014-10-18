@@ -2,8 +2,8 @@
 
 ## Development Lead
 
-* George Song <george@55minutes.com>
+* [George Song](https://github.com/gsong)
 
 ## Contributors
 
-* <https://github.com/kobaski>
+* [Hiro Kobashi](https://github.com/kobaski)
