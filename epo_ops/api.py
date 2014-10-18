@@ -15,17 +15,6 @@ from .models import AccessToken, Request
 log = logging.getLogger(__name__)
 
 
-def make_service_request_url(
-    client, service, reference_type, input, endpoint, constituents
-):
-    parts = [
-        client.__service_url_prefix__, service, reference_type,
-        input and input.__class__.__name__.lower(), endpoint,
-        ','.join(constituents)
-    ]
-    return os.path.join(*filter(None, parts))
-
-
 class Client(object):
     __auth_url__ = 'https://ops.epo.org/3.1/auth/accesstoken'
     __service_url_prefix__ = 'https://ops.epo.org/3.1/rest-services'
@@ -43,7 +32,7 @@ class Client(object):
             self.middlewares = [Throttler()]
         self.request = Request(self.middlewares)
 
-    def check_for_exceeded_quota(self, response):
+    def _check_for_exceeded_quota(self, response):
         if (response.status_code != requests.codes.forbidden) or \
            ('X-Rejection-Reason' not in response.headers):
             return response
@@ -57,35 +46,53 @@ class Client(object):
 
         rejection = response.headers['X-Rejection-Reason']
 
-        for reason in reasons:
-            if reason.lower() in rejection.lower():
-                try:
-                    response.raise_for_status()
-                except HTTPError as e:
-                    klass = getattr(exceptions, '{0}Exceeded'.format(reason))
-                    e.__class__ = klass
-                    raise
+        for reason in [r for r in reasons if r.lower() in rejection.lower()]:
+            try:
+                response.raise_for_status()
+            except HTTPError as e:
+                klass = getattr(exceptions, '{0}Exceeded'.format(reason))
+                e.__class__ = klass
+                raise
         return response  # pragma: no cover
 
-    def post(self, url, data, extra_headers=None):
+    def _post(self, url, data, extra_headers=None):
         headers = {'Accept': self.accept_type}
         headers.update(extra_headers or {})
         return self.request.post(url, data=data, headers=headers)
 
-    def make_request(self, url, data, extra_headers=None):
-        response = self.post(url, data, extra_headers)
-        response = self.check_for_exceeded_quota(response)
+    def _make_request(self, url, data, extra_headers=None):
+        response = self._post(url, data, extra_headers)
+        response = self._check_for_exceeded_quota(response)
         response.raise_for_status()
         return response
+
+    def _make_request_url(
+        self, service, reference_type, input, endpoint, constituents
+    ):
+        constituents = constituents or []
+        parts = [
+            self.__service_url_prefix__, service, reference_type,
+            input and input.__class__.__name__.lower(), endpoint,
+            ','.join(constituents)
+        ]
+        return os.path.join(*filter(None, parts))
 
     # Service requests
     def _service_request(
         self, path, reference_type, input, endpoint, constituents
     ):
-        url = make_service_request_url(
-            self, path, reference_type, input, endpoint, constituents or []
+        url = self._make_request_url(
+            path, reference_type, input, endpoint, constituents
         )
-        return self.make_request(url, input.as_api_input())
+        return self._make_request(url, input.as_api_input())
+
+    def _search_request(self, path, cql, range, constituents=None):
+        url = self._make_request_url(path, None, None, None, constituents)
+        return self._make_request(
+            url,
+            {'q': cql},
+            {range['key']: '{begin}-{end}'.format(**range)}
+        )
 
     def family(self, reference_type, input, endpoint=None, constituents=None):
         return self._service_request(
@@ -103,32 +110,21 @@ class Client(object):
     def published_data_search(
         self, cql, range_begin=1, range_end=25, constituents=None
     ):
-        url = make_service_request_url(
-            self, self.__published_data_search_path__, None, None, None,
-            constituents or []
-        )
-        return self.make_request(
-            url,
-            {'q': cql},
-            {'X-OPS-Range': '{0}-{1}'.format(range_begin, range_end)}
+        range = dict(key='X-OPS-Range', begin=range_begin, end=range_end)
+        return self._search_request(
+            self.__published_data_search_path__, cql, range, constituents
         )
 
     def register(self, reference_type, input, constituents=None):
-        if not constituents:
-            constituents = ['biblio']
+        # TODO: input can only be Epodoc, not Docdb
+        constituents = constituents or ['biblio']
         return self._service_request(
             self.__register_path__, reference_type, input, None, constituents
         )
 
     def register_search(self, cql, range_begin=1, range_end=25):
-        url = make_service_request_url(
-            self, self.__register_search_path__, None, None, None, []
-        )
-        return self.make_request(
-            url,
-            {'q': cql},
-            {'Range': '{0}-{1}'.format(range_begin, range_end)}
-        )
+        range = dict(key='Range', begin=range_begin, end=range_end)
+        return self._search_request(self.__register_search_path__, cql, range)
 
 
 class RegisteredClient(Client):
@@ -140,7 +136,7 @@ class RegisteredClient(Client):
         self.secret = secret
         self._access_token = None
 
-    def acquire_token(self):
+    def _acquire_token(self):
         headers = {
             'Authorization': 'Basic {0}'.format(
                 b64encode(
@@ -156,33 +152,33 @@ class RegisteredClient(Client):
         response.raise_for_status()
         self._access_token = AccessToken(response)
 
-    @property
-    def access_token(self):
-        # TODO: Custom auth handler plugin to requests?
-        if (not self._access_token) or \
-           (self._access_token and self._access_token.is_expired):
-            self.acquire_token()
-        return self._access_token
-
-    def check_for_expired_token(self, response):
+    def _check_for_expired_token(self, response):
         if response.status_code != requests.codes.bad:
             return response
 
         message = ET.fromstring(response.content)
         if message.findtext('description') == 'Access token has expired':
-            self.acquire_token()
-            response = self.make_request(
+            self._acquire_token()
+            response = self._make_request(
                 response.request.url, response.request.body
             )
         return response
 
-    def make_request(self, url, data, extra_headers=None):
+    def _make_request(self, url, data, extra_headers=None):
         extra_headers = extra_headers or {}
         token = 'Bearer {0}'.format(self.access_token.token)
         extra_headers['Authorization'] = token
 
-        response = self.post(url, data, extra_headers)
-        response = self.check_for_expired_token(response)
-        response = self.check_for_exceeded_quota(response)
+        response = self._post(url, data, extra_headers)
+        response = self._check_for_expired_token(response)
+        response = self._check_for_exceeded_quota(response)
         response.raise_for_status()
         return response
+
+    @property
+    def access_token(self):
+        # TODO: Custom auth handler plugin to requests?
+        if (not self._access_token) or \
+           (self._access_token and self._access_token.is_expired):
+            self._acquire_token()
+        return self._access_token
