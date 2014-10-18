@@ -1,5 +1,8 @@
 # Release History
 
+## 0.1.5 (2014-10-17)
+* Added support for register retrieval and search
+
 ## 0.1.4 (2014-10-10)
 * Verified PyPy3 support
 * Updated various dependency pacakges

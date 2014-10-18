@@ -75,9 +75,19 @@ Again, it's up to you to parse the response and decide what to do.
 Currently the Client only knows how to issue request for the following
 services:
 
--  /published-data/search (search)
--  /published-data (retrieval)
--  /family (inpadoc)
++--------------------------------------+--------------------------+-------------+
+| method                               | API end point            | throttle    |
++======================================+==========================+=============+
+| ``client.family()``                  | /family                  | inpadoc     |
++--------------------------------------+--------------------------+-------------+
+| ``client.published_data()``          | /published-data          | retrieval   |
++--------------------------------------+--------------------------+-------------+
+| ``client.published_data_search()``   | /published-data/search   | search      |
++--------------------------------------+--------------------------+-------------+
+| ``client.register()``                | /register                | other       |
++--------------------------------------+--------------------------+-------------+
+| ``client.register_search()``         | /register/search         | other       |
++--------------------------------------+--------------------------+-------------+
 
 Please submit pull requests for other services by enhancing the
 ``epo_ops.api.Client`` class.
@@ -133,7 +143,7 @@ Dogpile takes three optional instantiation parameters:
    will use to process the kwargs passed to the request object in order
    to extract elements for generating the cache key. Currently one
    handler is implemented (and instantiated by default) to make sure
-   that the X-OPS-Range request header is part of the cache key.
+   that the range request header is part of the cache key.
 -  ``http_status_codes``: A list of HTTP status codes that you would
    like to have cached. By default 200, 404, 405, and 413 responses are
    cached.
