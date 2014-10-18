@@ -44,6 +44,11 @@ def assert_published_data_search_success(client):
 
 
 def assert_published_data_search_with_range_success(client):
+    response = client.published_data_search('applicant=IBM', 5, 6)
+    assert find_range(response.text, 'begin="5"')
+    assert find_range(response.text, 'end="6"')
+
+    # Second time to make sure our cache key works properly
     response = client.published_data_search('applicant=IBM', 50, 60)
     assert_request_success(response)
     assert 'biblio-search' in response.text
@@ -67,6 +72,10 @@ def assert_register_search_success(client):
 
 
 def assert_register_search_with_range_success(client):
+    response = client.register_search('applicant=IBM', 5, 6)
+    assert find_range(response.text, 'begin="5"')
+    assert find_range(response.text, 'end="6"')
+
     response = client.register_search('applicant=IBM', 50, 60)
     assert_request_success(response)
     assert 'register-documents' in response.text
