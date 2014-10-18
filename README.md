@@ -124,7 +124,7 @@ Tests are written using [pytest][]. To run the tests:
 
 1.  [Register a OPS user login with EPO][OPS registration]
 2.  Create an app
-3.  Set the `OPS_KEY` and `OPS_SECRET` environment variables accordingly
+3.  Set the `APIARY_URL`, `OPS_KEY`, and `OPS_SECRET` environment variables accordingly
 4.  `make test`
 
 The tests must be run with a working internet connection, since both OPS and the [mock Apiary services][Apiary OPS] are online.

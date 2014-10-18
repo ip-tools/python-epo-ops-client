@@ -14,7 +14,6 @@
 ## Additional services
 * Legal service
 * Number service
-* Register service
 * Images retrieval
 * Bulk operations
 
