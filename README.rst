@@ -200,9 +200,11 @@ the tests:
 1. `Register a OPS user login with
    EPO <https://developers.epo.org/user/register>`__
 2. Create an app
-3. Set the ``APIARY_URL``, ``OPS_KEY``, and ``OPS_SECRET`` environment
+3. Look up the Mock Server URL at
+   `Apiary <http://docs.opsv31.apiary.io>`__
+4. Set the ``APIARY_URL``, ``OPS_KEY``, and ``OPS_SECRET`` environment
    variables accordingly
-4. ``make test``
+5. ``make test``
 
 The tests must be run with a working internet connection, since both OPS
 and the `mock Apiary services <http://docs.opsv31.apiary.io>`__ are

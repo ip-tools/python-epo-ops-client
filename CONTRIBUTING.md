@@ -80,6 +80,7 @@ development.
 
     1.  [Register a OPS user login with EPO][OPS registration]
     2.  Create an app
+    3.  Look up the Mock Server URL at [Apiary][Apiary OPS]
     3.  Set the `APIARY_URL`, `OPS_KEY`, and `OPS_SECRET` environment variables accordingly
 
 5.  When you're done making changes, check that your changes pass flake8 and
@@ -122,4 +123,5 @@ $ py.test tests/test_utils.py
 ```
 
 
+[Apiary OPS]: http://docs.opsv31.apiary.io
 [OPS registration]: https://developers.epo.org/user/register

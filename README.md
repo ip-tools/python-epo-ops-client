@@ -132,6 +132,7 @@ Tests are written using [pytest][]. To run the tests:
 
 1.  [Register a OPS user login with EPO][OPS registration]
 2.  Create an app
+3.  Look up the Mock Server URL at [Apiary][Apiary OPS]
 3.  Set the `APIARY_URL`, `OPS_KEY`, and `OPS_SECRET` environment variables accordingly
 4.  `make test`
 
