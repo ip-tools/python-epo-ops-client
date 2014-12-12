@@ -2,7 +2,6 @@
 
 from base64 import b64encode
 import logging
-import os
 import xml.etree.ElementTree as ET
 
 from requests.exceptions import HTTPError
@@ -75,7 +74,7 @@ class Client(object):
             input and input.__class__.__name__.lower(), endpoint,
             ','.join(constituents)
         ]
-        return os.path.join(*filter(None, parts))
+        return u'/'.join(filter(None, parts))
 
     # Service requests
     def _service_request(
