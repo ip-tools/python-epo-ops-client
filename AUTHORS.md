@@ -7,3 +7,4 @@
 ## Contributors
 
 * [Hiro Kobashi](https://github.com/kobaski)
+* [sfranky](https://github.com/sfranky)
