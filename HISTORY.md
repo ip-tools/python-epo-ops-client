@@ -1,5 +1,8 @@
 # Release History
 
+## 0.1.6 (2014-12-12)
+* Fixed bug with how service URL is constructed
+
 ## 0.1.5 (2014-10-17)
 * Added support for register retrieval and search
 
