@@ -3,6 +3,7 @@
 from __future__ import absolute_import
 
 import logging
+import os
 
 from dogpile.cache import make_region
 from dogpile.cache.api import NO_VALUE
@@ -23,6 +24,10 @@ class Dogpile(Middleware):
         self, region=None, kwargs_handlers=None, http_status_codes=None
     ):
         if not region:
+            dbm_path = os.path.dirname(DEFAULT_DBM_PATH)
+            if not os.path.exists(dbm_path):
+                os.makedirs(dbm_path)
+
             region = make_region().configure(
                 'dogpile.cache.dbm',
                 expiration_time=DEFAULT_TIMEOUT,
