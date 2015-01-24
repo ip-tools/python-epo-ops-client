@@ -1,6 +1,11 @@
 Release History
 ===============
 
+0.1.7 (2015-01-24)
+------------------
+
+-  Created default Dogpile DBM path if it doesn't exist
+
 0.1.6 (2014-12-12)
 ------------------
 
@@ -44,4 +49,3 @@ Release History
 ------------------
 
 -  Initial release
-
