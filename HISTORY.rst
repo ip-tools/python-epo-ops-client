@@ -1,6 +1,11 @@
 Release History
 ===============
 
+0.1.9 (2015-07-21)
+------------------
+
+-  No new features, just updating third party dependencies
+
 0.1.8 (2015-01-24)
 ------------------
 
