@@ -24,11 +24,9 @@ class Client(object):
     __register_path__ = 'register'
     __register_search_path__ = 'register/search'
 
-    def __init__(self, accept_type='xml', middlewares=None):
+    def __init__(self, accept_type='xml', middlewares=[Throttler()]):
         self.accept_type = 'application/{0}'.format(accept_type)
         self.middlewares = middlewares
-        if not middlewares:
-            self.middlewares = [Throttler()]
         self.request = Request(self.middlewares)
 
     def _check_for_exceeded_quota(self, response):
@@ -128,7 +126,7 @@ class Client(object):
 
 class RegisteredClient(Client):
     def __init__(
-        self, key, secret, accept_type='xml', middlewares=None
+        self, key, secret, accept_type='xml', middlewares=[Throttler()]
     ):
         super(RegisteredClient, self).__init__(accept_type, middlewares)
         self.key = key
