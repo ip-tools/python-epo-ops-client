@@ -27,7 +27,7 @@ class Client(object):
     def __init__(self, accept_type='xml', middlewares=None):
         self.accept_type = 'application/{0}'.format(accept_type)
         self.middlewares = middlewares
-        if not middlewares:
+        if middlewares is None:
             self.middlewares = [Throttler()]
         self.request = Request(self.middlewares)
 
