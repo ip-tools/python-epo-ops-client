@@ -9,7 +9,7 @@ __title__ = 'python-epo-ops-client'
 __ops_version__ = '3.1'
 __author__ = 'George Song'
 __license__ = 'Apache 2.0'
-__copyright__ = 'Copyright 2014 55 Minutes'
+__copyright__ = 'Copyright 2015 Monozuku'
 
 
 # Set default logging handler to avoid "No handler found" warnings.
