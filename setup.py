@@ -31,7 +31,7 @@ setup(
     ),
     long_description=readme + '\n\n' + history,
     author='George Song',
-    author_email='george@55minutes.com',
+    author_email='george@monozuku.com',
     url='https://github.com/55minutes/python-epo-ops-client',
     download_url=(
         'https://github.com/55minutes/python-epo-ops-client/archive/'
