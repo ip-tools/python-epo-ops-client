@@ -1,5 +1,10 @@
 # Release History
 
+## 1.0.0 (2015-09-20)
+* Allow no middleware to be specified
+* Minor tweaks to development infrastructure, no new features.
+* This has been working for a while now, let's call it 1.0!
+
 ## 0.1.9 (2015-07-21)
 * No new features, just updating third party dependencies
 
