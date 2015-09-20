@@ -1,7 +1,6 @@
 .PHONY: clean-build clean-pyc install-virtualenv-hooks
 
 help:
-	@echo "install-virtualenv-hooks: install post activate and deactivate hooks"
 	@echo "clean: clean-build then clean-pyc"
 	@echo "clean-build: remove build artifacts"
 	@echo "clean-pyc: remove Python file artifacts"
@@ -23,13 +22,6 @@ define bold-yellow-echo
 	@echo $1
 	@tput sgr0
 endef
-
-install-virtualenv-hooks:
-	cp -afi $(PWD)/bin/postactivate $(VIRTUAL_ENV)/bin/
-	cp -afi $(PWD)/bin/postdeactivate $(VIRTUAL_ENV)/bin/
-	@echo
-	$(call bold-yellow-echo, "Don't forget to set the proper OPS credentials in ${VIRTUAL_ENV}/bin/postactivate")
-	$(call bold-yellow-echo, "And then reactivate this virtualenv")
 
 clean: clean-build clean-pyc
 
