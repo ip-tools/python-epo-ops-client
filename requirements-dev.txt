@@ -1,5 +1,6 @@
 -r requirements.txt
 
+bumpversion==0.5.3
 dogpile.cache==0.5.6
 
 # Test
