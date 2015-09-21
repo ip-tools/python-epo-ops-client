@@ -1,6 +1,6 @@
 import pytest
 
-from .secrets import KEY, SECRET
+from .secrets import OPS_KEY, OPS_SECRET
 from .helpers import mkcache, mksqlite, mkthrottler
 
 
@@ -19,7 +19,8 @@ def reset_cached_client(request):
 def reset_cached_registered_client(request):
     from epo_ops import RegisteredClient
     return RegisteredClient(
-        KEY, SECRET, middlewares=[mkcache(request), mkthrottler(request)]
+        OPS_KEY, OPS_SECRET,
+        middlewares=[mkcache(request), mkthrottler(request)]
     )
 
 
@@ -50,14 +51,16 @@ def cached_client(request, module_cache):
 @pytest.fixture(scope='module')
 def default_registered_client(request):
     from epo_ops import RegisteredClient
-    return RegisteredClient(KEY, SECRET, middlewares=[mkthrottler(request)])
+    return RegisteredClient(
+        OPS_KEY, OPS_SECRET, middlewares=[mkthrottler(request)]
+    )
 
 
 @pytest.fixture(scope='module')
 def cached_registered_client(request, module_cache):
     from epo_ops import RegisteredClient
     return RegisteredClient(
-        KEY, SECRET, middlewares=[module_cache, mkthrottler(request)]
+        OPS_KEY, OPS_SECRET, middlewares=[module_cache, mkthrottler(request)]
     )
 
 

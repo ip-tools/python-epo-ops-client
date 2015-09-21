@@ -12,5 +12,5 @@ dotenv_path = abspath(join(dirname(__file__), '../.env'))
 load_dotenv(dotenv_path)
 
 APIARY_URL = os.environ['APIARY_URL']
-KEY = os.environ['OPS_KEY']
-SECRET = os.environ['OPS_SECRET']
+OPS_KEY = os.environ['OPS_KEY']
+OPS_SECRET = os.environ['OPS_SECRET']
