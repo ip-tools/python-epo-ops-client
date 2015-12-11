@@ -4,7 +4,7 @@
 [![Build Status](http://img.shields.io/travis/55minutes/python-epo-ops-client.svg)](https://travis-ci.org/55minutes/python-epo-ops-client)
 [![Coverage Status](http://img.shields.io/coveralls/55minutes/python-epo-ops-client.svg)](https://coveralls.io/r/55minutes/python-epo-ops-client)
 
-python-epo-ops-client is an [Apache2 Licensed][Apache license] client library for accessing the [European Patent Office][EPO]'s ("EPO") [Open Patent Services][OPS] ("OPS") v.3.1 (based on [v 1.2.12 of the reference guide][OPS guide]).
+python-epo-ops-client is an [Apache2 Licensed][Apache license] client library for accessing the [European Patent Office][EPO]'s ("EPO") [Open Patent Services][OPS] ("OPS") v.3.1 (based on [v 1.2.14 of the reference guide][OPS guide]).
 
 ```python
 import epo_ops
@@ -142,7 +142,7 @@ The tests must be run with a working internet connection, since both OPS and the
 [EPO]: http://epo.org
 [OPS]: http://www.epo.org/searching/free/ops.html
 [OPS registration]: https://developers.epo.org/user/register
-[OPS guide]: http://documents.epo.org/projects/babylon/eponet.nsf/0/7AF8F1D2B36F3056C1257C04002E0AD6/$File/OPS_v3.1_documentation_version_1.2.12_en.pdf
+[OPS guide]: http://documents.epo.org/projects/babylon/eponet.nsf/0/7AF8F1D2B36F3056C1257C04002E0AD6/$File/OPS_v3.1_documentation_version_1.2.14_en.pdf
 [Requests]: http://requests.readthedocs.org/en/latest/
 [requests.Response]: http://requests.readthedocs.org/en/latest/user/advanced/#request-and-response-objects
 [pytest]: http://pytest.org/latest/
