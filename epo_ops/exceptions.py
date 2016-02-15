@@ -16,6 +16,11 @@ class MissingRequiredValue(ValueError):
     """User did not supply a required value."""
 
 
+# Number service error
+class InvalidInputFormatMapping(ValueError):
+    """User provided invalid (input format, output format) pair for number."""
+
+
 # OPS quota errors
 class AnonymousQuotaPerMinuteExceeded(HTTPError):
     """Anonymous per minute quota exceeded."""

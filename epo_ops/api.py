@@ -23,6 +23,7 @@ class Client(object):
     __published_data_search_path__ = 'published-data/search'
     __register_path__ = 'register'
     __register_search_path__ = 'register/search'
+    __number_path__ = 'number-service'
 
     def __init__(self, accept_type='xml', middlewares=None):
         self.accept_type = 'application/{0}'.format(accept_type)
@@ -125,6 +126,21 @@ class Client(object):
         range = dict(key='Range', begin=range_begin, end=range_end)
         return self._search_request(self.__register_search_path__, cql, range)
 
+    def number(self, reference_type, input, output_format):
+        allowed_mappings = {
+            'original': ['docdb', 'epodoc'],
+            'docdb': ['original', 'epodoc'],
+            'epodoc': ['original'],
+        }
+        input_format = input.__class__.__name__.lower()
+        if not output_format in allowed_mappings[input_format]:
+            raise exceptions.InvalidInputFormatMapping(
+                'Cannot convert from %s to %s' % (input_format, output_format)
+            )
+        constituents = [output_format]
+        return self._service_request(
+            self.__number_path__, reference_type, input, None, constituents
+        )
 
 class RegisteredClient(Client):
     def __init__(
