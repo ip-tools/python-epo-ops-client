@@ -12,7 +12,7 @@ from .helpers.api_helpers import (
     assert_published_data_search_with_range_success,
     assert_published_data_success, assert_register_search_success,
     assert_register_search_with_range_success, assert_register_success,
-    issue_published_data_request
+    assert_number_service_success, issue_published_data_request
 )
 
 
@@ -52,6 +52,10 @@ def test_register_search(all_clients):
 
 def test_register_search_with_range(all_clients):
     assert_register_search_with_range_success(all_clients)
+
+
+def test_number_service_(all_clients):
+    assert_number_service_success(all_clients)
 
 
 def test_get_access_token(registered_clients):

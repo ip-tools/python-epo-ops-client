@@ -4,6 +4,7 @@ import requests
 
 from epo_ops.models import Docdb
 from epo_ops.models import Epodoc
+from epo_ops.models import Original
 
 data = ('publication', Docdb('1000000', 'EP', 'A1'))
 rdata = ('publication', Epodoc('EP1000000'))
@@ -81,4 +82,14 @@ def assert_register_search_with_range_success(client):
     assert 'register-documents' in response.text
     assert find_range(response.text, 'begin="50"')
     assert find_range(response.text, 'end="60"')
+    return response
+
+
+def assert_number_service_success(client):
+    response = client.number(
+        'application',
+        Original('2006-147056', country_code='JP', kind_code='A'),
+        'docdb'
+    )
+    assert 'ops:standardization' in response.text
     return response
