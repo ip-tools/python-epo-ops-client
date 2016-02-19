@@ -74,8 +74,7 @@ class Client(object):
         parts = [
             self.__service_url_prefix__, service, reference_type,
             input and input.__class__.__name__.lower(), endpoint,
-            ','.join(constituents),
-            output_format
+            ','.join(constituents), output_format
         ]
         return u'/'.join(filter(None, parts))
 
