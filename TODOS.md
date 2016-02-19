@@ -13,7 +13,6 @@
 
 ## Additional services
 * Legal service
-* Number service
 * Images retrieval
 * Bulk operations
 
