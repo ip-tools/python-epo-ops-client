@@ -67,22 +67,25 @@ class Client(object):
         return response
 
     def _make_request_url(
-        self, service, reference_type, input, endpoint, constituents
+        self, service, reference_type, input, endpoint, constituents,
+        output_format=None
     ):
         constituents = constituents or []
         parts = [
             self.__service_url_prefix__, service, reference_type,
             input and input.__class__.__name__.lower(), endpoint,
-            ','.join(constituents)
+            ','.join(constituents),
+            output_format
         ]
         return u'/'.join(filter(None, parts))
 
     # Service requests
     def _service_request(
-        self, path, reference_type, input, endpoint, constituents
+        self, path, reference_type, input, endpoint, constituents,
+        output_format=None
     ):
         url = self._make_request_url(
-            path, reference_type, input, endpoint, constituents
+            path, reference_type, input, endpoint, constituents, output_format
         )
         return self._make_request(url, input.as_api_input())
 
@@ -137,9 +140,9 @@ class Client(object):
             raise exceptions.InvalidInputFormatMapping(
                 'Cannot convert from %s to %s' % (input_format, output_format)
             )
-        constituents = [output_format]
         return self._service_request(
-            self.__number_path__, reference_type, input, None, constituents
+            self.__number_path__, reference_type, input, None, None,
+            output_format
         )
 
 class RegisteredClient(Client):
