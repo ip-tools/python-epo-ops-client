@@ -5,14 +5,16 @@ from requests.exceptions import HTTPError
 import pytest
 
 from epo_ops.api import Client, RegisteredClient
+from epo_ops.exceptions import InvalidNumberConversion
 from epo_ops.middlewares.throttle.storages import sqlite
 
 from .helpers.api_helpers import (
-    assert_family_success, assert_published_data_search_success,
+    assert_family_success, assert_number_service_success,
+    assert_published_data_search_success,
     assert_published_data_search_with_range_success,
     assert_published_data_success, assert_register_search_success,
     assert_register_search_with_range_success, assert_register_success,
-    assert_number_service_success, issue_published_data_request
+    issue_number_request, issue_published_data_request
 )
 
 
@@ -54,8 +56,13 @@ def test_register_search_with_range(all_clients):
     assert_register_search_with_range_success(all_clients)
 
 
-def test_number_service_(all_clients):
+def test_number_service(all_clients):
     assert_number_service_success(all_clients)
+
+
+def test_invalid_number_conversions(default_client):
+    with raises(InvalidNumberConversion):
+        issue_number_request(default_client, 'original')
 
 
 def test_get_access_token(registered_clients):
