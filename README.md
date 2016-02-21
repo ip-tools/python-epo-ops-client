@@ -58,9 +58,11 @@ Currently the Client knows how to issue request for the following services:
 | Client method                                                                 | API end point         | throttle  |
 |-------------------------------------------------------------------------------|-----------------------|-----------|
 | `family(reference_type, input, endpoint=None, constituents=None)`             | family                | inpadoc   |
+| `number(reference_type, input, output_format)`                                | number-service        | other     |
 | `published_data(reference_type, input, endpoint='biblio', constituents=None)` | published-data        | retrieval |
 | `published_data_search(cql, range_begin=1, range_end=25, constituents=None)`  | published-data/search | search    |
 | `register(reference_type, input, constituents=['biblio'])`                    | register              | other     |
+| `register_search(cql, range_begin=1, range_end=25)`                           | register/search       | other     |
 | `register_search(cql, range_begin=1, range_end=25)`                           | register/search       | other     |
 
 See the [OPS guide][] for more information on how to use each service.
