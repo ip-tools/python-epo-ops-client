@@ -1,6 +1,12 @@
 Release History
 ===============
 
+2.1.0 (2016-02-21)
+------------------
+
+-  Add number service (thanks
+   `eltermann <https://github.com/eltermann>`__)
+
 2.0.0 (2015-12-11)
 ------------------
 

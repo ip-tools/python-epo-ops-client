@@ -70,7 +70,6 @@ See the [OPS guide][] for more information on how to use each service.
 Please submit pull requests for the following services by enhancing the `epo_ops.api.Client` class:
 
 * Legal service
-* Number service
 * Images retrieval
 * Bulk operations
 
