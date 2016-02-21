@@ -19,11 +19,11 @@ class Client(object):
     __service_url_prefix__ = 'https://ops.epo.org/3.1/rest-services'
 
     __family_path__ = 'family'
+    __number_path__ = 'number-service'
     __published_data_path__ = 'published-data'
     __published_data_search_path__ = 'published-data/search'
     __register_path__ = 'register'
     __register_search_path__ = 'register/search'
-    __number_path__ = 'number-service'
 
     def __init__(self, accept_type='xml', middlewares=None):
         self.accept_type = 'application/{0}'.format(accept_type)
@@ -99,6 +99,24 @@ class Client(object):
             self.__family_path__, reference_type, input, endpoint, constituents
         )
 
+    def number(self, reference_type, input, output_format):
+        possible_conversions = {
+            'docdb': ['original', 'epodoc'],
+            'epodoc': ['original'],
+            'original': ['docdb', 'epodoc'],
+        }
+        input_format = input.__class__.__name__.lower()
+
+        if output_format not in possible_conversions[input_format]:
+            raise exceptions.InvalidNumberConversion(
+                "Cannot convert from {0} to {1}".format(
+                    input_format, output_format
+                )
+            )
+        return self._service_request(
+            self.__number_path__, reference_type, input, output_format, None
+        )
+
     def published_data(
         self, reference_type, input, endpoint='biblio', constituents=None
     ):
@@ -126,21 +144,6 @@ class Client(object):
         range = dict(key='Range', begin=range_begin, end=range_end)
         return self._search_request(self.__register_search_path__, cql, range)
 
-    def number(self, reference_type, input, output_format):
-        allowed_mappings = {
-            'original': ['docdb', 'epodoc'],
-            'docdb': ['original', 'epodoc'],
-            'epodoc': ['original'],
-        }
-        input_format = input.__class__.__name__.lower()
-        if not output_format in allowed_mappings[input_format]:
-            raise exceptions.InvalidInputFormatMapping(
-                'Cannot convert from %s to %s' % (input_format, output_format)
-            )
-        constituents = [output_format]
-        return self._service_request(
-            self.__number_path__, reference_type, input, None, constituents
-        )
 
 class RegisteredClient(Client):
     def __init__(
