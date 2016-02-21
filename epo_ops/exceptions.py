@@ -17,8 +17,8 @@ class MissingRequiredValue(ValueError):
 
 
 # Number service error
-class InvalidInputFormatMapping(ValueError):
-    """User provided invalid (input format, output format) pair for number."""
+class InvalidNumberConversion(ValueError):
+    """Invalid number conversion request."""
 
 
 # OPS quota errors
