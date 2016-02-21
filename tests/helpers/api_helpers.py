@@ -85,11 +85,15 @@ def assert_register_search_with_range_success(client):
     return response
 
 
-def assert_number_service_success(client):
-    response = client.number(
+def issue_number_request(client, output_format):
+    return client.number(
         'application',
         Original('2006-147056', country_code='JP', kind_code='A'),
-        'docdb'
+        output_format
     )
+
+
+def assert_number_service_success(client):
+    response = issue_number_request(client, 'docdb')
     assert 'ops:standardization' in response.text
     return response
