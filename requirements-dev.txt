@@ -9,8 +9,8 @@ coveralls
 flake8
 pep8
 py==1.4.31  # Explicit for Travis work-around
-pytest-cache==1.0
-pytest-cov==2.2.1
-pytest==2.8.7
-python-dotenv==0.3.0
+pytest-cache
+pytest-cov
+pytest
+python-dotenv
 tox
