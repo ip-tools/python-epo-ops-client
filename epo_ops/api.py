@@ -33,8 +33,10 @@ class Client(object):
         self.request = Request(self.middlewares)
 
     def _check_for_exceeded_quota(self, response):
-        if (response.status_code != requests.codes.forbidden) or \
-           ('X-Rejection-Reason' not in response.headers):
+        if (
+                (response.status_code != requests.codes.forbidden) or
+                ('X-Rejection-Reason' not in response.headers)
+        ):
             return response
 
         reasons = (
@@ -196,7 +198,9 @@ class RegisteredClient(Client):
     @property
     def access_token(self):
         # TODO: Custom auth handler plugin to requests?
-        if (not self._access_token) or \
-           (self._access_token and self._access_token.is_expired):
+        if (
+                (not self._access_token) or
+                (self._access_token and self._access_token.is_expired)
+        ):
             self._acquire_token()
         return self._access_token

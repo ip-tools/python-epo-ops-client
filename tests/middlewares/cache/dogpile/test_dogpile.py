@@ -26,8 +26,9 @@ def test_default_instantiation():
 
 def test_generate_key(module_cache):
     assert module_cache.generate_key('a', 'b', x='y') == prefix('a|b')
-    assert module_cache.generate_key('a', 'b', headers={'X-OPS-Range': 5}) ==\
+    assert module_cache.generate_key('a', 'b', headers={'X-OPS-Range': 5}) == (
         prefix('a|b|headers.X-OPS-Range=5')
+    )
     assert module_cache.generate_key(
         'a', 'b', headers={'X-OPS-Range': 5}, x='x'
     ) == prefix('a|b|headers.X-OPS-Range=5')

@@ -16,16 +16,14 @@ from .helpers.conftest_helpers import ServiceSnapshot, ThrottleSnapshot
 
 
 def generate_timestamps(deltas):
-    timestamps = []
-    for d in deltas:
-        timestamps.append(now() - timedelta(minutes=d))
-    return timestamps
+    return [now() - timedelta(minutes=d) for d in deltas]
 
 
 def make_throttle_snapshot(system_status, services):
-    snapshots = []
-    for service, (status, limit) in services.items():
-        snapshots.append(ServiceSnapshot(service, status, limit))
+    snapshots = [
+        ServiceSnapshot(service, status, limit) for service, (status, limit) in
+        services.items()
+    ]
     return ThrottleSnapshot(system_status, snapshots)
 
 

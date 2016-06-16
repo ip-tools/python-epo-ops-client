@@ -29,9 +29,7 @@ class ThrottleSnapshot(object):
         }
 
     def as_header(self):
-        services = []
-        for status in self.service_statuses:
-            services.append(status.as_header())
+        services = [status.as_header() for status in self.service_statuses]
         return '{0} ({1})'.format(self.system_status, ', '.join(services))
 
     def as_dict(self):

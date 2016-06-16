@@ -9,11 +9,10 @@ from epo_ops.middlewares.throttle.utils import URLPATTERNS, service_for_url
 
 @pytest.fixture
 def urls():
-    test_urls = []
-    for path, service in URLPATTERNS + (('xxx', 'other'),):
-        test_urls.append((
-            os.path.join(Client.__service_url_prefix__, path, 'xxx'), service
-        ))
+    test_urls = [
+        (os.path.join(Client.__service_url_prefix__, path, 'xxx'), service) for
+        path, service in URLPATTERNS + (('xxx', 'other'),)
+    ]
     shuffle(test_urls)
     return test_urls
 

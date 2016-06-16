@@ -118,8 +118,10 @@ class SQLite(Storage):
         if not r:  # If there are no rows
             next_run = _now
         elif r[limit] == 0:
-            next_run = r['timestamp'] +\
+            next_run = (
+                r['timestamp'] +
                 timedelta(milliseconds=r['{0}_retry_after'.format(service)])
+            )
         else:
             next_run = _now + timedelta(seconds=60. / r[limit])
         td = (next_run - _now)

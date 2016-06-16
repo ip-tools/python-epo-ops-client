@@ -73,8 +73,9 @@ def test_update_with_header(
     storage.update(header)
     assert table_count(storage) == 1
     assert now() > single_col_query(storage, 'timestamp') > start
-    assert single_col_query(storage, 'system_status') ==\
+    assert single_col_query(storage, 'system_status') == (
         throttle_snapshot.system_status
+    )
     for s in throttle_snapshot.service_statuses:
         for service, (col, val) in product(
             [s.service], zip(('status', 'limit'), (s.status, s.limit))

@@ -57,8 +57,10 @@ class AccessToken(object):
         self._content = response.json()
         self.response = response
         self.token = self._content['access_token']
-        self.expiration = datetime.now() + \
+        self.expiration = (
+            datetime.now() +
             timedelta(seconds=int(self._content['expires_in']))
+        )
 
     @property
     def is_expired(self):
