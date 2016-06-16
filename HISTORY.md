@@ -1,5 +1,8 @@
 # Release History
 
+## 2.1.1 (2016-06-16)
+* Update to latest dependencies, no new features.
+
 ## 2.1.0 (2016-02-21)
 * Add number service (thanks [eltermann](https://github.com/eltermann))
 
