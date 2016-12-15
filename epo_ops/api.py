@@ -15,8 +15,8 @@ log = logging.getLogger(__name__)
 
 
 class Client(object):
-    __auth_url__ = 'https://ops.epo.org/3.1/auth/accesstoken'
-    __service_url_prefix__ = 'https://ops.epo.org/3.1/rest-services'
+    __auth_url__ = 'https://ops.epo.org/3.2/auth/accesstoken'
+    __service_url_prefix__ = 'https://ops.epo.org/3.2/rest-services'
 
     __family_path__ = 'family'
     __number_path__ = 'number-service'
