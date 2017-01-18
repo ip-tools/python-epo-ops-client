@@ -77,30 +77,30 @@ Again, it's up to you to parse the response and decide what to do.
 Currently the Client knows how to issue request for the following
 services:
 
-+---------------------------------------------------+----------------+---------+
-| Client method                                     | API end point  | throttl |
-|                                                   |                | e       |
-+===================================================+================+=========+
-| ``family(reference_type, input, endpoint=None, co | family         | inpadoc |
-| nstituents=None)``                                |                |         |
-+---------------------------------------------------+----------------+---------+
-| ``number(reference_type, input, output_format)``  | number-service | other   |
-+---------------------------------------------------+----------------+---------+
-| ``published_data(reference_type, input, endpoint= | published-data | retriev |
-| 'biblio', constituents=None)``                    |                | al      |
-+---------------------------------------------------+----------------+---------+
-| ``published_data_search(cql, range_begin=1, range | published-data | search  |
-| _end=25, constituents=None)``                     | /search        |         |
-+---------------------------------------------------+----------------+---------+
-| ``register(reference_type, input, constituents=[' | register       | other   |
-| biblio'])``                                       |                |         |
-+---------------------------------------------------+----------------+---------+
-| ``register_search(cql, range_begin=1, range_end=2 | register/searc | other   |
-| 5)``                                              | h              |         |
-+---------------------------------------------------+----------------+---------+
-| ``register_search(cql, range_begin=1, range_end=2 | register/searc | other   |
-| 5)``                                              | h              |         |
-+---------------------------------------------------+----------------+---------+
++---------------------------------------------------+-----------------------+-----------+
+| Client method                                     | API end point         | throttle  |
+|                                                   |                       |           |
++===================================================+=======================+===========+
+| ``family(reference_type, input, endpoint=None,    | family                | inpadoc   |
+| constituents=None)``                              |                       |           |
++---------------------------------------------------+-----------------------+-----------+
+| ``number(reference_type, input, output_format)``  | number-service        | other     |
++---------------------------------------------------+-----------------------+-----------+
+| ``published_data(reference_type, input,           | published-data        | retrieval |
+| endpoint='biblio', constituents=None)``           |                       |           |
++---------------------------------------------------+-----------------------+-----------+
+| ``published_data_search(cql, range_begin=1,       | published-data/search | search    |
+| range_end=25, constituents=None)``                |                       |           |
++---------------------------------------------------+-----------------------+-----------+
+| ``register(reference_type, input,                 | register              | other     |
+| constituents=['biblio'])``                        |                       |           |
++---------------------------------------------------+-----------------------+-----------+
+| ``register_search(cql, range_begin=1,             | register/search       | other     |
+| range_end=25)``                                   |                       |           |
++---------------------------------------------------+-----------------------+-----------+
+| ``register_search(cql, range_begin=1,             | register/search       | other     |
+| range_end=25)``                                   |                       |           |
++---------------------------------------------------+-----------------------+-----------+
 
 See the `OPS
 guide <http://documents.epo.org/projects/babylon/eponet.nsf/0/7AF8F1D2B36F3056C1257C04002E0AD6/$File/OPS_v3.1_documentation_version_1.2.14_en.pdf>`__
