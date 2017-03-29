@@ -45,8 +45,6 @@ class Client(object):
             return response
 
         reasons = (
-            'AnonymousQuotaPerMinute',
-            'AnonymousQuotaPerDay',
             'IndividualQuotaPerHour',
             'RegisteredQuotaPerWeek',
         )

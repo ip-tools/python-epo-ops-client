@@ -3,7 +3,7 @@
 import logging
 
 from .__version__ import __version__
-from .api import Client, RegisteredClient
+from .api import Client
 
 __title__ = 'python-epo-ops-client'
 __ops_version__ = '3.2'

@@ -14,17 +14,13 @@ guide <http://documents.epo.org/projects/babylon/eponet.nsf/0/F3ECDCC915C9BCD8C1
 
     import epo_ops
 
-    anonymous_client = epo_ops.Client()  # Instantiate a default client
-    response = anonymous_client.published_data(  # Retrieve bibliography data
+    client = epo_ops.Client(key='abc', secret='xyz') # Instantiate client
+    response = client.published_data(  # Retrieve bibliography data
       reference_type = 'publication',  # publication, application, priority
       input = epo_ops.models.Docdb('1000000', 'EP', 'A1'),  # original, docdb, epodoc
       endpoint = 'biblio',  # optional, defaults to biblio in case of published_data
       constituents = []  # optional, list of constituents
     )
-
-    registered_client = epo_ops.RegisteredClient(key='abc', secret='xyz')
-    registered_client.access_token  # To see the current token
-    response = registered_client.published_data(…)
 
 --------------
 
@@ -53,10 +49,9 @@ When you issue a request, the response is a
 `requests.Response <http://requests.readthedocs.org/en/latest/user/advanced/#request-and-response-objects>`__
 object. If ``response.status_code != 200`` then a ``requests.HTTPError``
 exception will be raised — it's your responsibility to handle those
-exceptions if you want to. The one case that's handled by the
-RegisteredClient is when its access token has expired: in this case, the
-client will automatically handle the HTTP 400 status and renew the
-token.
+exceptions if you want to. The one case that's handled is when the access
+token has expired: in this case, the client will automatically handle the
+HTTP 400 status and renew the token.
 
 Note that the Client does not attempt to interpret the data supplied by
 OPS, so it's your responsibility to parse the XML or JSON payload for
@@ -67,8 +62,6 @@ exceeded, they are all in the ``epo_ops.exceptions`` module and are
 subclasses of ``requests.HTTPError``, and therefore offer the same
 behaviors:
 
--  AnonymousQuotaPerMinuteExceeded
--  AnonymousQuotaPerDayExceeded
 -  IndividualQuotaPerHourExceeded
 -  RegisteredQuotaPerWeekExceeded
 
@@ -139,7 +132,7 @@ enable caching:
         epo_ops.middlewares.Dogpile(),
         epo_ops.middlewares.Throttler(),
     ]
-    registered_client = epo_ops.RegisteredClient(
+    client = epo_ops.Client(
         key='key',
         secret='secret',
         middlewares=middlewares,
