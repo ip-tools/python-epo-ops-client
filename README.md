@@ -9,7 +9,7 @@ python-epo-ops-client is an [Apache2 Licensed][Apache license] client library fo
 ```python
 import epo_ops
 
-client = epo_ops.Client(key='abc', secret='xyz') # Instantiate client
+client = epo_ops.Client(key='abc', secret='xyz')  # Instantiate client
 response = client.published_data(  # Retrieve bibliography data
   reference_type = 'publication',  # publication, application, priority
   input = epo_ops.models.Docdb('1000000', 'EP', 'A1'),  # original, docdb, epodoc

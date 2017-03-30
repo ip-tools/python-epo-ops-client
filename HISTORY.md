@@ -1,10 +1,10 @@
 # Release History
 
-## 2.1.1 (2016-06-16)
-* Update to latest dependencies, no new features.
+## 2.2.0 (2017-03-30)
+* EPO OPS v3.2 compatibility, thanks to [eltermann][]
 
 ## 2.1.0 (2016-02-21)
-* Add number service (thanks [eltermann](https://github.com/eltermann))
+* Add number service, thanks to [eltermann][]
 
 ## 2.0.0 (2015-12-11)
 * Dropping support for Python 3.3 (although it probably still works).
@@ -50,3 +50,6 @@
 
 ## 0.0.1 (2014-01-21)
 * Initial release
+
+
+[eltermann]: https://github.com/eltermann

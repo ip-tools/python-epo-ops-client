@@ -1,11 +1,15 @@
 Release History
 ===============
 
+2.2.0 (2017-03-30)
+------------------
+
+-  EPO OPS v3.2 compatibility, thanks to `eltermann`_
+
 2.1.0 (2016-02-21)
 ------------------
 
--  Add number service (thanks
-   `eltermann <https://github.com/eltermann>`__)
+-  Add number service, thanks to `eltermann`_
 
 2.0.0 (2015-12-11)
 ------------------
@@ -78,3 +82,5 @@ Release History
 ------------------
 
 -  Initial release
+
+.. _eltermann: https://github.com/eltermann

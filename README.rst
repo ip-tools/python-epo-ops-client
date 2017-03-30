@@ -3,18 +3,15 @@ python-epo-ops-client
 
 |PyPI version| |Build Status| |Coverage Status|
 
-python-epo-ops-client is an `Apache2
-Licensed <http://www.apache.org/licenses/LICENSE-2.0>`__ client library
-for accessing the `European Patent Office <http://epo.org>`__'s ("EPO")
-`Open Patent Services <http://www.epo.org/searching/free/ops.html>`__
-("OPS") v.3.2 (based on `v 1.3.1 of the reference
-guide <http://documents.epo.org/projects/babylon/eponet.nsf/0/F3ECDCC915C9BCD8C1258060003AA712/$File/ops_v3_2_documentation_version_1_3_1_en.pdf>`__).
+python-epo-ops-client is an `Apache2 Licensed`_ client library for
+accessing the `European Patent Office`_'s ("EPO") `Open Patent
+Services`_ ("OPS") v.3.2 (based on `v 1.3.1 of the reference guide`_).
 
 .. code:: python
 
     import epo_ops
 
-    client = epo_ops.Client(key='abc', secret='xyz') # Instantiate client
+    client = epo_ops.Client(key='abc', secret='xyz')  # Instantiate client
     response = client.published_data(  # Retrieve bibliography data
       reference_type = 'publication',  # publication, application, priority
       input = epo_ops.models.Docdb('1000000', 'EP', 'A1'),  # original, docdb, epodoc
@@ -45,13 +42,12 @@ Client
 The Client contains all the formatting and token handling logic and is
 what you'll interact with mostly.
 
-When you issue a request, the response is a
-`requests.Response <http://requests.readthedocs.org/en/latest/user/advanced/#request-and-response-objects>`__
-object. If ``response.status_code != 200`` then a ``requests.HTTPError``
+When you issue a request, the response is a `requests.Response`_ object.
+If ``response.status_code != 200`` then a ``requests.HTTPError``
 exception will be raised — it's your responsibility to handle those
-exceptions if you want to. The one case that's handled is when the access
-token has expired: in this case, the client will automatically handle the
-HTTP 400 status and renew the token.
+exceptions if you want to. The one case that's handled is when the
+access token has expired: in this case, the client will automatically
+handle the HTTP 400 status and renew the token.
 
 Note that the Client does not attempt to interpret the data supplied by
 OPS, so it's your responsibility to parse the XML or JSON payload for
@@ -95,9 +91,7 @@ services:
 | range_end=25)``                                   |                       |           |
 +---------------------------------------------------+-----------------------+-----------+
 
-See the `OPS
-guide <http://documents.epo.org/projects/babylon/eponet.nsf/0/F3ECDCC915C9BCD8C1258060003AA712/$File/ops_v3_2_documentation_version_1_3_1_en.pdf>`__
-for more information on how to use each service.
+See the `OPS guide`_ for more information on how to use each service.
 
 Please submit pull requests for the following services by enhancing the
 ``epo_ops.api.Client`` class:
@@ -143,16 +137,13 @@ enable caching:
 Dogpile
 ^^^^^^^
 
-Dogpile is based on (surprise)
-`dogpile.cache <https://bitbucket.org/zzzeek/dogpile.cache>`__. By
-default it is instantiated with a DBMBackend region with timeout of 2
-weeks.
+Dogpile is based on (surprise) `dogpile.cache`_. By default it is
+instantiated with a DBMBackend region with timeout of 2 weeks.
 
 Dogpile takes three optional instantiation parameters:
 
--  ``region``: You can pass whatever valid `dogpile.cache
-   Region <http://dogpilecache.readthedocs.org/en/latest/api.html#module-dogpile.cache.region>`__
-   you want to backend the cache
+-  ``region``: You can pass whatever valid `dogpile.cache Region`_ you
+   want to backend the cache
 -  ``kwargs_handlers``: A list of keyword argument handlers, which it
    will use to process the kwargs passed to the request object in order
    to extract elements for generating the cache key. Currently one
@@ -197,21 +188,30 @@ implementation details.
 Tests
 -----
 
-Tests are written using `pytest <http://pytest.org/latest/>`__. To run
-the tests:
+Tests are written using `pytest`_. To run the tests:
 
-1. `Register a OPS user login with
-   EPO <https://developers.epo.org/user/register>`__
+1. `Register a OPS user login with EPO`_
 2. Create an app
-3. Look up the Mock Server URL at
-   `Apiary <http://docs.opsv31.apiary.io>`__
+3. Look up the Mock Server URL at `Apiary`_
 4. Set the ``APIARY_URL``, ``OPS_KEY``, and ``OPS_SECRET`` environment
    variables accordingly
 5. ``make test``
 
 The tests must be run with a working internet connection, since both OPS
-and the `mock Apiary services <http://docs.opsv31.apiary.io>`__ are
-online.
+and the `mock Apiary services`_ are online.
+
+.. _Apache2 Licensed: http://www.apache.org/licenses/LICENSE-2.0
+.. _European Patent Office: http://epo.org
+.. _Open Patent Services: http://www.epo.org/searching/free/ops.html
+.. _v 1.3.1 of the reference guide: http://documents.epo.org/projects/babylon/eponet.nsf/0/F3ECDCC915C9BCD8C1258060003AA712/$File/ops_v3_2_documentation_version_1_3_1_en.pdf
+.. _requests.Response: http://requests.readthedocs.org/en/latest/user/advanced/#request-and-response-objects
+.. _OPS guide: http://documents.epo.org/projects/babylon/eponet.nsf/0/F3ECDCC915C9BCD8C1258060003AA712/$File/ops_v3_2_documentation_version_1_3_1_en.pdf
+.. _dogpile.cache: https://bitbucket.org/zzzeek/dogpile.cache
+.. _dogpile.cache Region: http://dogpilecache.readthedocs.org/en/latest/api.html#module-dogpile.cache.region
+.. _pytest: http://pytest.org/latest/
+.. _Register a OPS user login with EPO: https://developers.epo.org/user/register
+.. _Apiary: http://docs.opsv31.apiary.io
+.. _mock Apiary services: http://docs.opsv31.apiary.io
 
 .. |PyPI version| image:: http://img.shields.io/pypi/v/python-epo-ops-client.svg
    :target: https://pypi.python.org/pypi/python-epo-ops-client
