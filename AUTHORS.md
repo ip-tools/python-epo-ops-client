@@ -6,6 +6,6 @@
 
 ## Contributors
 
+* [Felipe Eltermann](https://github.com/eltermann)
 * [Hiro Kobashi](https://github.com/kobaski)
-* [sfranky](https://github.com/sfranky)
-* [eltermann](https://github.com/eltermann)
+* [Sotiris Fragkiskos](https://github.com/sfranky)
