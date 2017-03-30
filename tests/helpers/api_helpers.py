@@ -16,7 +16,7 @@ def find_range(document, pattern):
 
 def assert_request_success(response):
     assert response.status_code == requests.codes.ok
-    assert response.headers['X-API'] == 'ops-v3.1'
+    assert response.headers['X-API'] == 'ops-v3.2'
 
 
 def assert_family_success(client):

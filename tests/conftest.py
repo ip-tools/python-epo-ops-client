@@ -12,20 +12,14 @@ def storage(request):
 @pytest.fixture
 def reset_cached_client(request):
     from epo_ops import Client
-    return Client(middlewares=[mkcache(request), mkthrottler(request)])
-
-
-@pytest.fixture
-def reset_cached_registered_client(request):
-    from epo_ops import RegisteredClient
-    return RegisteredClient(
+    return Client(
         OPS_KEY, OPS_SECRET,
         middlewares=[mkcache(request), mkthrottler(request)]
     )
 
 
 @pytest.fixture(
-    params=['reset_cached_client', 'reset_cached_registered_client']
+    params=['reset_cached_client']
 )
 def reset_cached_clients(request):
     return request.getfuncargvalue(request.param)
@@ -39,42 +33,30 @@ def module_cache(request):
 @pytest.fixture(scope='module')
 def default_client(request):
     from epo_ops import Client
-    return Client(middlewares=[mkthrottler(request)])
-
-
-@pytest.fixture(scope='module')
-def cached_client(request, module_cache):
-    from epo_ops import Client
-    return Client(middlewares=[module_cache, mkthrottler(request)])
-
-
-@pytest.fixture(scope='module')
-def default_registered_client(request):
-    from epo_ops import RegisteredClient
-    return RegisteredClient(
+    return Client(
         OPS_KEY, OPS_SECRET, middlewares=[mkthrottler(request)]
     )
 
 
 @pytest.fixture(scope='module')
-def cached_registered_client(request, module_cache):
-    from epo_ops import RegisteredClient
-    return RegisteredClient(
+def cached_client(request, module_cache):
+    from epo_ops import Client
+    return Client(
         OPS_KEY, OPS_SECRET, middlewares=[module_cache, mkthrottler(request)]
     )
 
 
 @pytest.fixture(
     scope='module',
-    params=['cached_registered_client', 'default_registered_client']
+    params=['cached_client', 'default_client']
 )
-def registered_clients(request):
+def clients(request):
     return request.getfuncargvalue(request.param)
 
 
 @pytest.fixture(
     scope='module',
-    params=['default_client', 'default_registered_client']
+    params=['default_client']
 )
 def non_cached_clients(request):
     return request.getfuncargvalue(request.param)
@@ -82,7 +64,7 @@ def non_cached_clients(request):
 
 @pytest.fixture(
     scope='module',
-    params=['cached_client', 'cached_registered_client']
+    params=['cached_client']
 )
 def cached_clients(request):
     return request.getfuncargvalue(request.param)
@@ -90,10 +72,7 @@ def cached_clients(request):
 
 @pytest.fixture(
     scope='module',
-    params=[
-        'cached_client', 'cached_registered_client', 'default_client',
-        'default_registered_client'
-    ]
+    params=['cached_client', 'default_client']
 )
 def all_clients(request):
     return request.getfuncargvalue(request.param)

@@ -7,24 +7,20 @@ python-epo-ops-client is an `Apache2
 Licensed <http://www.apache.org/licenses/LICENSE-2.0>`__ client library
 for accessing the `European Patent Office <http://epo.org>`__'s ("EPO")
 `Open Patent Services <http://www.epo.org/searching/free/ops.html>`__
-("OPS") v.3.1 (based on `v 1.2.14 of the reference
-guide <http://documents.epo.org/projects/babylon/eponet.nsf/0/7AF8F1D2B36F3056C1257C04002E0AD6/$File/OPS_v3.1_documentation_version_1.2.14_en.pdf>`__).
+("OPS") v.3.2 (based on `v 1.3.1 of the reference
+guide <http://documents.epo.org/projects/babylon/eponet.nsf/0/F3ECDCC915C9BCD8C1258060003AA712/$File/ops_v3_2_documentation_version_1_3_1_en.pdf>`__).
 
 .. code:: python
 
     import epo_ops
 
-    anonymous_client = epo_ops.Client()  # Instantiate a default client
-    response = anonymous_client.published_data(  # Retrieve bibliography data
+    client = epo_ops.Client(key='abc', secret='xyz') # Instantiate client
+    response = client.published_data(  # Retrieve bibliography data
       reference_type = 'publication',  # publication, application, priority
       input = epo_ops.models.Docdb('1000000', 'EP', 'A1'),  # original, docdb, epodoc
       endpoint = 'biblio',  # optional, defaults to biblio in case of published_data
       constituents = []  # optional, list of constituents
     )
-
-    registered_client = epo_ops.RegisteredClient(key='abc', secret='xyz')
-    registered_client.access_token  # To see the current token
-    response = registered_client.published_data(…)
 
 --------------
 
@@ -53,10 +49,9 @@ When you issue a request, the response is a
 `requests.Response <http://requests.readthedocs.org/en/latest/user/advanced/#request-and-response-objects>`__
 object. If ``response.status_code != 200`` then a ``requests.HTTPError``
 exception will be raised — it's your responsibility to handle those
-exceptions if you want to. The one case that's handled by the
-RegisteredClient is when its access token has expired: in this case, the
-client will automatically handle the HTTP 400 status and renew the
-token.
+exceptions if you want to. The one case that's handled is when the access
+token has expired: in this case, the client will automatically handle the
+HTTP 400 status and renew the token.
 
 Note that the Client does not attempt to interpret the data supplied by
 OPS, so it's your responsibility to parse the XML or JSON payload for
@@ -67,8 +62,6 @@ exceeded, they are all in the ``epo_ops.exceptions`` module and are
 subclasses of ``requests.HTTPError``, and therefore offer the same
 behaviors:
 
--  AnonymousQuotaPerMinuteExceeded
--  AnonymousQuotaPerDayExceeded
 -  IndividualQuotaPerHourExceeded
 -  RegisteredQuotaPerWeekExceeded
 
@@ -103,7 +96,7 @@ services:
 +---------------------------------------------------+-----------------------+-----------+
 
 See the `OPS
-guide <http://documents.epo.org/projects/babylon/eponet.nsf/0/7AF8F1D2B36F3056C1257C04002E0AD6/$File/OPS_v3.1_documentation_version_1.2.14_en.pdf>`__
+guide <http://documents.epo.org/projects/babylon/eponet.nsf/0/F3ECDCC915C9BCD8C1258060003AA712/$File/ops_v3_2_documentation_version_1_3_1_en.pdf>`__
 for more information on how to use each service.
 
 Please submit pull requests for the following services by enhancing the
@@ -139,7 +132,7 @@ enable caching:
         epo_ops.middlewares.Dogpile(),
         epo_ops.middlewares.Throttler(),
     ]
-    registered_client = epo_ops.RegisteredClient(
+    client = epo_ops.Client(
         key='key',
         secret='secret',
         middlewares=middlewares,

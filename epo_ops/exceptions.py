@@ -22,17 +22,9 @@ class InvalidNumberConversion(ValueError):
 
 
 # OPS quota errors
-class AnonymousQuotaPerMinuteExceeded(HTTPError):
-    """Anonymous per minute quota exceeded."""
-
-
-class AnonymousQuotaPerDayExceeded(HTTPError):
-    """Anonymous per day quota exceeded."""
-
-
 class IndividualQuotaPerHourExceeded(HTTPError):
-    """Anonymous per day quota exceeded."""
+    """Quota per hour (approx 450MB) exceeded."""
 
 
 class RegisteredQuotaPerWeekExceeded(HTTPError):
-    """Anonymous per day quota exceeded."""
+    """Quota per week (2.5GB) exceeded."""

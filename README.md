@@ -4,22 +4,18 @@
 [![Build Status](http://img.shields.io/travis/55minutes/python-epo-ops-client.svg)](https://travis-ci.org/55minutes/python-epo-ops-client)
 [![Coverage Status](http://img.shields.io/coveralls/55minutes/python-epo-ops-client.svg)](https://coveralls.io/r/55minutes/python-epo-ops-client)
 
-python-epo-ops-client is an [Apache2 Licensed][Apache license] client library for accessing the [European Patent Office][EPO]'s ("EPO") [Open Patent Services][OPS] ("OPS") v.3.1 (based on [v 1.2.14 of the reference guide][OPS guide]).
+python-epo-ops-client is an [Apache2 Licensed][Apache license] client library for accessing the [European Patent Office][EPO]'s ("EPO") [Open Patent Services][OPS] ("OPS") v.3.2 (based on [v 1.3.1 of the reference guide][OPS guide]).
 
 ```python
 import epo_ops
 
-anonymous_client = epo_ops.Client()  # Instantiate a default client
-response = anonymous_client.published_data(  # Retrieve bibliography data
+client = epo_ops.Client(key='abc', secret='xyz') # Instantiate client
+response = client.published_data(  # Retrieve bibliography data
   reference_type = 'publication',  # publication, application, priority
   input = epo_ops.models.Docdb('1000000', 'EP', 'A1'),  # original, docdb, epodoc
   endpoint = 'biblio',  # optional, defaults to biblio in case of published_data
   constituents = []  # optional, list of constituents
 )
-
-registered_client = epo_ops.RegisteredClient(key='abc', secret='xyz')
-registered_client.access_token  # To see the current token
-response = registered_client.published_data(…)
 ```
 
 ---
@@ -40,14 +36,12 @@ There are two main layers to python_epo_ops_client: Client and Middleware.
 
 The Client contains all the formatting and token handling logic and is what you'll interact with mostly.
 
-When you issue a request, the response is a [requests.Response][requests.Response] object. If `response.status_code != 200` then a `requests.HTTPError` exception will be raised — it's your responsibility to handle those exceptions if you want to. The one case that's handled by the RegisteredClient is when its access token has expired: in this case, the client will automatically handle the HTTP 400 status and renew the token.
+When you issue a request, the response is a [requests.Response][requests.Response] object. If `response.status_code != 200` then a `requests.HTTPError` exception will be raised — it's your responsibility to handle those exceptions if you want to. The one case that's handled is when the access token has expired: in this case, the client will automatically handle the HTTP 400 status and renew the token.
 
 Note that the Client does not attempt to interpret the data supplied by OPS, so it's your responsibility to parse the XML or JSON payload for your own purpose.
 
 The following custom exceptions are raised for cases when OPS quotas are exceeded, they are all in the `epo_ops.exceptions` module and are subclasses of `requests.HTTPError`, and therefore offer the same behaviors:
 
-* AnonymousQuotaPerMinuteExceeded
-* AnonymousQuotaPerDayExceeded
 * IndividualQuotaPerHourExceeded
 * RegisteredQuotaPerWeekExceeded
 
@@ -91,7 +85,7 @@ middlewares = [
     epo_ops.middlewares.Dogpile(),
     epo_ops.middlewares.Throttler(),
 ]
-registered_client = epo_ops.RegisteredClient(
+client = epo_ops.Client(
     key='key',
     secret='secret',
     middlewares=middlewares,
@@ -143,7 +137,7 @@ The tests must be run with a working internet connection, since both OPS and the
 [EPO]: http://epo.org
 [OPS]: http://www.epo.org/searching/free/ops.html
 [OPS registration]: https://developers.epo.org/user/register
-[OPS guide]: http://documents.epo.org/projects/babylon/eponet.nsf/0/7AF8F1D2B36F3056C1257C04002E0AD6/$File/OPS_v3.1_documentation_version_1.2.14_en.pdf
+[OPS guide]: http://documents.epo.org/projects/babylon/eponet.nsf/0/F3ECDCC915C9BCD8C1258060003AA712/$File/ops_v3_2_documentation_version_1_3_1_en.pdf
 [Requests]: http://requests.readthedocs.org/en/latest/
 [requests.Response]: http://requests.readthedocs.org/en/latest/user/advanced/#request-and-response-objects
 [pytest]: http://pytest.org/latest/

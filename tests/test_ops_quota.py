@@ -2,7 +2,6 @@ from pytest import raises
 import pytest
 
 from epo_ops.exceptions import (
-    AnonymousQuotaPerDayExceeded, AnonymousQuotaPerMinuteExceeded,
     IndividualQuotaPerHourExceeded, RegisteredQuotaPerWeekExceeded
 )
 from epo_ops.models import Docdb
@@ -24,8 +23,6 @@ def test_mock_quota_exceeded(all_clients, monkeypatch):
         all_clients, '__service_url_prefix__', APIARY_URL
     )
     errors = {
-        'anonymous-per-min-exceeded': AnonymousQuotaPerMinuteExceeded,
-        'anonymous-per-day-exceeded': AnonymousQuotaPerDayExceeded,
         'individual-per-hour-exceeded': IndividualQuotaPerHourExceeded,
         'registered-per-week-exceeded': RegisteredQuotaPerWeekExceeded,
     }

@@ -15,8 +15,8 @@ log = logging.getLogger(__name__)
 
 
 class Client(object):
-    __auth_url__ = 'https://ops.epo.org/3.1/auth/accesstoken'
-    __service_url_prefix__ = 'https://ops.epo.org/3.1/rest-services'
+    __auth_url__ = 'https://ops.epo.org/3.2/auth/accesstoken'
+    __service_url_prefix__ = 'https://ops.epo.org/3.2/rest-services'
 
     __family_path__ = 'family'
     __number_path__ = 'number-service'
@@ -25,12 +25,17 @@ class Client(object):
     __register_path__ = 'register'
     __register_search_path__ = 'register/search'
 
-    def __init__(self, accept_type='xml', middlewares=None):
+    def __init__(
+        self, key, secret, accept_type='xml', middlewares=None
+    ):
         self.accept_type = 'application/{0}'.format(accept_type)
         self.middlewares = middlewares
         if middlewares is None:
             self.middlewares = [Throttler()]
         self.request = Request(self.middlewares)
+        self.key = key
+        self.secret = secret
+        self._access_token = None
 
     def _check_for_exceeded_quota(self, response):
         if (
@@ -40,8 +45,6 @@ class Client(object):
             return response
 
         reasons = (
-            'AnonymousQuotaPerMinute',
-            'AnonymousQuotaPerDay',
             'IndividualQuotaPerHour',
             'RegisteredQuotaPerWeek',
         )
@@ -63,7 +66,12 @@ class Client(object):
         return self.request.post(url, data=data, headers=headers)
 
     def _make_request(self, url, data, extra_headers=None):
+        extra_headers = extra_headers or {}
+        token = 'Bearer {0}'.format(self.access_token.token)
+        extra_headers['Authorization'] = token
+
         response = self._post(url, data, extra_headers)
+        response = self._check_for_expired_token(response)
         response = self._check_for_exceeded_quota(response)
         response.raise_for_status()
         return response
@@ -146,16 +154,6 @@ class Client(object):
         range = dict(key='Range', begin=range_begin, end=range_end)
         return self._search_request(self.__register_search_path__, cql, range)
 
-
-class RegisteredClient(Client):
-    def __init__(
-        self, key, secret, accept_type='xml', middlewares=None
-    ):
-        super(RegisteredClient, self).__init__(accept_type, middlewares)
-        self.key = key
-        self.secret = secret
-        self._access_token = None
-
     def _acquire_token(self):
         headers = {
             'Authorization': 'Basic {0}'.format(
@@ -182,17 +180,6 @@ class RegisteredClient(Client):
             response = self._make_request(
                 response.request.url, response.request.body
             )
-        return response
-
-    def _make_request(self, url, data, extra_headers=None):
-        extra_headers = extra_headers or {}
-        token = 'Bearer {0}'.format(self.access_token.token)
-        extra_headers['Authorization'] = token
-
-        response = self._post(url, data, extra_headers)
-        response = self._check_for_expired_token(response)
-        response = self._check_for_exceeded_quota(response)
-        response.raise_for_status()
         return response
 
     @property
