@@ -13,7 +13,6 @@
 
 ## Additional services
 * Legal service
-* Images retrieval
 * Bulk operations
 
 ## Makefile
