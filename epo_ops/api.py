@@ -64,7 +64,9 @@ class Client(object):
     def _post(self, url, data, extra_headers=None, params=None):
         headers = {'Accept': self.accept_type}
         headers.update(extra_headers or {})
-        return self.request.post(url, data=data, headers=headers, params=params)
+        return self.request.post(
+            url, data=data, headers=headers, params=params
+        )
 
     def _make_request(self, url, data, extra_headers=None, params=None):
         extra_headers = extra_headers or {}

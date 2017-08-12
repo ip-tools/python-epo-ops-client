@@ -20,6 +20,7 @@ log = logging.getLogger(__name__)
 def convert_timestamp(ts):
     return parse(ts)
 
+
 sqlite3.register_converter('timestamp', convert_timestamp)
 
 DEFAULT_DB_PATH = '/var/tmp/python-epo-ops-client/throttle_history.db'
