@@ -52,6 +52,7 @@ Currently the Client knows how to issue request for the following services:
 | Client method                                                                 | API end point         | throttle  |
 |-------------------------------------------------------------------------------|-----------------------|-----------|
 | `family(reference_type, input, endpoint=None, constituents=None)`             | family                | inpadoc   |
+| `image(path, range=1, extension='tiff')`                                      | published-data/images | other     |
 | `number(reference_type, input, output_format)`                                | number-service        | other     |
 | `published_data(reference_type, input, endpoint='biblio', constituents=None)` | published-data        | retrieval |
 | `published_data_search(cql, range_begin=1, range_end=25, constituents=None)`  | published-data/search | search    |
@@ -64,7 +65,6 @@ See the [OPS guide][] for more information on how to use each service.
 Please submit pull requests for the following services by enhancing the `epo_ops.api.Client` class:
 
 * Legal service
-* Images retrieval
 * Bulk operations
 
 

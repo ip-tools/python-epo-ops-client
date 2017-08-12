@@ -8,6 +8,8 @@ from epo_ops.models import Original
 
 data = ('publication', Docdb('1000000', 'EP', 'A1'))
 rdata = ('publication', Epodoc('EP1000000'))
+idata = ('published-data/images/EP/1000000/A1/fullimage', 1)
+# idata path is the result @path from images published-data json request
 
 
 def find_range(document, pattern):
@@ -23,6 +25,12 @@ def assert_family_success(client):
     response = client.family(*data)
     assert_request_success(response)
     assert 'patent-family' in response.text
+    return response
+
+
+def assert_image_success(client):
+    response = client.image(*idata)
+    assert_request_success(response)
     return response
 
 
