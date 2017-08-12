@@ -9,7 +9,8 @@ from epo_ops.exceptions import InvalidNumberConversion
 from epo_ops.middlewares.throttle.storages import sqlite
 
 from .helpers.api_helpers import (
-    assert_family_success, assert_number_service_success,
+    assert_family_success, assert_image_success,
+    assert_number_service_success,
     assert_published_data_search_success,
     assert_published_data_search_with_range_success,
     assert_published_data_success, assert_register_search_success,
@@ -26,6 +27,10 @@ def test_instantiate_simple_client():
 
 def test_family(all_clients):
     assert_family_success(all_clients)
+
+
+def test_image(all_clients):
+    assert_image_success(all_clients)
 
 
 def test_published_data(all_clients):

@@ -19,6 +19,7 @@ class Client(object):
     __service_url_prefix__ = 'https://ops.epo.org/3.2/rest-services'
 
     __family_path__ = 'family'
+    __images_path__ = 'published-data/images'
     __number_path__ = 'number-service'
     __published_data_path__ = 'published-data'
     __published_data_search_path__ = 'published-data/search'
@@ -60,17 +61,17 @@ class Client(object):
                 raise
         return response  # pragma: no cover
 
-    def _post(self, url, data, extra_headers=None):
+    def _post(self, url, data, extra_headers=None, params=None):
         headers = {'Accept': self.accept_type}
         headers.update(extra_headers or {})
-        return self.request.post(url, data=data, headers=headers)
+        return self.request.post(url, data=data, headers=headers, params=params)
 
-    def _make_request(self, url, data, extra_headers=None):
+    def _make_request(self, url, data, extra_headers=None, params=None):
         extra_headers = extra_headers or {}
         token = 'Bearer {0}'.format(self.access_token.token)
         extra_headers['Authorization'] = token
 
-        response = self._post(url, data, extra_headers)
+        response = self._post(url, data, extra_headers, params)
         response = self._check_for_expired_token(response)
         response = self._check_for_exceeded_quota(response)
         response.raise_for_status()
@@ -104,9 +105,29 @@ class Client(object):
             {range['key']: '{begin}-{end}'.format(**range)}
         )
 
+    def _image_request(self, path, range, document_format):
+        url = self._make_request_url(
+            self.__images_path__, None, None, None, constituents={}
+        )
+        params = {
+            'Range': range
+        }
+        data = path.replace(self.__images_path__ + '/', '')
+        return self._make_request(
+            url,
+            data=data,
+            extra_headers={'Accept': document_format},
+            params=params
+        )
+
     def family(self, reference_type, input, endpoint=None, constituents=None):
         return self._service_request(
             self.__family_path__, reference_type, input, endpoint, constituents
+        )
+
+    def image(self, path, range=1, document_format='application/tiff'):
+        return self._image_request(
+            path, range, document_format
         )
 
     def number(self, reference_type, input, output_format):
