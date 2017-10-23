@@ -52,8 +52,8 @@ coverage: clean
 	open htmlcov/index.html
 
 docs:
-	pandoc HISTORY.md -o HISTORY.rst
-	pandoc README.md -o README.rst
+	pandoc --reference-links HISTORY.md -o HISTORY.rst
+	pandoc --reference-links README.md -o README.rst
 
 release: clean
 	python setup.py sdist upload -r pypi
