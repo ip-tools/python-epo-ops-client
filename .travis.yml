@@ -11,6 +11,6 @@ script: make test-ci
 after_success: coveralls -v
 branches:
   only:
-  - master
-  - development
+    - master
+    - development
 sudo: false
