@@ -1,5 +1,11 @@
 # Release History
 
+## 2.3.0 (2017-10-22)
+* Drop support for Python 2.6
+* Officially support Python 3.6
+* Update to latest dependencies
+* Add image retrieval service, thanks to [rfaga][]
+
 ## 2.2.0 (2017-03-30)
 * EPO OPS v3.2 compatibility, thanks to [eltermann][]
 
@@ -53,3 +59,4 @@
 
 
 [eltermann]: https://github.com/eltermann
+[rfaga]: https://github.com/rfaga

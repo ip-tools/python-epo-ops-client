@@ -1,6 +1,14 @@
 Release History
 ===============
 
+2.3.0 (2017-10-22)
+------------------
+
+-  Drop support for Python 2.6
+-  Officially support Python 3.6
+-  Update to latest dependencies
+-  Add image retrieval service, thanks to `rfaga`_
+
 2.2.0 (2017-03-30)
 ------------------
 
@@ -83,4 +91,5 @@ Release History
 
 -  Initial release
 
+.. _rfaga: https://github.com/rfaga
 .. _eltermann: https://github.com/eltermann
