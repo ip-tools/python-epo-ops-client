@@ -1,0 +1,12 @@
+-r base.in
+
+coveralls
+dogpile.cache
+flake8
+pep8
+py
+pytest
+pytest-cache
+pytest-cov
+python-dotenv
+tox

@@ -1,17 +1,6 @@
 -r base.in
+-r test.in
 
 bumpversion
-dogpile.cache
 ipython
 wheel
-
-# Test
-coveralls
-flake8
-pep8
-py
-pytest
-pytest-cache
-pytest-cov
-python-dotenv
-tox
