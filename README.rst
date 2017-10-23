@@ -73,6 +73,8 @@ services:
 | ``family(reference_type, input, endpoint=None,    | family                | inpadoc   |
 | constituents=None)``                              |                       |           |
 +---------------------------------------------------+-----------------------+-----------+
+| ``image(path, range=1, extension='tiff')``        | published-data/images | other     |
++---------------------------------------------------+-----------------------+-----------+
 | ``number(reference_type, input, output_format)``  | number-service        | other     |
 +---------------------------------------------------+-----------------------+-----------+
 | ``published_data(reference_type, input,           | published-data        | retrieval |
@@ -97,7 +99,6 @@ Please submit pull requests for the following services by enhancing the
 ``epo_ops.api.Client`` class:
 
 -  Legal service
--  Images retrieval
 -  Bulk operations
 
 Middleware
