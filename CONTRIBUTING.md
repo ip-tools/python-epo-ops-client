@@ -64,7 +64,7 @@ development.
     ```
     $ mkvirtualenv python-epo-ops-client
     $ cd python-epo-ops-client/
-    $ pip install -r requirements-dev.txt
+    $ pip install -r requirements/dev.txt
     $ pip install -e .
     ```
 

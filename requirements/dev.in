@@ -1,16 +1,17 @@
--r requirements.txt
+-r base.in
 
 bumpversion
 dogpile.cache
+ipython
 wheel
 
 # Test
 coveralls
 flake8
 pep8
-py==1.4.31  # Explicit for Travis work-around
+py
+pytest
 pytest-cache
 pytest-cov
-pytest
 python-dotenv
 tox

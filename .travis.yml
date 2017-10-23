@@ -6,7 +6,7 @@ python:
 - '3.5'
 - pypy
 - pypy3
-install: pip install -r requirements-dev.txt
+install: pip install -r requirements/dev.txt
 script: make test-ci
 after_success: coveralls -v
 branches:
