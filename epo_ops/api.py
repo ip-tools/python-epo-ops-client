@@ -62,7 +62,10 @@ class Client(object):
         return response  # pragma: no cover
 
     def _post(self, url, data, extra_headers=None, params=None):
-        headers = {'Accept': self.accept_type}
+        headers = {
+            'Accept': self.accept_type,
+            'Content-Type': 'text/plain'
+        }
         headers.update(extra_headers or {})
         return self.request.post(
             url, data=data, headers=headers, params=params

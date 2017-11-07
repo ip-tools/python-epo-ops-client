@@ -34,6 +34,7 @@ nosetests.xml
 .cache
 .coveralls.yml
 .env
+.idea
 .mr.developer.cfg
 .project
 .pydevproject
