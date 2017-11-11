@@ -4,7 +4,7 @@
 [![Build Status](http://img.shields.io/travis/55minutes/python-epo-ops-client.svg)](https://travis-ci.org/55minutes/python-epo-ops-client)
 [![Coverage Status](http://img.shields.io/coveralls/55minutes/python-epo-ops-client.svg)](https://coveralls.io/r/55minutes/python-epo-ops-client)
 
-python-epo-ops-client is an [Apache2 Licensed][Apache license] client library for accessing the [European Patent Office][EPO]'s ("EPO") [Open Patent Services][OPS] ("OPS") v.3.2 (based on [v 1.3.1 of the reference guide][OPS guide]).
+python-epo-ops-client is an [Apache2 Licensed][Apache license] client library for accessing the [European Patent Office][EPO]'s ("EPO") [Open Patent Services][OPS] ("OPS") v.3.2 (based on [v 1.3.4 of the reference guide][OPS guide]).
 
 ```python
 import epo_ops
@@ -60,7 +60,7 @@ Currently the Client knows how to issue request for the following services:
 | `register_search(cql, range_begin=1, range_end=25)`                           | register/search       | other     |
 | `register_search(cql, range_begin=1, range_end=25)`                           | register/search       | other     |
 
-See the [OPS guide][] for more information on how to use each service.
+See the [OPS guide][] or use the [Developer's Area][] for more information on how to use each service.
 
 Please submit pull requests for the following services by enhancing the `epo_ops.api.Client` class:
 
@@ -134,14 +134,15 @@ Tests are written using [pytest][]. To run the tests:
 The tests must be run with a working internet connection, since both OPS and the [mock Apiary services][Apiary OPS] are online.
 
 
-[EPO]: http://epo.org
-[OPS]: http://www.epo.org/searching/free/ops.html
-[OPS registration]: https://developers.epo.org/user/register
-[OPS guide]: http://documents.epo.org/projects/babylon/eponet.nsf/0/F3ECDCC915C9BCD8C1258060003AA712/$File/ops_v3_2_documentation_version_1_3_1_en.pdf
-[Requests]: http://requests.readthedocs.org/en/latest/
-[requests.Response]: http://requests.readthedocs.org/en/latest/user/advanced/#request-and-response-objects
-[pytest]: http://pytest.org/latest/
-[Apiary OPS]: http://docs.opsv31.apiary.io
 [Apache license]: http://www.apache.org/licenses/LICENSE-2.0
-[dogpile.cache]: https://bitbucket.org/zzzeek/dogpile.cache
+[Apiary OPS]: http://docs.opsv31.apiary.io
+[Developer's Area]: https://developers.epo.org/ops-v3-2/apis
+[EPO]: http://epo.org
+[OPS guide]: http://documents.epo.org/projects/babylon/eponet.nsf/0/F3ECDCC915C9BCD8C1258060003AA712/$FILE/ops_v3.2_documentation%20_version_1.3.4_en.pdf
+[OPS registration]: https://developers.epo.org/user/register
+[OPS]: http://www.epo.org/searching/free/ops.html
+[Requests]: http://requests.readthedocs.org/en/latest/
 [dogpile.cache Region]: http://dogpilecache.readthedocs.org/en/latest/api.html#module-dogpile.cache.region
+[dogpile.cache]: https://bitbucket.org/zzzeek/dogpile.cache
+[pytest]: http://pytest.org/latest/
+[requests.Response]: http://requests.readthedocs.org/en/latest/user/advanced/#request-and-response-objects

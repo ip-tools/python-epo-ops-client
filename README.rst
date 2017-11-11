@@ -4,8 +4,8 @@ python-epo-ops-client
 |PyPI version| |Build Status| |Coverage Status|
 
 python-epo-ops-client is an `Apache2 Licensed`_ client library for
-accessing the `European Patent Office`_'s ("EPO") `Open Patent
-Services`_ ("OPS") v.3.2 (based on `v 1.3.1 of the reference guide`_).
+accessing the `European Patent Office`_\ ’s (“EPO”) `Open Patent
+Services`_ (“OPS”) v.3.2 (based on `v 1.3.4 of the reference guide`_).
 
 .. code:: python
 
@@ -24,8 +24,8 @@ Services`_ ("OPS") v.3.2 (based on `v 1.3.1 of the reference guide`_).
 Features
 --------
 
-python\_epo\_ops\_client abstracts away the complexities of accessing
-EPO OPS:
+python_epo_ops_client abstracts away the complexities of accessing EPO
+OPS:
 
 -  Format the requests properly
 -  Bubble up quota problems as proper HTTP errors
@@ -33,24 +33,24 @@ EPO OPS:
 -  Handle throttling properly
 -  Add optional caching to minimize impact on the OPS servers
 
-There are two main layers to python\_epo\_ops\_client: Client and
+There are two main layers to python_epo_ops_client: Client and
 Middleware.
 
 Client
 ~~~~~~
 
 The Client contains all the formatting and token handling logic and is
-what you'll interact with mostly.
+what you’ll interact with mostly.
 
 When you issue a request, the response is a `requests.Response`_ object.
 If ``response.status_code != 200`` then a ``requests.HTTPError``
-exception will be raised — it's your responsibility to handle those
-exceptions if you want to. The one case that's handled is when the
+exception will be raised — it’s your responsibility to handle those
+exceptions if you want to. The one case that’s handled is when the
 access token has expired: in this case, the client will automatically
 handle the HTTP 400 status and renew the token.
 
 Note that the Client does not attempt to interpret the data supplied by
-OPS, so it's your responsibility to parse the XML or JSON payload for
+OPS, so it’s your responsibility to parse the XML or JSON payload for
 your own purpose.
 
 The following custom exceptions are raised for cases when OPS quotas are
@@ -61,7 +61,7 @@ behaviors:
 -  IndividualQuotaPerHourExceeded
 -  RegisteredQuotaPerWeekExceeded
 
-Again, it's up to you to parse the response and decide what to do.
+Again, it’s up to you to parse the response and decide what to do.
 
 Currently the Client knows how to issue request for the following
 services:
@@ -93,7 +93,8 @@ services:
 | range_end=25)``                                   |                       |           |
 +---------------------------------------------------+-----------------------+-----------+
 
-See the `OPS guide`_ for more information on how to use each service.
+See the `OPS guide`_ or use the `Developer’s Area`_ for more information
+on how to use each service.
 
 Please submit pull requests for the following services by enhancing the
 ``epo_ops.api.Client`` class:
@@ -179,7 +180,7 @@ The Storage object is responsible for:
 
 Currently the only Storage backend provided is SQLite, but you can
 easily write your own Storage backend (such as file, Redis, etc.). To
-use a custom Storage type, just pass the Storage object when you're
+use a custom Storage type, just pass the Storage object when you’re
 instantiating a Throttler object. See
 ``epo_ops.middlewares.throttle.storages.Storage`` for more
 implementation details.
@@ -204,9 +205,10 @@ and the `mock Apiary services`_ are online.
 .. _Apache2 Licensed: http://www.apache.org/licenses/LICENSE-2.0
 .. _European Patent Office: http://epo.org
 .. _Open Patent Services: http://www.epo.org/searching/free/ops.html
-.. _v 1.3.1 of the reference guide: http://documents.epo.org/projects/babylon/eponet.nsf/0/F3ECDCC915C9BCD8C1258060003AA712/$File/ops_v3_2_documentation_version_1_3_1_en.pdf
+.. _v 1.3.4 of the reference guide: http://documents.epo.org/projects/babylon/eponet.nsf/0/F3ECDCC915C9BCD8C1258060003AA712/$FILE/ops_v3.2_documentation%20_version_1.3.4_en.pdf
 .. _requests.Response: http://requests.readthedocs.org/en/latest/user/advanced/#request-and-response-objects
-.. _OPS guide: http://documents.epo.org/projects/babylon/eponet.nsf/0/F3ECDCC915C9BCD8C1258060003AA712/$File/ops_v3_2_documentation_version_1_3_1_en.pdf
+.. _OPS guide: http://documents.epo.org/projects/babylon/eponet.nsf/0/F3ECDCC915C9BCD8C1258060003AA712/$FILE/ops_v3.2_documentation%20_version_1.3.4_en.pdf
+.. _Developer’s Area: https://developers.epo.org/ops-v3-2/apis
 .. _dogpile.cache: https://bitbucket.org/zzzeek/dogpile.cache
 .. _dogpile.cache Region: http://dogpilecache.readthedocs.org/en/latest/api.html#module-dogpile.cache.region
 .. _pytest: http://pytest.org/latest/

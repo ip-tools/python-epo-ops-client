@@ -1,5 +1,8 @@
 # Release History
 
+## 2.3.1 (2017-11-10)
+* Bug fix: explicitly declare content-type during request
+
 ## 2.3.0 (2017-10-22)
 * Drop support for Python 2.6
 * Officially support Python 3.6
