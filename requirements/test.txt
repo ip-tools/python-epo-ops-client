@@ -5,30 +5,22 @@
 #    pip-compile --output-file requirements/test.txt requirements/test.in
 #
 apipkg==1.4               # via execnet
-asn1crypto==0.23.0        # via cryptography
-certifi==2017.7.27.1      # via requests, urllib3
-cffi==1.11.2              # via cryptography
+certifi==2017.11.5        # via requests
 chardet==3.0.4            # via requests
 click==6.7                # via python-dotenv
-configparser==3.5.0       # via flake8
-coverage==4.4.1           # via coveralls, pytest-cov
+coverage==4.4.2           # via coveralls, pytest-cov
 coveralls==1.2.0
-cryptography==2.1.3       # via pyopenssl, urllib3
 docopt==0.6.2             # via coveralls
 dogpile.cache==0.6.4
-enum34==1.1.6             # via cryptography, flake8
 execnet==1.5.0            # via pytest-cache
-flake8==3.4.1
-idna==2.6                 # via cryptography, requests, urllib3
-ipaddress==1.0.18         # via cryptography, urllib3
+flake8==3.5.0
+idna==2.6                 # via requests
 mccabe==0.6.1             # via flake8
-pep8==1.7.0
+pep8==1.7.1
 pluggy==0.5.2             # via tox
 py==1.4.34
 pycodestyle==2.3.1        # via flake8
-pycparser==2.18           # via cffi
-pyflakes==1.5.0           # via flake8
-pyopenssl==17.3.0         # via urllib3
+pyflakes==1.6.0           # via flake8
 pytest-cache==1.0
 pytest-cov==2.5.1
 pytest==3.2.3
@@ -37,5 +29,5 @@ python-dotenv==0.7.1
 requests==2.18.4
 six==1.11.0
 tox==2.9.1
-urllib3[secure]==1.22     # via coveralls, requests
+urllib3==1.22             # via requests
 virtualenv==15.1.0        # via tox

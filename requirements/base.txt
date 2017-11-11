@@ -4,7 +4,7 @@
 #
 #    pip-compile --output-file requirements/base.txt requirements/base.in
 #
-certifi==2017.7.27.1      # via requests
+certifi==2017.11.5        # via requests
 chardet==3.0.4            # via requests
 idna==2.6                 # via requests
 python-dateutil==2.6.1
