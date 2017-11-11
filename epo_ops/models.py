@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
-from datetime import datetime, timedelta
 import logging
+from datetime import datetime, timedelta
 
 import requests
 

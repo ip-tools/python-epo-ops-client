@@ -5,9 +5,9 @@ from __future__ import absolute_import
 import logging
 import os
 
+import requests
 from dogpile.cache import make_region
 from dogpile.cache.api import NO_VALUE
-import requests
 
 from .... import __version__
 from ...middleware import Middleware

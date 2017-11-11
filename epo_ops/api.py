@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
 
-from base64 import b64encode
 import logging
 import xml.etree.ElementTree as ET
+from base64 import b64encode
 
-from requests.exceptions import HTTPError
 import requests
+from requests.exceptions import HTTPError
 
 from . import exceptions
 from .middlewares import Throttler

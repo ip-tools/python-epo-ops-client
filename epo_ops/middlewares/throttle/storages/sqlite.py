@@ -2,12 +2,12 @@
 
 from __future__ import division
 
-from itertools import cycle
 import logging
 import os
 import re
 import sqlite3
 from datetime import timedelta
+from itertools import cycle
 
 from dateutil.parser import parse
 

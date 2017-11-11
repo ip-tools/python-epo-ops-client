@@ -1,12 +1,12 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-from setuptools import setup
 import os
 import sys
 
-from __version__ import __version__
+from setuptools import setup
 
+from __version__ import __version__
 
 if sys.argv[-1] == 'publish':
     os.system('python setup.py sdist upload')

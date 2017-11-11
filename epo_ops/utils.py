@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
 
-from datetime import datetime
 import logging
 import os
-
-from six.moves import urllib
+from datetime import datetime
 
 from dateutil.tz import tzutc
+
+from six.moves import urllib
 
 from .exceptions import InvalidDate
 
