@@ -91,7 +91,14 @@ class Request(object):
                 self.env, url, data, **kwargs
             )
 
-        response = self.env['response'] or requests.post(url, data, **kwargs)
+        # Either get response from cache environment or request from upstream
+        # Remark:
+        # bool(<Response [200]>) is True
+        # bool(<Response [404]>) is False
+        if self.env['response'] is not None:
+            response = self.env['response']
+        else:
+            response = requests.post(url, data, **kwargs)
 
         for mw in reversed(self.middlewares):
             response = mw.process_response(self.env, response)
