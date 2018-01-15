@@ -1,5 +1,8 @@
 # Release History
 
+## 2.3.2 (2018-01-15)
+* Bug fix: Cache 4xx results as well, thanks to [amotl][]
+
 ## 2.3.1 (2017-11-10)
 * Bug fix: explicitly declare content-type during request
 
@@ -61,5 +64,6 @@
 * Initial release
 
 
+[amotl]: https://github.com/amotl
 [eltermann]: https://github.com/eltermann
 [rfaga]: https://github.com/rfaga
