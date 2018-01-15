@@ -6,13 +6,14 @@
 #
 apipkg==1.4               # via execnet
 appnope==0.1.0            # via ipython
+attrs==17.4.0             # via pytest
 bumpversion==0.5.3
 certifi==2017.11.5        # via requests
 chardet==3.0.4            # via requests
 click==6.7                # via python-dotenv
 coverage==4.4.2           # via coveralls, pytest-cov
 coveralls==1.2.0
-decorator==4.1.2          # via ipython, traitlets
+decorator==4.2.1          # via ipython, traitlets
 docopt==0.6.2             # via coveralls
 dogpile.cache==0.6.4
 execnet==1.5.0            # via pytest-cache
@@ -20,22 +21,22 @@ flake8==3.5.0
 idna==2.6                 # via requests
 ipython-genutils==0.2.0   # via traitlets
 ipython==6.2.1
-jedi==0.11.0              # via ipython
+jedi==0.11.1              # via ipython
 mccabe==0.6.1             # via flake8
-parso==0.1.0              # via jedi
+parso==0.1.1              # via jedi
 pep8==1.7.1
-pexpect==4.3.0            # via ipython
+pexpect==4.3.1            # via ipython
 pickleshare==0.7.4        # via ipython
-pluggy==0.5.2             # via tox
+pluggy==0.6.0             # via pytest, tox
 prompt-toolkit==1.0.15    # via ipython
 ptyprocess==0.5.2         # via pexpect
-py==1.4.34
+py==1.5.2
 pycodestyle==2.3.1        # via flake8
 pyflakes==1.6.0           # via flake8
 pygments==2.2.0           # via ipython
 pytest-cache==1.0
 pytest-cov==2.5.1
-pytest==3.2.3
+pytest==3.3.2
 python-dateutil==2.6.1
 python-dotenv==0.7.1
 requests==2.18.4
