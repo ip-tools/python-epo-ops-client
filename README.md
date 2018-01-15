@@ -22,7 +22,7 @@ response = client.published_data(  # Retrieve bibliography data
 
 ## Features
 
-python_epo_ops_client abstracts away the complexities of accessing EPO OPS:
+`python-epo-ops-client` abstracts away the complexities of accessing EPO OPS:
 
 * Format the requests properly
 * Bubble up quota problems as proper HTTP errors
