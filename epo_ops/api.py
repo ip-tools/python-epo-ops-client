@@ -8,9 +8,9 @@ import requests
 from requests.exceptions import HTTPError
 
 from . import exceptions
-from .middlewares import Throttler
+from .middlewares import Throttler, JsonResponse
 from .models import AccessToken, Request
-
+from .settings import INSTALLED_MIDDLEWARE
 log = logging.getLogger(__name__)
 
 
@@ -33,6 +33,11 @@ class Client(object):
         self.middlewares = middlewares
         if middlewares is None:
             self.middlewares = [Throttler()]
+        else:
+            try:
+                self.middlewares = [INSTALLED_MIDDLEWARE[m] for m in middlewares]
+            except Exception as e:
+                print(e)
         self.request = Request(self.middlewares)
         self.key = key
         self.secret = secret

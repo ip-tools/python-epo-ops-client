@@ -16,7 +16,7 @@ packages = [
     'epo_ops',
 ]
 
-requires = ['python-dateutil', 'requests', 'six']
+requires = ['python-dateutil', 'requests', 'six', 'xmltojson']
 
 readme = open('README.rst').read()
 history = open('HISTORY.rst').read()

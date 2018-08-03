@@ -1,3 +1,4 @@
 python-dateutil
 requests
 six
+xmltodict
