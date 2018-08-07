@@ -4,7 +4,7 @@
 [![Build Status](http://img.shields.io/travis/55minutes/python-epo-ops-client.svg)](https://travis-ci.org/55minutes/python-epo-ops-client)
 [![Coverage Status](http://img.shields.io/coveralls/55minutes/python-epo-ops-client.svg)](https://coveralls.io/r/55minutes/python-epo-ops-client)
 
-python-epo-ops-client is an [Apache2 Licensed][Apache license] client library for accessing the [European Patent Office][EPO]'s ("EPO") [Open Patent Services][OPS] ("OPS") v.3.2 (based on [v 1.3.4 of the reference guide][OPS guide]).
+python-epo-ops-client is an [Apache2 licensed][Apache license] client library for accessing the [European Patent Office][EPO]'s ("EPO") [Open Patent Services][OPS] ("OPS") v.3.2 (based on [v 1.3.4 of the reference guide][OPS guide]).
 
 ```python
 import epo_ops
@@ -30,7 +30,7 @@ response = client.published_data(  # Retrieve bibliography data
 * Handle throttling properly
 * Add optional caching to minimize impact on the OPS servers
 
-There are two main layers to python_epo_ops_client: Client and Middleware.
+There are two main layers to `python-epo-ops-client`: Client and Middleware.
 
 ### Client
 
