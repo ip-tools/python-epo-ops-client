@@ -3,4 +3,5 @@
 
 bumpversion
 ipython
+twine
 wheel
