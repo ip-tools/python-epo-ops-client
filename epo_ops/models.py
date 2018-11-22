@@ -39,11 +39,7 @@ class Original(BaseInput):
 
 
 class Docdb(BaseInput):
-    def __init__(self, number, country_code, kind_code, date=None):
-        if not all([country_code, kind_code]):
-            raise MissingRequiredValue(
-                'number, country_code, and kind_code must be present'
-            )
+    def __init__(self, number, country_code, kind_code=None, date=None):
         super(Docdb, self).__init__(number, country_code, kind_code, date)
 
 
