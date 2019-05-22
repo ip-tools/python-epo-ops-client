@@ -22,7 +22,7 @@ def reset_cached_client(request):
     params=['reset_cached_client']
 )
 def reset_cached_clients(request):
-    return request.getfuncargvalue(request.param)
+    return request.getfixturevalue(request.param)
 
 
 @pytest.fixture(scope='module')
@@ -51,7 +51,7 @@ def cached_client(request, module_cache):
     params=['cached_client', 'default_client']
 )
 def clients(request):
-    return request.getfuncargvalue(request.param)
+    return request.getfixturevalue(request.param)
 
 
 @pytest.fixture(
@@ -59,7 +59,7 @@ def clients(request):
     params=['default_client']
 )
 def non_cached_clients(request):
-    return request.getfuncargvalue(request.param)
+    return request.getfixturevalue(request.param)
 
 
 @pytest.fixture(
@@ -67,7 +67,7 @@ def non_cached_clients(request):
     params=['cached_client']
 )
 def cached_clients(request):
-    return request.getfuncargvalue(request.param)
+    return request.getfixturevalue(request.param)
 
 
 @pytest.fixture(
@@ -75,4 +75,4 @@ def cached_clients(request):
     params=['cached_client', 'default_client']
 )
 def all_clients(request):
-    return request.getfuncargvalue(request.param)
+    return request.getfixturevalue(request.param)

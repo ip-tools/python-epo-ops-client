@@ -13,7 +13,6 @@
 
 ## Additional services
 * Legal service
-* Bulk operations
 
 ## Makefile
 * Comma in `echo` statements?

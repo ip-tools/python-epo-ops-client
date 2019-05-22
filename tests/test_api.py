@@ -15,7 +15,7 @@ from .helpers.api_helpers import (
     assert_published_data_search_with_range_success,
     assert_published_data_success, assert_register_search_success,
     assert_register_search_with_range_success, assert_register_success,
-    issue_number_request, issue_published_data_request
+    issue_number_request, issue_published_data_request, assert_bulk_service_retrival_success
 )
 
 
@@ -44,6 +44,8 @@ def test_published_data_search(all_clients):
 def test_published_data_search_with_range(all_clients):
     assert_published_data_search_with_range_success(all_clients)
 
+def test_bulk_published_data_retreval(all_clients):
+    assert_bulk_service_retrival_success(all_clients)
 
 def test_register(all_clients):
     assert_register_success(all_clients)

@@ -60,12 +60,13 @@ Currently the Client knows how to issue request for the following services:
 | `register_search(cql, range_begin=1, range_end=25)`                           | register/search       | other     |
 | `register_search(cql, range_begin=1, range_end=25)`                           | register/search       | other     |
 
+Bulk operations can be achieved by passing a list of valid models to the published_data input field.
+
 See the [OPS guide][] or use the [Developer's Area][] for more information on how to use each service.
 
 Please submit pull requests for the following services by enhancing the `epo_ops.api.Client` class:
 
 * Legal service
-* Bulk operations
 
 
 ### Middleware

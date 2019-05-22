@@ -97,10 +97,18 @@ class Client(object):
     def _service_request(
         self, path, reference_type, input, endpoint, constituents
     ):
-        url = self._make_request_url(
-            path, reference_type, input, endpoint, constituents
-        )
-        return self._make_request(url, input.as_api_input())
+        if type(input) == list:
+
+            url = self._make_request_url(
+                path, reference_type, input[0], endpoint, constituents
+            )
+            data = "\n".join([i.as_api_input() for i in input])
+        else:
+            url = self._make_request_url(
+                path, reference_type, input, endpoint, constituents
+            )
+            data = input.as_api_input()
+        return self._make_request(url, data)
 
     def _search_request(self, path, cql, range, constituents=None):
         url = self._make_request_url(path, None, None, None, constituents)
