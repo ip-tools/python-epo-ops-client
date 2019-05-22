@@ -8,6 +8,7 @@ from epo_ops.exceptions import InvalidNumberConversion
 from epo_ops.middlewares.throttle.storages import sqlite
 
 from .helpers.api_helpers import (
+    assert_bulk_service_retrival_success,
     assert_family_success,
     assert_image_success,
     assert_number_service_success,
@@ -45,6 +46,10 @@ def test_published_data_search(all_clients):
 
 def test_published_data_search_with_range(all_clients):
     assert_published_data_search_with_range_success(all_clients)
+
+
+def test_bulk_published_data_retreval(all_clients):
+    assert_bulk_service_retrival_success(all_clients)
 
 
 def test_register(all_clients):

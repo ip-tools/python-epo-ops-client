@@ -32,12 +32,8 @@ def assert_image_success(client):
     return response
 
 
-def issue_published_data_request(client):
-    return client.published_data(*data)
-
-
 def assert_published_data_success(client):
-    response = issue_published_data_request(client)
+    response = client.published_data(*data)
     assert_request_success(response)
     assert "bibliographic-data" in response.text
     return response
@@ -103,3 +99,10 @@ def assert_number_service_success(client):
     response = issue_number_request(client, "docdb")
     assert "ops:standardization" in response.text
     return response
+
+
+def assert_bulk_service_retrival_success(client):
+    input_list = [Docdb("1000000", "EP", "A1"), Epodoc("US2018265402")]
+    response = client.published_data("publication", input=input_list)
+
+    assert response.status_code == requests.codes.ok

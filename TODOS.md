@@ -17,7 +17,6 @@
 ## Additional services
 
 - Legal service
-- Bulk operations
 
 ## Makefile
 
