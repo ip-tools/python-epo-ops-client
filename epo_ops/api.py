@@ -55,17 +55,20 @@ class Client(object):
                 raise
         return response  # pragma: no cover
 
-    def _post(self, url, data, extra_headers=None, params=None):
+    def _req(self, url, data, extra_headers=None, params=None, use_get=False):
         headers = {"Accept": self.accept_type, "Content-Type": "text/plain"}
         headers.update(extra_headers or {})
-        return self.request.post(url, data=data, headers=headers, params=params)
+        request_method = self.request.post
+        if use_get:
+            request_method = self.request.get
+        return request_method(url, data=data, headers=headers, params=params)
 
-    def _make_request(self, url, data, extra_headers=None, params=None):
+    def _make_request(self, url, data, extra_headers=None, params=None, use_get=False):
         extra_headers = extra_headers or {}
         token = "Bearer {0}".format(self.access_token.token)
         extra_headers["Authorization"] = token
 
-        response = self._post(url, data, extra_headers, params)
+        response = self._req(url, data, extra_headers, params, use_get=use_get)
         response = self._check_for_expired_token(response)
         response = self._check_for_exceeded_quota(response)
         response.raise_for_status()
@@ -78,6 +81,21 @@ class Client(object):
             service,
             reference_type,
             input and input.__class__.__name__.lower(),
+            endpoint,
+            ",".join(constituents),
+        ]
+        return u"/".join(filter(None, parts))
+
+    def _make_request_url_get(
+        self, service, reference_type, input, endpoint, constituents
+    ):
+        constituents = constituents or []
+        parts = [
+            self.__service_url_prefix__,
+            service,
+            reference_type,
+            input and input.__class__.__name__.lower(),
+            input.as_api_input(),
             endpoint,
             ",".join(constituents),
         ]
@@ -114,9 +132,10 @@ class Client(object):
         )
 
     def family(self, reference_type, input, endpoint=None, constituents=None):
-        return self._service_request(
+        url = self._make_request_url_get(
             self.__family_path__, reference_type, input, endpoint, constituents
         )
+        return self._make_request(url, None, params=input.as_api_input(), use_get=True)
 
     def image(self, path, range=1, document_format="application/tiff"):
         return self._image_request(path, range, document_format)

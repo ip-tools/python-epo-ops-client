@@ -9,6 +9,8 @@ from epo_ops.middlewares.throttle.storages import sqlite
 
 from .helpers.api_helpers import (
     assert_bulk_service_retrival_success,
+    assert_family_biblio_success,
+    assert_family_legal_success,
     assert_family_success,
     assert_image_success,
     assert_number_service_success,
@@ -30,6 +32,14 @@ def test_instantiate_simple_client():
 
 def test_family(all_clients):
     assert_family_success(all_clients)
+
+
+def test_family_biblio(all_clients):
+    assert_family_biblio_success(all_clients)
+
+
+def test_family_legal(all_clients):
+    assert_family_legal_success(all_clients)
 
 
 def test_image(all_clients):

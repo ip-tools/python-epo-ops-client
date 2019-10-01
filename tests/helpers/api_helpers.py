@@ -26,6 +26,23 @@ def assert_family_success(client):
     return response
 
 
+def assert_family_biblio_success(client):
+    response = client.family(*data, constituents=["biblio"])
+    assert_request_success(response)
+    assert "patent-family" in response.text
+    assert "exchange-document" in response.text
+    assert "bibliographic-data" in response.text
+    return response
+
+
+def assert_family_legal_success(client):
+    response = client.family(*data, constituents=["legal"])
+    assert_request_success(response)
+    assert 'patent-family legal="true"' in response.text
+    assert "ops:legal" in response.text
+    return response
+
+
 def assert_image_success(client):
     response = client.image(*idata)
     assert_request_success(response)

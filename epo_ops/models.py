@@ -102,3 +102,17 @@ class Request(object):
 
         self.reset_env()
         return response
+
+    def get(self, url, data=None, **kwargs):
+        self.reset_env()
+
+        for mw in self.middlewares:
+            url, data, kwargs = mw.process_request(self.env, url, data, **kwargs)
+
+        response = self.env["response"] or requests.get(url, **kwargs)
+
+        for mw in reversed(self.middlewares):
+            response = mw.process_response(self.env, response)
+
+        self.reset_env()
+        return response
