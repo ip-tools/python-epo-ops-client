@@ -1,5 +1,12 @@
 # Release History
 
+## 3.0.0 (2019-10-26)
+
+- Drop support for PyPy, Python 3.4 (probably still works)
+- Add support for Python 3.7, 3.8
+- Invalid and expired tokens are now treated the same, since OPS doesn't
+  distinguish between the two use cases.
+
 ## 2.3.2 (2018-01-15)
 
 - Bug fix: Cache 4xx results as well, thanks to [amotl][]
