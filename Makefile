@@ -36,7 +36,7 @@ clean-pyc:
 	find . -name '*~' -exec rm -f {} +
 
 lint:
-	flake8 --ignore=F401 epo_ops tests
+	flake8 epo_ops tests
 
 test: clean
 	py.test -s -v --lf --cov-report term --cov epo_ops tests

@@ -12,15 +12,13 @@ log = logging.getLogger(__name__)
 
 
 def _prepare_part(part):
-    return u'({0})'.format(quote(part))
+    return u"({0})".format(quote(part))
 
 
 class BaseInput(object):
     def __init__(self, number, country_code, kind_code, date):
         if not all([number]):
-            raise MissingRequiredValue(
-                'number must be present'
-            )
+            raise MissingRequiredValue("number must be present")
         self.number = number
         self.country_code = country_code
         self.kind_code = kind_code
@@ -30,7 +28,7 @@ class BaseInput(object):
         parts = filter(
             None, [self.country_code, self.number, self.kind_code, self.date]
         )
-        return u'.'.join(map(_prepare_part, parts))
+        return u".".join(map(_prepare_part, parts))
 
 
 class Original(BaseInput):
@@ -52,10 +50,9 @@ class AccessToken(object):
     def __init__(self, response):
         self._content = response.json()
         self.response = response
-        self.token = self._content['access_token']
-        self.expiration = (
-            datetime.now() +
-            timedelta(seconds=int(self._content['expires_in']))
+        self.token = self._content["access_token"]
+        self.expiration = datetime.now() + timedelta(
+            seconds=int(self._content["expires_in"])
         )
 
     @property
@@ -71,8 +68,10 @@ class Request(object):
     @property
     def default_env(self):
         return {
-            'cache-key': None, 'from-cache': False, 'is-cached': False,
-            'response': None
+            "cache-key": None,
+            "from-cache": False,
+            "is-cached": False,
+            "response": None,
         }
 
     def reset_env(self):
@@ -83,16 +82,14 @@ class Request(object):
         self.reset_env()
 
         for mw in self.middlewares:
-            url, data, kwargs = mw.process_request(
-                self.env, url, data, **kwargs
-            )
+            url, data, kwargs = mw.process_request(self.env, url, data, **kwargs)
 
         # Either get response from cache environment or request from upstream
         # Remark:
         # bool(<Response [200]>) is True
         # bool(<Response [404]>) is False
-        if self.env['response'] is not None:
-            response = self.env['response']
+        if self.env["response"] is not None:
+            response = self.env["response"]
         else:
             response = requests.post(url, data, **kwargs)
 

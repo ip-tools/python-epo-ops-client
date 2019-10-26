@@ -1,13 +1,13 @@
 # -*- coding: utf-8 -*-
 
+import os
 from codecs import open
 from datetime import timedelta
 from pprint import pformat
 from random import choice, shuffle
-import os
 
-from requests.structures import CaseInsensitiveDict
 import pytest
+from requests.structures import CaseInsensitiveDict
 
 from epo_ops.middlewares.throttle.storages import SQLite
 from epo_ops.utils import makedirs, now
@@ -21,16 +21,16 @@ def generate_timestamps(deltas):
 
 def make_throttle_snapshot(system_status, services):
     snapshots = [
-        ServiceSnapshot(service, status, limit) for service, (status, limit) in
-        services.items()
+        ServiceSnapshot(service, status, limit)
+        for service, (status, limit) in services.items()
     ]
     return ThrottleSnapshot(system_status, snapshots)
 
 
 def make_header(control, retry=None):
-    h = CaseInsensitiveDict({'X-Throttling-Control': control})
+    h = CaseInsensitiveDict({"X-Throttling-Control": control})
     if retry:
-        h['Retry-After'] = retry
+        h["Retry-After"] = retry
     return h
 
 
@@ -47,7 +47,7 @@ def expired_timestamps():
 
 @pytest.fixture
 def valid_timestamps():
-    deltas = (.75, .5, 0)
+    deltas = (0.75, 0.5, 0)
     return generate_timestamps(deltas)
 
 
@@ -56,19 +56,19 @@ def service_status():
     class ServiceStatus(object):
         @property
         def green(self):
-            return ('green', 200)
+            return ("green", 200)
 
         @property
         def yellow(self):
-            return ('yellow', 50)
+            return ("yellow", 50)
 
         @property
         def red(self):
-            return ('red', 5)
+            return ("red", 5)
 
         @property
         def black(self):
-            return ('black', 0)
+            return ("black", 0)
 
     return ServiceStatus()
 
@@ -81,14 +81,14 @@ def retry_after_value():
 @pytest.fixture
 def throttle_snapshot(service_status):
     return make_throttle_snapshot(
-        'idle',
+        "idle",
         {
-            'images': service_status.green,
-            'inpadoc': service_status.yellow,
-            'other': service_status.red,
-            'retrieval': service_status.black,
-            'search': service_status.green,
-        }
+            "images": service_status.green,
+            "inpadoc": service_status.yellow,
+            "other": service_status.red,
+            "retrieval": service_status.black,
+            "search": service_status.green,
+        },
     )
 
 
@@ -102,15 +102,15 @@ def expired_throttle_history(storage, expired_timestamps):
     def _services_dict(limit):
         sd = {}
         for s in SQLite.SERVICES:
-            sd[s] = ('green', limit)
+            sd[s] = ("green", limit)
         return sd
 
     limits = (1000, 2000)
     for limit in limits:
-        snapshot = make_throttle_snapshot('idle', _services_dict(limit))
+        snapshot = make_throttle_snapshot("idle", _services_dict(limit))
         storage.update(make_header(snapshot.as_header()))
 
-    sql = 'UPDATE throttle_history SET timestamp=? WHERE images_limit=?'
+    sql = "UPDATE throttle_history SET timestamp=? WHERE images_limit=?"
     for param in zip(expired_timestamps, limits):
         storage.db.execute(sql, param)
 
@@ -125,8 +125,8 @@ def throttle_history(expired_throttle_history, retry_after_value):
     value.
     """
     storage = expired_throttle_history
-    system_stats = ('idle', 'busy', 'overloaded')
-    lights = ('green', 'yellow', 'red')
+    system_stats = ("idle", "busy", "overloaded")
+    lights = ("green", "yellow", "red")
     sample_count = 4
     expected = {}
     service_limits = {}
@@ -145,43 +145,41 @@ def throttle_history(expired_throttle_history, retry_after_value):
         return snapshots
 
     for service, limit in zip(SQLite.SERVICES, (200, 100, 60, 10, 5)):
-        expected[service] = 60. / limit
+        expected[service] = 60.0 / limit
         service_limits[service] = list(_range(limit))
         shuffle(service_limits[service])
 
     for d in _services_dicts(service_limits):
-        storage.update(make_header(
-            make_throttle_snapshot(choice(system_stats), d).as_header()
-        ))
+        storage.update(
+            make_header(make_throttle_snapshot(choice(system_stats), d).as_header())
+        )
 
     # Make a special header with search=black with retry value
     services = list(SQLite.SERVICES)
-    services.remove('search')
-    services = ', '.join(['{0}=green:1000'.format(s) for s in services])
+    services.remove("search")
+    services = ", ".join(["{0}=green:1000".format(s) for s in services])
     storage.update(
         make_header(
-            '{0} (search=black:0, {1})'.format(choice(system_stats), services),
-            retry_after_value
+            "{0} (search=black:0, {1})".format(choice(system_stats), services),
+            retry_after_value,
         )
     )
 
     # Make sure to override expected
-    expected['search'] = retry_after_value / 1000.
+    expected["search"] = retry_after_value / 1000.0
 
-    th = {'expected': expected, 'storage': storage}
+    th = {"expected": expected, "storage": storage}
     return th
 
 
 @pytest.fixture
 def generate_sample_throttle_snapshot_reprs(throttle_snapshot):
     "Generate sample header and dict representations"
-    sample_path = os.path.join(
-        os.path.dirname(os.path.abspath(__file__)), 'sample'
-    )
+    sample_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "sample")
     makedirs(sample_path)
-    fheader = os.path.join(sample_path, 'throttle_snapshot.header')
-    fdict = os.path.join(sample_path, 'throttle_snapshot.dict')
-    with open(fheader, 'wb+', encoding='utf-8') as of:
+    fheader = os.path.join(sample_path, "throttle_snapshot.header")
+    fdict = os.path.join(sample_path, "throttle_snapshot.dict")
+    with open(fheader, "wb+", encoding="utf-8") as of:
         of.write(throttle_snapshot.as_header())
-    with open(fdict, 'wb+', encoding='utf-8') as of:
+    with open(fdict, "wb+", encoding="utf-8") as of:
         of.write(pformat(throttle_snapshot.as_dict()))

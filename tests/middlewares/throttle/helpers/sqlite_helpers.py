@@ -3,5 +3,5 @@ def single_value_query(storage, *params):
 
 
 def table_count(storage):
-    sql = 'SELECT COUNT(*) FROM throttle_history'
+    sql = "SELECT COUNT(*) FROM throttle_history"
     return single_value_query(storage, sql)

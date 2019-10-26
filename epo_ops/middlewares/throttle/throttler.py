@@ -15,12 +15,12 @@ class Throttler(Middleware):
         self.history = history_storage or SQLite()
 
     def process_request(self, env, url, data, **kwargs):
-        if not env['from-cache']:
+        if not env["from-cache"]:
             service = service_for_url(url)
             time.sleep(self.history.delay_for(service))
         return url, data, kwargs
 
     def process_response(self, env, response):
-        if not env['from-cache']:
+        if not env["from-cache"]:
             self.history.update(response.headers)
         return response
