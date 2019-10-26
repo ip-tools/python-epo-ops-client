@@ -1,7 +1,10 @@
 -r base.in
 -r test.in
 
+black
 bumpversion
 ipython
+isort
+pip-tools
 twine
 wheel
