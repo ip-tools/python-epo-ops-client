@@ -6,5 +6,5 @@ bumpversion
 ipython
 isort
 pip-tools
-twine
+seed-isort-config
 wheel

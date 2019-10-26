@@ -6,7 +6,6 @@ import epo_ops
 from epo_ops.middlewares.cache.dogpile import Dogpile, dogpile
 from epo_ops.models import Request
 
-
 Response = namedtuple("Response", ["status_code"])
 
 

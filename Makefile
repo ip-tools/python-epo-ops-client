@@ -35,6 +35,9 @@ clean-pyc:
 	find . -name '*.pyo' -exec rm -f {} +
 	find . -name '*~' -exec rm -f {} +
 
+seed-isort-config:
+	seed-isort-config --application-directories .:epo_ops --exclude setup.py
+
 lint:
 	flake8 epo_ops tests
 
