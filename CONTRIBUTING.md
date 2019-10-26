@@ -13,9 +13,9 @@ Report bugs at <https://github.com/55minutes/python-epo-ops-client/issues>.
 
 If you are reporting a bug, please include:
 
-* Your operating system name and version.
-* Any details about your local setup that might be helpful in troubleshooting.
-* Detailed steps to reproduce the bug.
+- Your operating system name and version.
+- Any details about your local setup that might be helpful in troubleshooting.
+- Detailed steps to reproduce the bug.
 
 ### Fix Bugs
 
@@ -40,9 +40,9 @@ https://github.com/55minutes/python-epo-ops-client/issues.
 
 If you are proposing a feature:
 
-* Explain in detail how it would work.
-* Keep the scope as narrow as possible, to make it easier to implement.
-* Remember that this is a volunteer-driven project, and that contributions are
+- Explain in detail how it would work.
+- Keep the scope as narrow as possible, to make it easier to implement.
+- Remember that this is a volunteer-driven project, and that contributions are
   welcome :)
 
 ## Get Started!
@@ -78,12 +78,12 @@ development.
 
 5.  Tests require a working OPS account
 
-    1.  [Register a OPS user login with EPO][OPS registration]
+    1.  [Register a OPS user login with EPO][ops registration]
     2.  Create an app
-    3.  Look up the Mock Server URL at [Apiary][Apiary OPS]
-    3.  Set the `APIARY_URL`, `OPS_KEY`, and `OPS_SECRET` environment variables accordingly
+    3.  Look up the Mock Server URL at [Apiary][apiary ops]
+    4.  Set the `APIARY_URL`, `OPS_KEY`, and `OPS_SECRET` environment variables accordingly
 
-5.  When you're done making changes, check that your changes pass flake8 and
+6.  When you're done making changes, check that your changes pass flake8 and
     the tests, including testing other Python versions with tox:
 
     ```
@@ -92,7 +92,7 @@ development.
     $ tox
     ```
 
-6.  Commit your changes and push your branch to GitHub::
+7.  Commit your changes and push your branch to GitHub::
 
     ```
     $ git add .
@@ -100,7 +100,7 @@ development.
     $ git push origin name-of-your-bugfix-or-feature
     ```
 
-7.  Submit a pull request through the GitHub website.
+8.  Submit a pull request through the GitHub website.
 
 ## Pull Request Guidelines
 
@@ -110,7 +110,7 @@ Before you submit a pull request, check that it meets these guidelines:
 2.  If the pull request adds functionality, the docs should be updated. Put
     your new functionality into a function with a docstring, and add the
     feature to the list in README.md.
-3.  The pull request should work for Python 2.6, 2.7, and 3.3.  Check
+3.  The pull request should work for Python 2.6, 2.7, and 3.3. Check
     https://travis-ci.org/55minutes/python-epo-ops-client/pull_requests and
     make sure that the tests pass for all supported Python versions.
 
@@ -122,6 +122,5 @@ To run a subset of tests:
 $ py.test tests/test_utils.py
 ```
 
-
-[Apiary OPS]: http://docs.opsv31.apiary.io
-[OPS registration]: https://developers.epo.org/user/register
+[apiary ops]: http://docs.opsv31.apiary.io
+[ops registration]: https://developers.epo.org/user/register
