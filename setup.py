@@ -18,8 +18,8 @@ packages = [
 
 requires = ['python-dateutil', 'requests', 'six']
 
-readme = open('README.rst').read()
-history = open('HISTORY.rst').read()
+readme = open('README.md').read()
+history = open('HISTORY.md').read()
 license = open('LICENSE').read()
 
 setup(
