@@ -11,7 +11,7 @@ certifi==2019.9.11        # via requests
 chardet==3.0.4            # via requests
 coverage==4.5.4           # via coveralls, pytest-cov
 coveralls==1.8.2
-decorator==4.4.0          # via dogpile.cache
+decorator==4.4.1          # via dogpile.cache
 docopt==0.6.2             # via coveralls
 dogpile.cache==0.8.0
 entrypoints==0.3          # via flake8
@@ -20,9 +20,11 @@ filelock==3.0.12          # via tox
 flake8-bugbear==19.8.0
 flake8==3.7.8
 idna==2.8                 # via requests
+importlib-metadata==0.23  # via pluggy, pytest, tox
 mccabe==0.6.1             # via flake8
-more-itertools==7.2.0     # via pytest
+more-itertools==7.2.0     # via pytest, zipp
 packaging==19.2           # via pytest, tox
+pathlib2==2.3.5           # via pytest
 pep8==1.7.1
 pluggy==0.13.0            # via pytest, tox
 py==1.8.0
@@ -41,3 +43,4 @@ tox==3.14.0
 urllib3==1.25.6           # via requests
 virtualenv==16.7.7        # via tox
 wcwidth==0.1.7            # via pytest
+zipp==0.6.0               # via importlib-metadata

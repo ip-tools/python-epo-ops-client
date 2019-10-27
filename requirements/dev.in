@@ -1,10 +1,9 @@
 -r base.in
 -r test.in
 
-black
-bumpversion
+bump2version
 ipython
-isort
 pip-tools
 seed-isort-config
+twine
 wheel

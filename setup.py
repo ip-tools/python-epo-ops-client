@@ -3,6 +3,7 @@
 
 import os
 import sys
+from os import path
 
 from setuptools import setup
 
@@ -16,9 +17,13 @@ packages = ["epo_ops"]
 
 requires = ["python-dateutil", "requests", "six"]
 
-readme = open("README.md").read()
-history = open("HISTORY.md").read()
-license = open("LICENSE").read()
+here = path.abspath(path.dirname(__file__))
+
+with open(path.join(here, "README.md"), encoding="utf-8") as f:
+    readme = f.read()
+
+with open(path.join(here, "HISTORY.md"), encoding="utf-8") as f:
+    history = f.read()
 
 setup(
     name="python-epo-ops-client",
@@ -26,7 +31,8 @@ setup(
     description=(
         "Python Client for the European Patent Office's " "Open Patent Services API"
     ),
-    long_description=readme + "\n\n" + history,
+    long_description_content_type="text/markdown",
+    long_description="{}\n{}".format(readme, history),
     author="George Song",
     author_email="george@monozuku.com",
     url="https://github.com/55minutes/python-epo-ops-client",
@@ -38,7 +44,6 @@ setup(
     package_dir={"epo_ops": "epo_ops"},
     include_package_data=True,
     install_requires=requires,
-    license=license,
     tests_require=["pytest", "pytest-cache", "pytest-cov"],
     zip_safe=False,
     classifiers=[

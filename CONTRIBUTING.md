@@ -1,9 +1,9 @@
 # Contributing
 
-Contributions are welcome, and they are greatly appreciated! Every
-little bit helps, and credit will always be given.
+Contributions are welcome, and they are greatly appreciated! Every little bit
+helps, and credit will always be given.
 
-You can contribute in many ways:
+You can contribute in many ways.
 
 ## Types of Contributions
 
@@ -20,7 +20,7 @@ If you are reporting a bug, please include:
 ### Fix Bugs
 
 Look through the GitHub issues for bugs. Anything tagged with "bug" is open to
-whoever wants to implement it.
+whoever wants to fix it.
 
 ### Implement Features
 
@@ -43,7 +43,7 @@ If you are proposing a feature:
 - Explain in detail how it would work.
 - Keep the scope as narrow as possible, to make it easier to implement.
 - Remember that this is a volunteer-driven project, and that contributions are
-  welcome :)
+  welcome. 😊
 
 ## Get Started!
 
@@ -54,7 +54,7 @@ development.
 2.  Clone your fork locally:
 
     ```
-    $ git clone git@github.com:your_name_here/python-epo-ops-client.git
+    $ git clone git@github.com:[your_name_here]/python-epo-ops-client.git
     ```
 
 3.  Install your local copy into a virtualenv. Assuming you have
@@ -81,7 +81,8 @@ development.
     1.  [Register a OPS user login with EPO][ops registration]
     2.  Create an app
     3.  Look up the Mock Server URL at [Apiary][apiary ops]
-    4.  Set the `APIARY_URL`, `OPS_KEY`, and `OPS_SECRET` environment variables accordingly
+    4.  Set the `APIARY_URL`, `OPS_KEY`, and `OPS_SECRET` environment variables
+        accordingly in a `.env` file (see `example.env`).
 
 6.  When you're done making changes, check that your changes pass flake8 and
     the tests, including testing other Python versions with tox:
@@ -107,12 +108,9 @@ development.
 Before you submit a pull request, check that it meets these guidelines:
 
 1.  The pull request should include tests.
-2.  If the pull request adds functionality, the docs should be updated. Put
-    your new functionality into a function with a docstring, and add the
-    feature to the list in README.md.
-3.  The pull request should work for Python 2.6, 2.7, and 3.3. Check
-    https://travis-ci.org/55minutes/python-epo-ops-client/pull_requests and
-    make sure that the tests pass for all supported Python versions.
+2.  If the pull request adds functionality, the docs should be updated. Put your
+    new functionality into a function with a docstring, and add the feature to
+    the list in README.md.
 
 ## Tips
 

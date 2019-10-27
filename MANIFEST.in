@@ -1,7 +1,5 @@
 include *.md
-include *.rst
 include *.txt
-include LICENSE
 include Makefile
 include __version__.py
 recursive-include epo_ops *.py
