@@ -8,7 +8,7 @@ from epo_ops.utils import quote, validate_date
 def test_encoding():
     # See OPS documentation, Input construction encoding rule
     assert quote('/\\?@#%$&+,:;= "<>{}|^~[]`') == (
-        "/\\%3F%40%23%25%24%26%2B%2C%3A%3B%3D%20%22%3C%3E%7B%7D%7C%5E%7E%5B%5D" "%60"
+        "/\\%3F%40%23%25%24%26%2B%2C%3A%3B%3D%20%22%3C%3E%7B%7D%7C%5E%7E%5B%5D%60"
     )
 
 

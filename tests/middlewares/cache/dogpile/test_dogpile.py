@@ -1,12 +1,15 @@
-from collections import namedtuple
-
 import pytest
 
 import epo_ops
 from epo_ops.middlewares.cache.dogpile import Dogpile, dogpile
 from epo_ops.models import Request
 
-Response = namedtuple("Response", ["status_code"])
+
+class Response(object):
+    __slots__ = ["status_code", "_secret"]
+
+    def __init__(self, status_code):
+        self.status_code = status_code
 
 
 def prefix(s):

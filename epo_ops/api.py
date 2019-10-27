@@ -175,7 +175,7 @@ class Client(object):
             return response
 
         message = ET.fromstring(response.content)
-        if message.findtext("description") == "Access token has expired":
+        if message.findtext("message") == "invalid_access_token":
             self._acquire_token()
             response = self._make_request(response.request.url, response.request.body)
         return response

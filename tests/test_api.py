@@ -2,7 +2,6 @@ from datetime import datetime
 
 import pytest
 from pytest import raises
-from requests.exceptions import HTTPError
 
 from epo_ops.api import Client
 from epo_ops.exceptions import InvalidNumberConversion
@@ -19,7 +18,6 @@ from .helpers.api_helpers import (
     assert_register_search_with_range_success,
     assert_register_success,
     issue_number_request,
-    issue_published_data_request,
 )
 
 
@@ -74,17 +72,9 @@ def test_get_access_token(clients):
     assert "access_token" in clients.access_token._content
 
 
-def test_400_invalid_token(default_client):
-    # Put in a token that's invalid, the server will raise 400
-    token = "x34NdKmpABZ8ukqi4juRNQCrv5C5"
-    default_client.access_token.token = token
-    with raises(HTTPError):
-        issue_published_data_request(default_client)
-
-
-def test_400_expired_token(default_client):
-    # Put in a token that's expired, the server will raise 400 but we should
-    # handle it gracefully
+def test_400_expired_or_inavlid_token(default_client):
+    # Put in a token that's expired or invalid, the server will raise 400 but we
+    # should handle it gracefully
     token = "m34NdKmpABZ8ukqi4juRNQCrv5C5"
     default_client.access_token.token = token
     assert_published_data_success(default_client)

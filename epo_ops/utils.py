@@ -2,6 +2,7 @@
 
 import logging
 import os
+import re
 from datetime import datetime
 
 from dateutil.tz import tzutc
@@ -24,7 +25,8 @@ def now():
 
 
 def quote(string):
-    return urllib.parse.quote(string, safe="/\\")
+    parsed = urllib.parse.quote(string, safe="/\\")
+    return re.sub(r"~", "%7E", parsed)
 
 
 def validate_date(date):
