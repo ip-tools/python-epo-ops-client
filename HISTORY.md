@@ -1,6 +1,10 @@
 # Release History
 
-## 3.0.0 (2019-10-26)
+## 3.1.0 (2019-10-27)
+
+- Add support for bulk retrieval, thanks to [mmath][]
+
+## 3.0.0 (2019-10-27)
 
 - Drop support for PyPy, Python 3.4 (probably still works)
 - Add support for Python 3.7, 3.8
@@ -90,4 +94,5 @@
 
 [amotl]: https://github.com/amotl
 [eltermann]: https://github.com/eltermann
+[mmath]: https://github.com/mmath
 [rfaga]: https://github.com/rfaga
