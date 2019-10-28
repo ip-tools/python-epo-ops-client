@@ -17,12 +17,12 @@ coveralls==1.8.2
 cryptography==2.8         # via pyopenssl, urllib3
 decorator==4.4.1          # via dogpile.cache
 docopt==0.6.2             # via coveralls
-dogpile.cache==0.8.0
+dogpile.cache==0.9.0
 entrypoints==0.3          # via flake8
 enum34==1.1.6             # via cryptography, flake8
 execnet==1.7.1            # via pytest-cache
 filelock==3.0.12          # via tox
-flake8==3.7.8
+flake8==3.7.9
 funcsigs==1.0.2           # via pytest
 functools32==3.2.3.post2  # via flake8
 idna==2.8                 # via requests, urllib3
