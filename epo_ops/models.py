@@ -83,19 +83,21 @@ class Request(object):
         self.env.update(self.default_env)
 
     def post(self, url, data=None, **kwargs):
+        return self._request(_post_callback, url, data, **kwargs)
+
+    def get(self, url, data=None, **kwargs):
+        return self._request(_get_callback, url, data, **kwargs)
+
+    def _request(self, callback, url, data=None, **kwargs):
         self.reset_env()
 
         for mw in self.middlewares:
             url, data, kwargs = mw.process_request(self.env, url, data, **kwargs)
 
         # Either get response from cache environment or request from upstream
-        # Remark:
         # bool(<Response [200]>) is True
         # bool(<Response [404]>) is False
-        if self.env["response"] is not None:
-            response = self.env["response"]
-        else:
-            response = requests.post(url, data, **kwargs)
+        response = self.env["response"] or callback(url, data, **kwargs)
 
         for mw in reversed(self.middlewares):
             response = mw.process_response(self.env, response)
@@ -103,16 +105,10 @@ class Request(object):
         self.reset_env()
         return response
 
-    def get(self, url, data=None, **kwargs):
-        self.reset_env()
 
-        for mw in self.middlewares:
-            url, data, kwargs = mw.process_request(self.env, url, data, **kwargs)
+def _post_callback(url, data, **kwargs):
+    return requests.post(url, data, **kwargs)
 
-        response = self.env["response"] or requests.get(url, **kwargs)
 
-        for mw in reversed(self.middlewares):
-            response = mw.process_response(self.env, response)
-
-        self.reset_env()
-        return response
+def _get_callback(url, data, **kwargs):
+    return requests.get(url, **kwargs)

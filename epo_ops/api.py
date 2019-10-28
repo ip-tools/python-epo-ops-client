@@ -36,104 +36,16 @@ class Client(object):
         self.secret = secret
         self._access_token = None
 
-    def _check_for_exceeded_quota(self, response):
-        if (response.status_code != requests.codes.forbidden) or (
-            "X-Rejection-Reason" not in response.headers
-        ):
-            return response
-
-        reasons = ("IndividualQuotaPerHour", "RegisteredQuotaPerWeek")
-
-        rejection = response.headers["X-Rejection-Reason"]
-
-        for reason in [r for r in reasons if r.lower() in rejection.lower()]:
-            try:
-                response.raise_for_status()
-            except HTTPError as e:
-                klass = getattr(exceptions, "{0}Exceeded".format(reason))
-                e.__class__ = klass
-                raise
-        return response  # pragma: no cover
-
-    def _req(self, url, data, extra_headers=None, params=None, use_get=False):
-        headers = {"Accept": self.accept_type, "Content-Type": "text/plain"}
-        headers.update(extra_headers or {})
-        request_method = self.request.post
-        if use_get:
-            request_method = self.request.get
-        return request_method(url, data=data, headers=headers, params=params)
-
-    def _make_request(self, url, data, extra_headers=None, params=None, use_get=False):
-        extra_headers = extra_headers or {}
-        token = "Bearer {0}".format(self.access_token.token)
-        extra_headers["Authorization"] = token
-
-        response = self._req(url, data, extra_headers, params, use_get=use_get)
-        response = self._check_for_expired_token(response)
-        response = self._check_for_exceeded_quota(response)
-        response.raise_for_status()
-        return response
-
-    def _make_request_url(self, service, reference_type, input, endpoint, constituents):
-        constituents = constituents or []
-        parts = [
-            self.__service_url_prefix__,
-            service,
-            reference_type,
-            input and input.__class__.__name__.lower(),
-            endpoint,
-            ",".join(constituents),
-        ]
-        return u"/".join(filter(None, parts))
-
-    def _make_request_url_get(
-        self, service, reference_type, input, endpoint, constituents
-    ):
-        constituents = constituents or []
-        parts = [
-            self.__service_url_prefix__,
-            service,
-            reference_type,
-            input and input.__class__.__name__.lower(),
-            input.as_api_input(),
-            endpoint,
-            ",".join(constituents),
-        ]
-        return u"/".join(filter(None, parts))
-
-    # Service requests
-    def _service_request(self, path, reference_type, input, endpoint, constituents):
-        if type(input) == list:
-            url = self._make_request_url(
-                path, reference_type, input[0], endpoint, constituents
-            )
-            data = "\n".join([i.as_api_input() for i in input])
-        else:
-            url = self._make_request_url(
-                path, reference_type, input, endpoint, constituents
-            )
-            data = input.as_api_input()
-        return self._make_request(url, data)
-
-    def _search_request(self, path, cql, range, constituents=None):
-        url = self._make_request_url(path, None, None, None, constituents)
-        return self._make_request(
-            url, {"q": cql}, {range["key"]: "{begin}-{end}".format(**range)}
-        )
-
-    def _image_request(self, path, range, document_format):
-        url = self._make_request_url(
-            self.__images_path__, None, None, None, constituents={}
-        )
-        params = {"Range": range}
-        data = path.replace(self.__images_path__ + "/", "")
-        return self._make_request(
-            url, data=data, extra_headers={"Accept": document_format}, params=params
-        )
-
     def family(self, reference_type, input, endpoint=None, constituents=None):
-        url = self._make_request_url_get(
-            self.__family_path__, reference_type, input, endpoint, constituents
+        url = self._make_request_url(
+            dict(
+                service=self.__family_path__,
+                reference_type=reference_type,
+                input=input,
+                endpoint=endpoint,
+                constituents=constituents,
+                use_get=True,
+            )
         )
         return self._make_request(url, None, params=input.as_api_input(), use_get=True)
 
@@ -153,14 +65,25 @@ class Client(object):
                 "Cannot convert from {0} to {1}".format(input_format, output_format)
             )
         return self._service_request(
-            self.__number_path__, reference_type, input, output_format, None
+            dict(
+                service=self.__number_path__,
+                reference_type=reference_type,
+                input=input,
+                endpoint=output_format,
+            )
         )
 
     def published_data(
         self, reference_type, input, endpoint="biblio", constituents=None
     ):
         return self._service_request(
-            self.__published_data_path__, reference_type, input, endpoint, constituents
+            dict(
+                service=self.__published_data_path__,
+                reference_type=reference_type,
+                input=input,
+                endpoint=endpoint,
+                constituents=constituents,
+            )
         )
 
     def published_data_search(
@@ -168,19 +91,39 @@ class Client(object):
     ):
         range = dict(key="X-OPS-Range", begin=range_begin, end=range_end)
         return self._search_request(
-            self.__published_data_search_path__, cql, range, constituents
+            dict(
+                service=self.__published_data_search_path__, constituents=constituents
+            ),
+            cql,
+            range,
         )
 
     def register(self, reference_type, input, constituents=None):
         # TODO: input can only be Epodoc, not Docdb
         constituents = constituents or ["biblio"]
         return self._service_request(
-            self.__register_path__, reference_type, input, None, constituents
+            dict(
+                service=self.__register_path__,
+                reference_type=reference_type,
+                input=input,
+                constituents=constituents,
+            )
         )
 
     def register_search(self, cql, range_begin=1, range_end=25):
         range = dict(key="Range", begin=range_begin, end=range_end)
-        return self._search_request(self.__register_search_path__, cql, range)
+        return self._search_request(
+            {"service": self.__register_search_path__}, cql, range
+        )
+
+    @property
+    def access_token(self):
+        # TODO: Custom auth handler plugin to requests?
+        if (not self._access_token) or (
+            self._access_token and self._access_token.is_expired
+        ):
+            self._acquire_token()
+        return self._access_token
 
     def _acquire_token(self):
         headers = {
@@ -196,6 +139,99 @@ class Client(object):
         response.raise_for_status()
         self._access_token = AccessToken(response)
 
+    def _check_for_exceeded_quota(self, response):
+        if (response.status_code != requests.codes.forbidden) or (
+            "X-Rejection-Reason" not in response.headers
+        ):
+            return response
+
+        reasons = ("IndividualQuotaPerHour", "RegisteredQuotaPerWeek")
+
+        rejection = response.headers["X-Rejection-Reason"]
+
+        for reason in [r for r in reasons if r.lower() in rejection.lower()]:
+            try:
+                response.raise_for_status()
+            except HTTPError as e:
+                klass = getattr(exceptions, "{0}Exceeded".format(reason))
+                e.__class__ = klass
+                raise
+        return response  # pragma: no cover
+
+    def _make_request(self, url, data, extra_headers=None, params=None, use_get=False):
+        token = "Bearer {0}".format(self.access_token.token)
+        headers = {
+            "Accept": self.accept_type,
+            "Content-Type": "text/plain",
+            "Authorization": token,
+        }
+        headers.update(extra_headers or {})
+        request_method = self.request.post
+        if use_get:
+            request_method = self.request.get
+
+        response = request_method(url, data=data, headers=headers, params=params)
+        response = self._check_for_expired_token(response)
+        response = self._check_for_exceeded_quota(response)
+        response.raise_for_status()
+        return response
+
+    # info: {
+    #   use_get?: boolean = False
+    #   service?: string,
+    #   reference_type?: string,
+    #   input?: BaseInput | BaseInput[],
+    #   endpoint?: string,
+    #   constituents?: string[]
+    # }
+    def _make_request_url(self, info):
+        _input = info.get("input", None)
+        input_format = _input.__class__.__name__.lower() if _input else None
+        constituents = info.get("constituents") or []
+
+        parts_pre = [
+            self.__service_url_prefix__,
+            info.get("service", None),
+            info.get("reference_type", None),
+            input_format,
+        ]
+        parts_post = [info.get("endpoint", None), ",".join(constituents)]
+
+        if info.get("use_get", False):
+            parts = parts_pre + [_input.as_api_input()] + parts_post
+        else:
+            parts = parts_pre + parts_post
+
+        return u"/".join(filter(None, parts))
+
+    # Service requests
+    # info: {service, reference_type, input, endpoint, constituents}
+    def _service_request(self, info):
+        _input = info["input"]
+        if type(_input) == list:
+            data = "\n".join([i.as_api_input() for i in _input])
+            info["input"] = _input[0]
+        else:
+            data = _input.as_api_input()
+
+        url = self._make_request_url(info)
+        return self._make_request(url, data)
+
+    # info: {service, constituents}
+    def _search_request(self, info, cql, range):
+        url = self._make_request_url(info)
+        return self._make_request(
+            url, {"q": cql}, {range["key"]: "{begin}-{end}".format(**range)}
+        )
+
+    def _image_request(self, path, range, document_format):
+        url = self._make_request_url({"service": self.__images_path__})
+        params = {"Range": range}
+        data = path.replace(self.__images_path__ + "/", "")
+        return self._make_request(
+            url, data=data, extra_headers={"Accept": document_format}, params=params
+        )
+
     def _check_for_expired_token(self, response):
         if response.status_code != requests.codes.bad:
             return response
@@ -205,12 +241,3 @@ class Client(object):
             self._acquire_token()
             response = self._make_request(response.request.url, response.request.body)
         return response
-
-    @property
-    def access_token(self):
-        # TODO: Custom auth handler plugin to requests?
-        if (not self._access_token) or (
-            self._access_token and self._access_token.is_expired
-        ):
-            self._acquire_token()
-        return self._access_token
