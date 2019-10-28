@@ -3,6 +3,7 @@
 
 import os
 import sys
+from codecs import open
 from os import path
 
 from setuptools import setup
@@ -32,7 +33,7 @@ setup(
         "Python Client for the European Patent Office's " "Open Patent Services API"
     ),
     long_description_content_type="text/markdown",
-    long_description="{}\n{}".format(readme, history),
+    long_description=u"{}\n{}".format(readme, history),
     author="George Song",
     author_email="george@monozuku.com",
     url="https://github.com/55minutes/python-epo-ops-client",
