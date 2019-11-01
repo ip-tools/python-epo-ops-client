@@ -65,7 +65,6 @@ development.
     $ mkvirtualenv python-epo-ops-client
     $ cd python-epo-ops-client/
     $ pip install -r requirements/dev.txt
-    $ pip install -e .
     ```
 
 4.  Create a branch for local development:
@@ -80,20 +79,29 @@ development.
 
     1.  [Register a OPS user login with EPO][ops registration]
     2.  Create an app
-    3.  Look up the Mock Server URL at [Apiary][apiary ops]
+    3.  Look up the Mock Server URL at [Apiary][apiary ops], or try
+        <http://private-anon-111333769e-opsv31.apiary-mock.com>.
     4.  Set the `APIARY_URL`, `OPS_KEY`, and `OPS_SECRET` environment variables
         accordingly in a `.env` file (see `example.env`).
 
-6.  When you're done making changes, check that your changes pass flake8 and
-    the tests, including testing other Python versions with tox:
+6.  The tests must be run with a working internet connection, since both OPS and
+    the [mock Apiary services][apiary ops] are online.
+
+7.  When you're done making changes, check that your changes pass test and
+    linting, including testing other Python versions with tox. In order to run
+    tox successfully, you must have all versions of Python installed on your
+    machine. See `tox -a` for more details.
 
     ```
     $ make test
-    $ make lint
+    $ tox -e lint
     $ tox
     ```
 
-7.  Commit your changes and push your branch to GitHub::
+    ⚠️ Note that the `lint` testenv requries python3.8 to be present in your
+    system.
+
+8.  Commit your changes and push your branch to GitHub::
 
     ```
     $ git add .
@@ -101,7 +109,7 @@ development.
     $ git push origin name-of-your-bugfix-or-feature
     ```
 
-8.  Submit a pull request through the GitHub website.
+9.  Submit a pull request through the GitHub website.
 
 ## Pull Request Guidelines
 
@@ -114,10 +122,16 @@ Before you submit a pull request, check that it meets these guidelines:
 
 ## Tips
 
-To run a subset of tests:
+### To run a subset of tests:
 
+```sh
+$ pytest tests/test_utils.py
 ```
-$ py.test tests/test_utils.py
+
+### To run tox for a specific Python version
+
+```sh
+$ tox -e py27
 ```
 
 [apiary ops]: http://docs.opsv31.apiary.io

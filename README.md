@@ -40,12 +40,11 @@ There are two main layers to `python-epo-ops-client`: Client and Middleware.
 The Client contains all the formatting and token handling logic and is what
 you'll interact with mostly.
 
-When you issue a request, the response is a
-[requests.Response][requests.response] object. If `response.status_code != 200`
-then a `requests.HTTPError` exception will be raised — it's your responsibility
-to handle those exceptions if you want to. The one case that's handled is when
-the access token has expired: in this case, the client will automatically handle
-the HTTP 400 status and renew the token.
+When you issue a request, the response is a [requests.Response][] object. If
+`response.status_code != 200` then a `requests.HTTPError` exception will be
+raised — it's your responsibility to handle those exceptions if you want to. The
+one case that's handled is when the access token has expired: in this case, the
+client will automatically handle the HTTP 400 status and renew the token.
 
 Note that the Client does not attempt to interpret the data supplied by OPS, so
 it's your responsibility to parse the XML or JSON payload for your own purpose.
@@ -114,6 +113,8 @@ client = epo_ops.Client(
 )
 ```
 
+You'll also need to install caching dependencies in your projects, such as `pip install dogpile.cache`.
+
 _Note that caching middleware should be first in most cases._
 
 #### Dogpile
@@ -159,31 +160,11 @@ type, just pass the Storage object when you're instantiating a Throttler object.
 See `epo_ops.middlewares.throttle.storages.Storage` for more implementation
 details.
 
----
-
-## Tests
-
-Tests are written using [pytest][]. To run the tests:
-
-1.  [Register a OPS user login with EPO][ops registration]
-2.  Create an app
-3.  Look up the Mock Server URL at [Apiary][apiary ops]
-4.  Set the `APIARY_URL`, `OPS_KEY`, and `OPS_SECRET` environment variables
-    accordingly
-5.  `make test`
-
-The tests must be run with a working internet connection, since both OPS and the
-[mock Apiary services][apiary ops] are online.
-
 [apache license]: http://www.apache.org/licenses/LICENSE-2.0
-[apiary ops]: http://docs.opsv31.apiary.io
 [developer's area]: https://developers.epo.org/ops-v3-2/apis
-[epo]: http://epo.org
-[ops guide]: http://documents.epo.org/projects/babylon/eponet.nsf/0/F3ECDCC915C9BCD8C1258060003AA712/$FILE/ops_v3.2_documentation%20_version_1.3.4_en.pdf
-[ops registration]: https://developers.epo.org/user/register
-[ops]: http://www.epo.org/searching/free/ops.html
-[requests]: http://requests.readthedocs.org/en/latest/
 [dogpile.cache region]: http://dogpilecache.readthedocs.org/en/latest/api.html#module-dogpile.cache.region
 [dogpile.cache]: https://bitbucket.org/zzzeek/dogpile.cache
-[pytest]: http://pytest.org/latest/
+[epo]: http://epo.org
+[ops guide]: http://documents.epo.org/projects/babylon/eponet.nsf/0/F3ECDCC915C9BCD8C1258060003AA712/$FILE/ops_v3.2_documentation%20_version_1.3.4_en.pdf
+[ops]: http://www.epo.org/searching/free/ops.html
 [requests.response]: http://requests.readthedocs.org/en/latest/user/advanced/#request-and-response-objects
