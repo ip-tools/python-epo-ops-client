@@ -61,7 +61,7 @@ seed-isort-config==1.9.3
 six==1.12.0
 toml==0.10.0              # via tox
 tox==3.14.0
-tqdm==4.36.1              # via twine
+tqdm==4.37.0              # via twine
 traitlets==4.3.3          # via ipython
 twine==1.15.0
 urllib3==1.25.6           # via requests
@@ -72,4 +72,4 @@ wheel==0.33.6
 zipp==0.6.0               # via importlib-metadata
 
 # The following packages are considered to be unsafe in a requirements file:
-# setuptools==41.5.1        # via ipython, twine
+# setuptools==41.6.0        # via ipython, twine
