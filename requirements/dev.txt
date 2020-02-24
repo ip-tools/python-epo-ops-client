@@ -5,12 +5,11 @@
 #    pip-compile requirements/dev.in
 #
 apipkg==1.5               # via execnet
-appnope==0.1.0            # via ipython
 aspy.refactor-imports==1.1.0  # via seed-isort-config
 atomicwrites==1.3.0       # via pytest
 attrs==19.3.0             # via flake8-bugbear, pytest
 backcall==0.1.0           # via ipython
-bleach==3.1.0             # via readme-renderer
+bleach==3.1.1             # via readme-renderer
 bump2version==0.5.11
 cached-property==1.5.1    # via aspy.refactor-imports
 certifi==2019.9.11        # via requests
@@ -28,15 +27,13 @@ filelock==3.0.12          # via tox
 flake8-bugbear==19.8.0
 flake8==3.7.9
 idna==2.8                 # via requests
-importlib-metadata==0.23  # via pluggy, pytest, tox
 ipython-genutils==0.2.0   # via traitlets
 ipython==7.9.0
 jedi==0.15.1              # via ipython
 mccabe==0.6.1             # via flake8
-more-itertools==7.2.0     # via pytest, zipp
+more-itertools==7.2.0     # via pytest
 packaging==19.2           # via pytest, tox
 parso==0.5.1              # via jedi
-pathlib2==2.3.5           # via pytest
 pexpect==4.7.0            # via ipython
 pickleshare==0.7.5        # via ipython
 pip-tools==4.2.0
@@ -69,7 +66,6 @@ virtualenv==16.7.7        # via tox
 wcwidth==0.1.7            # via prompt-toolkit, pytest
 webencodings==0.5.1       # via bleach
 wheel==0.33.6
-zipp==0.6.0               # via importlib-metadata
 
 # The following packages are considered to be unsafe in a requirements file:
-# setuptools==41.6.0        # via ipython, twine
+# setuptools
