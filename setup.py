@@ -23,7 +23,7 @@ here = path.abspath(path.dirname(__file__))
 with open(path.join(here, "README.md"), encoding="utf-8") as f:
     readme = f.read()
 
-with open(path.join(here, "HISTORY.md"), encoding="utf-8") as f:
+with open(path.join(here, "CHANGELOG.md"), encoding="utf-8") as f:
     history = f.read()
 
 setup(

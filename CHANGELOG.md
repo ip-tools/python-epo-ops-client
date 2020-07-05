@@ -1,4 +1,8 @@
-# Release History
+# Change Log
+
+## 3.1.2 (2020-07-04)
+
+- Upgrade dependencies
 
 ## 3.1.1 (2019-10-28)
 
