@@ -9,7 +9,7 @@ You can contribute in many ways.
 
 ### Report Bugs
 
-Report bugs at <https://github.com/55minutes/python-epo-ops-client/issues>.
+Report bugs at <https://github.com/gsong/python-epo-ops-client/issues>.
 
 If you are reporting a bug, please include:
 
@@ -36,7 +36,7 @@ blog posts, articles, and such.
 ### Submit Feedback
 
 The best way to send feedback is to file an issue at
-https://github.com/55minutes/python-epo-ops-client/issues.
+https://github.com/gsong/python-epo-ops-client/issues.
 
 If you are proposing a feature:
 

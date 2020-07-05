@@ -3,7 +3,7 @@
 ## 3.1.1 (2019-10-28)
 
 - GET instead of POST for family services, thanks to [amotl][]. See
-  [#33](https://github.com/55minutes/python-epo-ops-client/issues/33) for more
+  [#33](https://github.com/gsong/python-epo-ops-client/issues/33) for more
   info.
 
 ## 3.1.0 (2019-10-27)
