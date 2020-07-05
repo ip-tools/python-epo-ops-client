@@ -60,7 +60,7 @@ release-test: clean # Package and upload a release to testpypi
 	python setup.py sdist
 	python setup.py bdist_wheel
 	twine check dist/*
-	twine upload --repository test dist/*
+	twine upload --repository testpypi dist/*
 	open https://testpypi.python.org/pypi/python-epo-ops-client
 
 sdist: clean
