@@ -15,4 +15,4 @@ after_success: coveralls -v
 branches:
   only:
     - main
-    - development
+    - develop
