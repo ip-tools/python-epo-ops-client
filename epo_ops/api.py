@@ -1,8 +1,7 @@
 # -*- coding: utf-8 -*-
-
 import logging
-import xml.etree.ElementTree as ET
 from base64 import b64encode
+from xml.etree import ElementTree as ET
 
 import requests
 from requests.exceptions import HTTPError
