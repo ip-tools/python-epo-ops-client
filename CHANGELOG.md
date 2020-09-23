@@ -1,5 +1,9 @@
 # Change Log
 
+## 3.1.3 (2020-09-23)
+
+- Upgrade dependencies
+
 ## 3.1.2 (2020-07-04)
 
 - Upgrade dependencies
