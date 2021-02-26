@@ -7,7 +7,7 @@
 
 python-epo-ops-client is an [Apache2 licensed][apache license] client library
 for accessing the [European Patent Office][epo]'s ("EPO") [Open Patent
-Services][ops] ("OPS") v.3.2 (based on [v 1.3.15 of the reference guide][ops guide]).
+Services][ops] ("OPS") v.3.2 (based on [v 1.3.16 of the reference guide][ops guide]).
 
 ```python
 import epo_ops
@@ -165,6 +165,6 @@ details.
 [dogpile.cache region]: http://dogpilecache.readthedocs.org/en/latest/api.html#module-dogpile.cache.region
 [dogpile.cache]: https://bitbucket.org/zzzeek/dogpile.cache
 [epo]: http://epo.org
-[ops guide]: http://documents.epo.org/projects/babylon/eponet.nsf/0/F3ECDCC915C9BCD8C1258060003AA712/$FILE/ops_v3.2_documentation%20_version_1.3.4_en.pdf
-[ops]: http://www.epo.org/searching/free/ops.html
+[ops guide]: http://documents.epo.org/projects/babylon/eponet.nsf/0/F3ECDCC915C9BCD8C1258060003AA712/$File/ops_v3.2_documentation_-_version_1.3.16_en.pdf
+[ops]: https://www.epo.org/searching-for-patents/data/web-services/ops.html
 [requests.response]: http://requests.readthedocs.org/en/latest/user/advanced/#request-and-response-objects
