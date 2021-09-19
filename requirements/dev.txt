@@ -4,8 +4,6 @@
 #
 #    pip-compile requirements/dev.in
 #
-appnope==0.1.2
-    # via ipython
 aspy.refactor-imports==2.2.0
     # via seed-isort-config
 attrs==21.2.0
@@ -19,11 +17,13 @@ backports.entry-points-selectable==1.1.0
 bleach==4.1.0
     # via readme-renderer
 bump2version==1.0.1
-    # via -r requirements/dev.in
+    # via -r dev.in
 cached-property==1.5.2
     # via aspy.refactor-imports
 certifi==2021.5.30
     # via requests
+cffi==1.14.6
+    # via cryptography
 charset-normalizer==2.0.6
     # via requests
 click==8.0.1
@@ -35,7 +35,9 @@ coverage==5.5
     #   coveralls
     #   pytest-cov
 coveralls==3.2.0
-    # via -r requirements/test-27.in
+    # via -r test-27.in
+cryptography==3.4.8
+    # via secretstorage
 decorator==5.1.0
     # via
     #   dogpile.cache
@@ -47,7 +49,7 @@ docopt==0.6.2
 docutils==0.17.1
     # via readme-renderer
 dogpile.cache==1.1.4
-    # via -r requirements/test-27.in
+    # via -r test-27.in
 execnet==1.9.0
     # via pytest-cache
 filelock==3.0.12
@@ -56,10 +58,10 @@ filelock==3.0.12
     #   virtualenv
 flake8==3.9.2
     # via
-    #   -r requirements/test-27.in
+    #   -r test-27.in
     #   flake8-bugbear
 flake8-bugbear==21.9.1
-    # via -r requirements/test.in
+    # via -r test.in
 idna==3.2
     # via requests
 importlib-metadata==4.8.1
@@ -69,9 +71,13 @@ importlib-metadata==4.8.1
 iniconfig==1.1.1
     # via pytest
 ipython==7.27.0
-    # via -r requirements/dev.in
+    # via -r dev.in
 jedi==0.18.0
     # via ipython
+jeepney==0.7.1
+    # via
+    #   keyring
+    #   secretstorage
 keyring==23.2.1
     # via twine
 matplotlib-inline==0.1.3
@@ -94,7 +100,7 @@ pexpect==4.8.0
 pickleshare==0.7.5
     # via ipython
 pip-tools==6.2.0
-    # via -r requirements/dev.in
+    # via -r dev.in
 pkginfo==1.7.1
     # via twine
 platformdirs==2.3.0
@@ -113,6 +119,8 @@ py==1.10.0
     #   tox
 pycodestyle==2.7.0
     # via flake8
+pycparser==2.20
+    # via cffi
 pyflakes==2.3.1
     # via flake8
 pygments==2.10.0
@@ -123,22 +131,22 @@ pyparsing==2.4.7
     # via packaging
 pytest==6.2.5
     # via
-    #   -r requirements/test-27.in
+    #   -r test-27.in
     #   pytest-cache
     #   pytest-cov
 pytest-cache==1.0
-    # via -r requirements/test-27.in
+    # via -r test-27.in
 pytest-cov==2.12.1
-    # via -r requirements/test-27.in
+    # via -r test-27.in
 python-dateutil==2.8.2
-    # via -r requirements/base.in
+    # via -r base.in
 python-dotenv==0.19.0
-    # via -r requirements/test-27.in
+    # via -r test-27.in
 readme-renderer==29.0
     # via twine
 requests==2.26.0
     # via
-    #   -r requirements/base.in
+    #   -r base.in
     #   coveralls
     #   requests-toolbelt
     #   twine
@@ -146,11 +154,13 @@ requests-toolbelt==0.9.1
     # via twine
 rfc3986==1.5.0
     # via twine
+secretstorage==3.3.1
+    # via keyring
 seed-isort-config==2.2.0
-    # via -r requirements/dev.in
+    # via -r dev.in
 six==1.16.0
     # via
-    #   -r requirements/base.in
+    #   -r base.in
     #   bleach
     #   python-dateutil
     #   readme-renderer
@@ -166,7 +176,7 @@ toml==0.10.2
 tomli==1.2.1
     # via pep517
 tox==3.24.4
-    # via -r requirements/test-27.in
+    # via -r test-27.in
 tqdm==4.62.2
     # via twine
 traitlets==5.1.0
@@ -174,7 +184,7 @@ traitlets==5.1.0
     #   ipython
     #   matplotlib-inline
 twine==3.4.2
-    # via -r requirements/dev.in
+    # via -r dev.in
 urllib3==1.26.6
     # via requests
 virtualenv==20.8.0
@@ -185,7 +195,7 @@ webencodings==0.5.1
     # via bleach
 wheel==0.37.0
     # via
-    #   -r requirements/dev.in
+    #   -r dev.in
     #   pip-tools
 zipp==3.5.0
     # via importlib-metadata
