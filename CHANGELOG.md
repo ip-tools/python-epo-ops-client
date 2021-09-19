@@ -1,5 +1,11 @@
 # Change Log
 
+## 4.0.0 (2021-09-19)
+
+- Upgrade dependencies
+- Drop support for Python 2.7 and Python 3.5
+- Add support for Python 3.9
+
 ## 3.1.3 (2020-09-23)
 
 - Upgrade dependencies

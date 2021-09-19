@@ -3,12 +3,7 @@ python:
   - "3.6"
   - "3.7"
   - "3.8"
-jobs:
-  include:
-    - python: "2.7"
-      install: pip install -r requirements/test-27.txt
-    - python: "3.5"
-      install: pip install -r requirements/test-35.txt
+  - "3.9"
 install: pip install -r requirements/test.txt
 script: make test-ci
 after_success: coveralls -v
