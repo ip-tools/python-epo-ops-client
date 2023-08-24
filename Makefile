@@ -37,16 +37,16 @@ lint: ## flake8 lint the project
 	flake8 epo_ops tests
 
 test: clean ## Run tests with virtualenv Python
-	py.test -s -v --lf --cov-report term --cov epo_ops tests
+	py.test -s -v --lf --cov epo_ops tests --cov-report term-missing --cov-report xml
 
 test-ci: clean ## Run tests in CI environment with virtualenv Python
-	py.test -v --cov epo_ops --cov-report term-missing
+	py.test -v --cov epo_ops tests --cov-report term-missing --cov-report xml
 
 tox: clean ## Run tests with all supported Python versions
 	tox
 
 coverage: clean ## Check code coverage locally
-	py.test -s -v --cov-report html --cov-report term --cov epo_ops tests
+	py.test -s -v --cov epo_ops tests --cov-report term-missing --cov-report xml --cov-report html
 	open htmlcov/index.html
 
 release: clean # Package and upload a release to PyPI
