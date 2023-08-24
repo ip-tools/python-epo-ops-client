@@ -1,9 +1,0 @@
--r base.in
--r test.in
-
-bump2version
-ipython
-pip-tools
-seed-isort-config
-twine
-wheel

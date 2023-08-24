@@ -22,9 +22,9 @@ on behalf of a pull request, see the [contributing guidelines](contributing.md).
     source .venv/bin/activate
     ```
 
-3.  Install required Python packages.
+3.  Install required Python packages into development sandbox.
     ```shell
-    pip install -r requirements/dev.txt
+    make install-develop
     ```
 
 
