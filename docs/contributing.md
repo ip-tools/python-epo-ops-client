@@ -22,8 +22,10 @@ whoever wants to fix it.
 
 ### Implement Features
 
-Look through TODOS.md or GitHub issues for features. Anything tagged with
-"feature" is open to whoever wants to implement it.
+We are tracking all sorts of tasks within the [backlog](backlog.md) file and
+as issues on GitHub. Just pick one, submit a corresponding patch, or start
+a discussion around it. Anything tagged with "feature" is open to whoever wants
+to implement it.
 
 ### Write Documentation
 
