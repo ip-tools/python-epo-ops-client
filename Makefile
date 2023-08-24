@@ -18,9 +18,6 @@ help: ## Display this help message
 seed-isort-config: ## Update known third party dependencies
 	seed-isort-config --application-directories .:epo_ops --exclude setup.py
 
-pip-compile: ## Update compiled requirement files
-	bin/pip-compile.sh
-
 clean: clean-build clean-pyc
 
 clean-build:
