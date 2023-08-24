@@ -36,9 +36,9 @@ setup(
     long_description=u"{}\n{}".format(readme, history),
     author="George Song",
     author_email="george@monozuku.com",
-    url="https://github.com/gsong/python-epo-ops-client",
+    url="https://github.com/ip-tools/python-epo-ops-client",
     download_url=(
-        "https://github.com/gsong/python-epo-ops-client/archive/"
+        "https://github.com/ip-tools/python-epo-ops-client/archive/"
         "v%s.tar.gz" % __version__
     ),
     packages=packages,
