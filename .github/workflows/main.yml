@@ -1,0 +1,61 @@
+---
+name: Tests
+
+on:
+  pull_request: ~
+  push:
+    branches: [ main ]
+
+  # Allow job to be triggered manually.
+  workflow_dispatch:
+
+# Cancel in-progress jobs when pushing to the same branch.
+concurrency:
+  cancel-in-progress: true
+  group: ${{ github.workflow }}-${{ github.ref }}
+
+jobs:
+
+  tests:
+
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: true
+      matrix:
+        os: ["ubuntu-20.04"]
+        python-version: ["3.6", "3.7", "3.8", "3.9"]
+
+    env:
+      OS: ${{ matrix.os }}
+      PYTHON: ${{ matrix.python-version }}
+
+    name: Python ${{ matrix.python-version }} on OS ${{ matrix.os }}
+    steps:
+
+    - name: Acquire sources
+      uses: actions/checkout@v3
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: ${{ matrix.python-version }}
+        architecture: x64
+        cache: 'pip'
+        cache-dependency-path: 'setup.py'
+
+    - name: Setup project
+      run: |
+        pip install -r requirements/test.txt
+
+    - name: Run linter and software tests
+      run: |
+        make test-ci
+
+    - name: Upload coverage to Codecov
+      uses: codecov/codecov-action@v3
+      with:
+        files: ./coverage.xml
+        flags: unittests
+        env_vars: OS,PYTHON
+        name: codecov-umbrella
+        fail_ci_if_error: false
