@@ -78,5 +78,5 @@ tox -e py27
 ```
 
 
-[apiary ops]: http://docs.opsv31.apiary.io
+[apiary ops]: https://opsv31.docs.apiary.io/
 [ops registration]: https://developers.epo.org/user/register
