@@ -2,8 +2,8 @@
 
 [![PyPI](https://img.shields.io/pypi/v/python-epo-ops-client)](https://pypi.org/project/python-epo-ops-client/)
 [![PyPI - Python Version](https://img.shields.io/pypi/pyversions/python-epo-ops-client)](https://pypi.org/project/python-epo-ops-client/)
-[![Travis.org](https://img.shields.io/travis/gsong/python-epo-ops-client)](https://travis-ci.org/gsong/python-epo-ops-client)
-[![Coveralls github](https://img.shields.io/coveralls/github/gsong/python-epo-ops-client)](https://coveralls.io/github/gsong/python-epo-ops-client)
+[![GHA](https://github.com/ip-tools/python-epo-ops-client/actions/workflows/main.yml/badge.svg)](https://github.com/ip-tools/python-epo-ops-client/actions/workflows/main.yml)
+[![Codecov](https://codecov.io/gh/ip-tools/python-epo-ops-client/branch/main/graph/badge.svg)](https://codecov.io/gh/ip-tools/python-epo-ops-client)
 
 python-epo-ops-client is an [Apache2 licensed][apache license] client library
 for accessing the [European Patent Office][epo]'s ("EPO") [Open Patent
