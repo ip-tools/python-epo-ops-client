@@ -28,19 +28,38 @@ on behalf of a pull request, see the [contributing guidelines](contributing.md).
     ```
 
 
-## OPS Account Setup
+## Software Tests
+
+
+### OPS Account Setup
 
 Running the software tests require a working OPS account.
 
-1.  [Register a OPS user login with EPO][ops registration]
-2.  Create an app
-3.  Look up the Mock Server URL at [Apiary][apiary ops], or try
-    <http://private-anon-111333769e-opsv31.apiary-mock.com>.
-4.  Set the `APIARY_URL`, `OPS_KEY`, and `OPS_SECRET` environment variables
-    accordingly in a `.env` file (see `example.env`).
+1.  [Sign up for an OPS user login with EPO][ops registration].
+2.  Create an App at the OPS Console, which will provide you with a corresponding
+    pair of authentication credentials, the OPS application key and its secret.
 
 
-## Software Tests
+### Prerequisites
+
+Before running the software tests, you will need to define the `APIARY_URL`,
+`OPS_KEY`, and `OPS_SECRET` environment variables.
+
+You can either define them interactively using `export VARNAME=VALUE`, or store
+them into an `.env` file within the same directory you are running the tests from.
+See `example.env` for a blueprint.
+
+A public instance of the Mock Server API service is available at
+<https://opsv31.docs.apiary.io/>.
+
+```shell
+export APIARY_URL=https://opsv31.docs.apiary.io/
+export OPS_KEY=NKdGMmedZBGLRxTrUwCZMQCYp7Ak5a0u
+export OPS_SECRET=v3vARPu7DFPEDB8i
+```
+
+_Note that the credentials are just for demonstration purposes, and invalid._
+
 
 ### Basics
 
