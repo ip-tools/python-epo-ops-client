@@ -42,3 +42,6 @@ nosetests.xml
 htmlcov
 tests/middlewares/throttle/sample
 tests/throttle/sample
+
+# Virtualenvs
+.venv*
