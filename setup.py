@@ -16,7 +16,30 @@ if sys.argv[-1] == "publish":
 
 packages = ["epo_ops"]
 
-requires = ["python-dateutil", "requests", "six"]
+requires = [
+    "dogpile.cache<1.2",
+    "python-dateutil<2.9",
+    "requests>=2.27,<3",
+    "six<2",
+]
+extras = {
+    "develop": [
+        "black<24",
+        "bump2version<1.1",
+        "flake8<6",
+        "flake8-bugbear<22",
+        "isort<6",
+        "seed-isort-config<3",
+        "twine<5",
+        "wheel<1",
+    ],
+    "test": [
+        "pytest<8",
+        "pytest-cache<2",
+        "pytest-cov<4.2",
+        "python-dotenv<0.20",
+    ],
+}
 
 here = path.abspath(path.dirname(__file__))
 
@@ -45,7 +68,8 @@ setup(
     package_dir={"epo_ops": "epo_ops"},
     include_package_data=True,
     install_requires=requires,
-    tests_require=["pytest", "pytest-cache", "pytest-cov"],
+    extras_require=extras,
+    tests_require=extras["test"],
     zip_safe=False,
     classifiers=[
         "Development Status :: 5 - Production/Stable",

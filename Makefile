@@ -15,6 +15,9 @@ help: ## Display this help message
 	@echo "Please use \`make <target>' where <target> is one of the following:"
 	@perl -nle'print $& if m{^[\.a-zA-Z_-]+:.*?## .*$$}' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m  %-25s\033[0m %s\n", $$1, $$2}'
 
+install-develop: ## Install project into sandbox.
+	pip install --use-pep517 --prefer-binary --editable=.[develop,docs,test]
+
 seed-isort-config: ## Update known third party dependencies
 	seed-isort-config --application-directories .:epo_ops --exclude setup.py
 

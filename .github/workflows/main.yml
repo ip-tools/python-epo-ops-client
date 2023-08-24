@@ -48,7 +48,7 @@ jobs:
 
     - name: Setup project
       run: |
-        pip install -r requirements/test.txt
+        make install-develop
 
     - name: Run linter and software tests
       run: |
