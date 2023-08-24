@@ -49,16 +49,16 @@ You can either define them interactively using `export VARNAME=VALUE`, or store
 them into an `.env` file within the same directory you are running the tests from.
 See `example.env` for a blueprint.
 
-A public instance of the Mock Server API service is available at
-<https://opsv31.docs.apiary.io/>.
+The Apiary Mock Server API blueprint is available at <https://opsv31.docs.apiary.io/>.
 
 ```shell
-export APIARY_URL=https://opsv31.docs.apiary.io/
+export APIARY_URL=https://private-[SECRET]-opsv31.apiary-mock.com/
 export OPS_KEY=NKdGMmedZBGLRxTrUwCZMQCYp7Ak5a0u
 export OPS_SECRET=v3vARPu7DFPEDB8i
 ```
 
-_Note that the credentials are just for demonstration purposes, and invalid._
+_Note that the Apiary URL and the OPS credentials are just for demonstration
+purposes, and will not work._
 
 
 ### Basics

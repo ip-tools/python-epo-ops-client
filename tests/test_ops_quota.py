@@ -16,7 +16,6 @@ def issue_request(client):
 
 
 # Tests
-@pytest.mark.skip(reason="FIXME: Currently fails")
 def test_mock_quota_exceeded(all_clients, monkeypatch):
     monkeypatch.setattr(all_clients, "__service_url_prefix__", APIARY_URL)
     errors = {
