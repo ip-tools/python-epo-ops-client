@@ -95,5 +95,5 @@ setup(
         "patent-data-api",
         "european patent office",
         "open patent services",
-    ]
+    ],
 )

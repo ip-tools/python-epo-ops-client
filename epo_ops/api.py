@@ -201,7 +201,7 @@ class Client(object):
         else:
             parts = parts_pre + parts_post
 
-        return u"/".join(filter(None, parts))
+        return "/".join(filter(None, parts))
 
     # Service requests
     # info: {service, reference_type, input, endpoint, constituents}

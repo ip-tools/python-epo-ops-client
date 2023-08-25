@@ -12,7 +12,7 @@ log = logging.getLogger(__name__)
 
 
 def _prepare_part(part):
-    return u"({0})".format(quote(part))
+    return "({0})".format(quote(part))
 
 
 class BaseInput(object):
@@ -28,7 +28,7 @@ class BaseInput(object):
         parts = filter(
             None, [self.country_code, self.number, self.kind_code, self.date]
         )
-        return u".".join(map(_prepare_part, parts))
+        return ".".join(map(_prepare_part, parts))
 
 
 class Original(BaseInput):

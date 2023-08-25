@@ -125,8 +125,8 @@ class SQLite(Storage):
             return 0.0
         else:
             td = next_run - _now
-            ts = td.microseconds + (td.seconds + td.days * 24 * 3600) * 10 ** 6
-            return ts / 10 ** 6
+            ts = td.microseconds + (td.seconds + td.days * 24 * 3600) * 10**6
+            return ts / 10**6
 
     def update(self, headers):
         "This method is a public interface for a throttle storage class"
