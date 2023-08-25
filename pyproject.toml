@@ -1,0 +1,76 @@
+[tool.ruff]
+line-length = 80
+
+select = [
+  # Bandit
+  "S",
+  # Bugbear
+  "B",
+  # Builtins
+  "A",
+  # comprehensions
+  "C",
+  # eradicate
+  "ERA",
+  # flake8-2020
+  "YTT",
+  # isort
+  "I",
+  # pandas-vet
+  "PD",
+  # print
+  "T20",
+  # Pycodestyle
+  "E",
+  "W",
+  # Pyflakes
+  "F",
+  # return
+  "RET",
+  # from `.flake8` file
+  "T",   # T4
+  "B9",
+]
+
+extend-exclude = [
+  "__init__.py",
+]
+
+ignore = [
+  "E203",
+  "E266",
+  "E501",
+  "ERA001",  # Found commented-out code
+  "RET505",  # Unnecessary `else` after `return` statement
+  # "W503",  # Unknown rule selector
+]
+
+# from `.isort.cfg` file
+[tool.ruff.isort]
+combine-as-imports = true
+force-wrap-aliases = true
+known-third-party = ["dateutil", "dogpile", "dotenv", "pytest", "requests", "six"]
+split-on-trailing-comma = false
+
+# from `.flake8` file
+[tool.ruff.mccabe]
+# Flag errors (`C901`) whenever the complexity level exceeds the configured value.
+max-complexity = 7
+
+
+[tool.ruff.per-file-ignores]
+"tests/*" = [
+  "S101",  # Use of `assert` detected
+]
+"epo_ops/api.py" = [
+  "A001",  # Variable `range` is shadowing a Python builtin
+  "A002",  # Argument `input` is shadowing a Python builtin
+  "C408",  # Unnecessary `dict` call (rewrite as a literal)
+]
+# FIXME: Improve this situation wrt. SQL injection, even it is not be an actual attack vector.
+"*sqlite.py" = [
+  "S608",  # Possible SQL injection vector through string-based query construction
+]
+"tests/middlewares/throttle/conftest.py" = [
+  "S311",  # Standard pseudo-random generators are not suitable for cryptographic purposes
+]

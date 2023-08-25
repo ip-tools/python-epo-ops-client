@@ -36,14 +36,15 @@ clean-pyc:
 check: lint test        ## Run linter and software tests
 check-ci: lint test-ci  ## Run linter and software tests on CI
 
-lint: ## flake8 lint the project
-	flake8 epo_ops tests
+lint: ## lint the project
+	ruff .
 	black --check .
-	isort --check .
 
 format: ## Run code formatting
+	# Configure Ruff not to auto-fix (remove!):
+	# Ignore unused imports (F401), unused variables (F841), `print` statements (T201), and commented-out code (ERA001).
+	ruff --fix --ignore=ERA --ignore=F401 --ignore=F841 --ignore=T20 --ignore=ERA001 .
 	black .
-	isort .
 
 test: clean ## Run tests with virtualenv Python
 	py.test -s -v --lf --cov epo_ops tests --cov-report term-missing --cov-report xml
