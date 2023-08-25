@@ -3,12 +3,11 @@
 
 ## Iteration +1
 
-- Use new organization name `ip-tools`
-- Dissolve `requirements` files, and inline them into `setup.py`
-- CI: Add GHA recipe, dissolve Travis configuration
 - Use `ruff` linter, dissolve `flake8` and `isort`
 - Use `versioningit` for versioning, dissolve `bumpversion`
 - Switch to `pyproject.toml`
+- Replace Apiary Mock server
+  https://github.com/ip-tools/python-epo-ops-client/issues/65
 - Setup project documentation on Read the Docs
 
 
@@ -25,3 +24,11 @@ This is the content of the original `TODOS.md` file.
 - Additional services
   - Legal service
 - Makefile: Comma in `echo` statements?
+
+
+## Done
+
+- Use new organization name `ip-tools`
+- CI: Add GHA recipe, dissolve Travis configuration
+- Dissolve `requirements` files, and inline them into `setup.py`
+- Add support for Python 3.10 and 3.11
