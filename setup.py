@@ -46,19 +46,19 @@ here = path.abspath(path.dirname(__file__))
 with open(path.join(here, "README.md"), encoding="utf-8") as f:
     readme = f.read()
 
-with open(path.join(here, "CHANGELOG.md"), encoding="utf-8") as f:
-    history = f.read()
-
 setup(
     name="python-epo-ops-client",
     version=__version__,
     description=(
-        "Python Client for the European Patent Office's " "Open Patent Services API"
+        "Python client for EPO OPS, "
+        "the European Patent Office's Open Patent Services API."
     ),
     long_description_content_type="text/markdown",
-    long_description=u"{}\n{}".format(readme, history),
+    long_description=readme,
     author="George Song",
     author_email="george@monozuku.com",
+    maintainer="Andreas Motl",
+    maintainer_email="andreas.motl@ip-tools.org",
     url="https://github.com/ip-tools/python-epo-ops-client",
     download_url=(
         "https://github.com/ip-tools/python-epo-ops-client/archive/"
@@ -84,4 +84,14 @@ setup(
         "Topic :: Software Development :: Libraries",
         "Topic :: Software Development :: Libraries :: Python Modules",
     ],
+    keywords=[
+        "ops",
+        "epo",
+        "epo-ops",
+        "patent-data",
+        "patent-office",
+        "patent-data-api",
+        "european patent office",
+        "open patent services",
+    ]
 )
