@@ -52,7 +52,7 @@ jobs:
 
     - name: Run linter and software tests
       run: |
-        make test-ci
+        make check-ci
 
     - name: Upload coverage to Codecov
       uses: codecov/codecov-action@v3
