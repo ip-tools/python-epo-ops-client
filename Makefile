@@ -48,9 +48,6 @@ test: clean ## Run tests with virtualenv Python
 test-ci: clean ## Run tests in CI environment with virtualenv Python
 	py.test -v --cov epo_ops tests --cov-report term-missing --cov-report xml
 
-tox: clean ## Run tests with all supported Python versions
-	tox
-
 coverage: clean ## Check code coverage locally
 	py.test -s -v --cov epo_ops tests --cov-report term-missing --cov-report xml --cov-report html
 	open htmlcov/index.html
