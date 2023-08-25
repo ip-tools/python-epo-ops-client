@@ -70,9 +70,6 @@ make check
 ⚠️ Note that the software tests need a working internet connection, in order to
 access both the OPS and the [OPS Apiary Mock Services][apiary ops] services.
 
-⚠️ Note that running the test suite using `tox` may still work, however we are
-planning to remove that configuration in the future.
-
 
 ### Advanced Usage
 
@@ -90,11 +87,6 @@ pytest tests/test_utils.py
 Run all tests containing "api".
 ```shell
 pytest -k api
-```
-
-To run `tox` for a specific Python version:
-```shell
-tox -e py27
 ```
 
 

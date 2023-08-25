@@ -64,9 +64,8 @@ a development sandbox](sandbox.md).
     Now, make your changes within your working tree.
 
 5.  After making changes to the code base, you may want to check that your
-    changes pass test and linting procedures, including testing other Python
-    versions with tox. In order to run tox successfully, you must have all versions
-    of Python installed on your machine. See `tox -a` for more details.
+    changes pass test and linting procedures. For that purpose, run
+    `make check`.
 
 6.  Commit your changes and push your branch to GitHub.
 
