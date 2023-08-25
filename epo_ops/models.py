@@ -11,6 +11,9 @@ from .utils import quote, validate_date
 log = logging.getLogger(__name__)
 
 
+NETWORK_TIMEOUT = 10.0
+
+
 def _prepare_part(part):
     return "({0})".format(quote(part))
 
@@ -107,8 +110,8 @@ class Request(object):
 
 
 def _post_callback(url, data, **kwargs):
-    return requests.post(url, data, **kwargs)
+    return requests.post(url, data, **kwargs, timeout=NETWORK_TIMEOUT)
 
 
 def _get_callback(url, data, **kwargs):
-    return requests.get(url, **kwargs)
+    return requests.get(url, **kwargs, timeout=NETWORK_TIMEOUT)

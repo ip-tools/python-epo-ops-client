@@ -8,7 +8,7 @@ from requests.exceptions import HTTPError
 
 from . import exceptions
 from .middlewares import Throttler
-from .models import AccessToken, Request
+from .models import AccessToken, NETWORK_TIMEOUT, Request
 
 log = logging.getLogger(__name__)
 
@@ -134,7 +134,7 @@ class Client(object):
             "Content-Type": "application/x-www-form-urlencoded",
         }
         payload = {"grant_type": "client_credentials"}
-        response = requests.post(self.__auth_url__, headers=headers, data=payload)
+        response = requests.post(self.__auth_url__, headers=headers, data=payload, timeout=NETWORK_TIMEOUT)
         response.raise_for_status()
         self._access_token = AccessToken(response)
 
