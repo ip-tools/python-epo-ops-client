@@ -168,8 +168,7 @@ def throttle_history(expired_throttle_history, retry_after_value):
     # Make sure to override expected
     expected["search"] = retry_after_value / 1000.0
 
-    th = {"expected": expected, "storage": storage}
-    return th
+    return {"expected": expected, "storage": storage}
 
 
 @pytest.fixture

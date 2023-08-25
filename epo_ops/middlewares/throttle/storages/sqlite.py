@@ -23,7 +23,8 @@ def convert_timestamp(ts):
 
 sqlite3.register_converter("timestamp", convert_timestamp)
 
-DEFAULT_DB_PATH = "/var/tmp/python-epo-ops-client/throttle_history.db"
+# FIXME: S108 Probable insecure usage of temporary file or directory: "/var/tmp/python-epo-ops-client/cache.dbm"
+DEFAULT_DB_PATH = "/var/tmp/python-epo-ops-client/throttle_history.db"  # noqa: S108
 
 
 class SQLite(Storage):

@@ -41,7 +41,7 @@ def test_process_request_and_response(module_cache, http_status_codes):
     url = "x"
     data = http_status_codes
     response = Response(http_status_codes)
-    response._secret = "me"
+    response._secret = "me"  # noqa: S105
     key = module_cache.generate_key(url, data)
 
     # First process, nothing in cache
