@@ -74,7 +74,3 @@ def test_process_request_and_response(module_cache, http_status_codes):
     assert env["from-cache"] is True
     assert env["is-cached"] is False
     assert env["response"]._secret == response._secret
-
-
-if __name__ == "__main__":
-    pytest.main()

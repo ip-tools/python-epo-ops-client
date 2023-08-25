@@ -1,4 +1,3 @@
-import pytest
 from pytest import raises
 
 from epo_ops.exceptions import InvalidDate
@@ -22,7 +21,3 @@ def test_invalid_date():
         validate_date("abc")
     with raises(InvalidDate):
         validate_date("19941301")
-
-
-if __name__ == "__main__":
-    pytest.main()
