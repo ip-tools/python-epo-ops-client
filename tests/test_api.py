@@ -90,7 +90,7 @@ def test_get_access_token(clients):
 def test_400_expired_or_inavlid_token(default_client):
     # Put in a token that's expired or invalid, the server will raise 400 but we
     # should handle it gracefully
-    token = "m34NdKmpABZ8ukqi4juRNQCrv5C5"
+    token = "m34NdKmpABZ8ukqi4juRNQCrv5C5"  # noqa: S105
     default_client.access_token.token = token
     assert_published_data_success(default_client)
 

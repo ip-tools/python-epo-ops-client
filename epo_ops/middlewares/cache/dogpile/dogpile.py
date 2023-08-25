@@ -15,7 +15,8 @@ from .helpers import kwarg_range_header_handler
 
 log = logging.getLogger(__name__)
 
-DEFAULT_DBM_PATH = "/var/tmp/python-epo-ops-client/cache.dbm"
+# FIXME: S108 Probable insecure usage of temporary file or directory: "/var/tmp/python-epo-ops-client/cache.dbm"
+DEFAULT_DBM_PATH = "/var/tmp/python-epo-ops-client/cache.dbm"  # noqa: S108
 DEFAULT_TIMEOUT = 60 * 60 * 24 * 7 * 2  # 2 weeks in seconds
 
 

@@ -11,7 +11,9 @@ from setuptools import setup
 from __version__ import __version__
 
 if sys.argv[-1] == "publish":
-    os.system("python setup.py sdist upload")
+    # FIXME: S605 Starting a process with a shell: seems safe, but may be changed in the future; consider rewriting without `shell`
+    # FIXME: S607 Starting a process with a partial executable path
+    os.system("python setup.py sdist upload")  # noqa: S605, S607
     sys.exit()
 
 packages = ["epo_ops"]

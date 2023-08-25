@@ -8,7 +8,7 @@ from requests.exceptions import HTTPError
 
 from . import exceptions
 from .middlewares import Throttler
-from .models import AccessToken, NETWORK_TIMEOUT, Request
+from .models import NETWORK_TIMEOUT, AccessToken, Request
 
 log = logging.getLogger(__name__)
 
@@ -134,7 +134,9 @@ class Client(object):
             "Content-Type": "application/x-www-form-urlencoded",
         }
         payload = {"grant_type": "client_credentials"}
-        response = requests.post(self.__auth_url__, headers=headers, data=payload, timeout=NETWORK_TIMEOUT)
+        response = requests.post(
+            self.__auth_url__, headers=headers, data=payload, timeout=NETWORK_TIMEOUT
+        )
         response.raise_for_status()
         self._access_token = AccessToken(response)
 
@@ -207,7 +209,7 @@ class Client(object):
     # info: {service, reference_type, input, endpoint, constituents}
     def _service_request(self, info):
         _input = info["input"]
-        if type(_input) == list:
+        if isinstance(_input, list):
             data = "\n".join([i.as_api_input() for i in _input])
             info["input"] = _input[0]
         else:
@@ -235,7 +237,8 @@ class Client(object):
         if response.status_code != requests.codes.bad:
             return response
 
-        message = ET.fromstring(response.content)
+        # FIXME: S314 Using `xml` to parse untrusted data is known to be vulnerable to XML attacks; use `defusedxml` equivalents
+        message = ET.fromstring(response.content)  # noqa: S314
         if message.findtext("message") == "invalid_access_token":
             self._acquire_token()
             response = self._make_request(response.request.url, response.request.body)
