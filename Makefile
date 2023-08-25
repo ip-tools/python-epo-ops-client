@@ -35,6 +35,12 @@ clean-pyc:
 
 lint: ## flake8 lint the project
 	flake8 epo_ops tests
+	black --check .
+	isort --check .
+
+format: ## Run code formatting
+	black .
+	isort .
 
 test: clean ## Run tests with virtualenv Python
 	py.test -s -v --lf --cov epo_ops tests --cov-report term-missing --cov-report xml
