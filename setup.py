@@ -28,7 +28,6 @@ extras = {
     "develop": [
         "black<24",
         "ruff==0.0.285; python_version >= '3.7'",
-        "seed-isort-config<3",
         "twine<5",
         "wheel<1",
     ],
