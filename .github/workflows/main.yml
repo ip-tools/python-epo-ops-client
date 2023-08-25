@@ -31,7 +31,6 @@ jobs:
     env:
       OS: ${{ matrix.os }}
       PYTHON: ${{ matrix.python-version }}
-      APIARY_URL: ${{ secrets.OPS_APIARY_URL }}
       OPS_KEY: ${{ secrets.OPS_API_CONSUMER_KEY }}
       OPS_SECRET: ${{ secrets.OPS_API_CONSUMER_SECRET }}
 

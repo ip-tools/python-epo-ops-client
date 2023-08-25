@@ -12,7 +12,7 @@ from os.path import abspath, dirname, join
 from dotenv import load_dotenv
 
 # Prune environment variables.
-for k in ("APIARY_URL", "OPS_KEY", "OPS_SECRET"):
+for k in ("OPS_KEY", "OPS_SECRET"):
     if k in os.environ and not os.environ[k]:
         del os.environ[k]
 
@@ -21,6 +21,5 @@ dotenv_path = abspath(join(dirname(__file__), "../.env"))
 load_dotenv(dotenv_path)
 
 # Set environment variables as constants.
-APIARY_URL = os.environ["APIARY_URL"]
 OPS_KEY = os.environ["OPS_KEY"]
 OPS_SECRET = os.environ["OPS_SECRET"]

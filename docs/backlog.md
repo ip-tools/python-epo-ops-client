@@ -3,8 +3,6 @@
 
 ## Iteration +1
 
-- Replace Apiary Mock server
-  https://github.com/ip-tools/python-epo-ops-client/issues/65
 - Improve and clean up README
 - Set up project documentation on Read the Docs
 - Switch to `pyproject.toml`
@@ -18,8 +16,6 @@ This is the content of the original `TODOS.md` file.
 - Dogpile caching
   - Generate the key based on a SortedDict of some kind to make sure the exact
     same request with different argument order are still a hit
-- Testing: Replace Apiary tests with monkeypatch? Or
-  <https://pypi.python.org/pypi/pytest-localserver>.
 - Additional services
   - Legal service
 - Makefile: Comma in `echo` statements?
@@ -33,3 +29,7 @@ This is the content of the original `TODOS.md` file.
 - Add support for Python 3.10 and 3.11
 - Use `ruff` linter, dissolve `flake8` and `isort`
 - Use `versioningit` for versioning, dissolve `bumpversion`
+- Replace Apiary Mock server
+  https://github.com/ip-tools/python-epo-ops-client/issues/65
+- Testing: Replace Apiary tests with monkeypatch? Or
+  <https://pypi.python.org/pypi/pytest-localserver>.
