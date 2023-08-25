@@ -1,3 +1,15 @@
+# ==================
+# Build system setup
+# ==================
+
+[build-system]
+requires = [
+    "setuptools>=42",  # At least v42 of setuptools required!
+    "versioningit",
+]
+build-backend = "setuptools.build_meta"
+
+
 [tool.ruff]
 line-length = 80
 
@@ -74,3 +86,10 @@ max-complexity = 7
 "tests/middlewares/throttle/conftest.py" = [
   "S311",  # Standard pseudo-random generators are not suitable for cryptographic purposes
 ]
+
+
+[tool.versioningit]
+
+[tool.versioningit.vcs]
+method = "git"
+default-tag = "0.0.0"

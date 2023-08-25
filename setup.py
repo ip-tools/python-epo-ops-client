@@ -7,8 +7,7 @@ from codecs import open
 from os import path
 
 from setuptools import setup
-
-from __version__ import __version__
+from versioningit import get_cmdclasses
 
 if sys.argv[-1] == "publish":
     # FIXME: S605 Starting a process with a shell: seems safe, but may be changed in the future; consider rewriting without `shell`
@@ -20,6 +19,7 @@ packages = ["epo_ops"]
 
 requires = [
     "dogpile.cache<1.2",
+    "importlib-metadata; python_version<'3.8'",
     "python-dateutil<2.9",
     "requests>=2.27,<3",
     "six<2",
@@ -27,7 +27,6 @@ requires = [
 extras = {
     "develop": [
         "black<24",
-        "bump2version<1.1",
         "ruff==0.0.285; python_version >= '3.7'",
         "seed-isort-config<3",
         "twine<5",
@@ -48,7 +47,7 @@ with open(path.join(here, "README.md"), encoding="utf-8") as f:
 
 setup(
     name="python-epo-ops-client",
-    version=__version__,
+    cmdclass=get_cmdclasses(),
     description=(
         "Python client for EPO OPS, "
         "the European Patent Office's Open Patent Services API."
@@ -60,10 +59,7 @@ setup(
     maintainer="Andreas Motl",
     maintainer_email="andreas.motl@ip-tools.org",
     url="https://github.com/ip-tools/python-epo-ops-client",
-    download_url=(
-        "https://github.com/ip-tools/python-epo-ops-client/archive/"
-        "v%s.tar.gz" % __version__
-    ),
+    download_url="https://pypi.org/project/python-epo-ops-client/#files",
     packages=packages,
     package_dir={"epo_ops": "epo_ops"},
     include_package_data=True,
