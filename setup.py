@@ -28,9 +28,7 @@ extras = {
     "develop": [
         "black<24",
         "bump2version<1.1",
-        "flake8<6",
-        "flake8-bugbear<22",
-        "isort<6",
+        "ruff==0.0.285; python_version >= '3.7'",
         "seed-isort-config<3",
         "twine<5",
         "wheel<1",
