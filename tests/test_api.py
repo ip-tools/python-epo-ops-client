@@ -1,6 +1,5 @@
 from datetime import datetime
 
-import pytest
 from pytest import raises
 
 from epo_ops.api import Client
@@ -116,7 +115,3 @@ def test_throttling(non_cached_clients, monkeypatch):
     monkeypatch.setattr("time.sleep", mock_sleep)
     with raises(RuntimeError):
         assert_published_data_success(non_cached_clients)
-
-
-if __name__ == "__main__":
-    pytest.main()

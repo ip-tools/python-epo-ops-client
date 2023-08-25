@@ -85,7 +85,3 @@ def test_access_token_is_expired(immediately_expired_response):
 def test_access_token_is_not_expired(response):
     token = AccessToken(response)
     assert token.is_expired is False
-
-
-if __name__ == "__main__":
-    pytest.main()

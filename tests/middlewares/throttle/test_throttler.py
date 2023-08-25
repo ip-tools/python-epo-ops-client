@@ -1,5 +1,3 @@
-import pytest
-
 from epo_ops.middlewares.throttle import Throttler
 
 from ...helpers.api_helpers import (
@@ -24,7 +22,3 @@ def test_no_history_update_if_cached_response(reset_cached_clients):
     for _i in range(2):
         assert_published_data_success(reset_cached_clients)
     assert table_count(find_throttler(reset_cached_clients).history) == 2
-
-
-if __name__ == "__main__":
-    pytest.main()

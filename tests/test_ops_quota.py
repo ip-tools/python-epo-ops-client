@@ -1,4 +1,3 @@
-import pytest
 from pytest import raises
 
 from epo_ops.exceptions import (
@@ -27,7 +26,3 @@ def test_mock_quota_exceeded(all_clients, monkeypatch):
         monkeypatch.setattr(all_clients, "__published_data_path__", path)
         with raises(exception_class):
             issue_request(all_clients)
-
-
-if __name__ == "__main__":
-    pytest.main()
