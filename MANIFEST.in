@@ -1,4 +1,5 @@
 include *.md
-include *.txt
+include LICENSE
 include Makefile
 recursive-include epo_ops *.py
+recursive-include docs *.md
