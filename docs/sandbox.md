@@ -64,16 +64,14 @@ purposes, and will not work._
 ### Basics
 
 ```shell
-make test
-tox -e lint
-tox
+make check
 ```
 
 ⚠️ Note that the software tests need a working internet connection, in order to
 access both the OPS and the [OPS Apiary Mock Services][apiary ops] services.
 
-⚠️ Note that the `lint` testenv requires python3.8 to be present in your
-system.
+⚠️ Note that running the test suite using `tox` may still work, however we are
+planning to remove that configuration in the future.
 
 
 ### Advanced Usage

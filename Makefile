@@ -33,6 +33,9 @@ clean-pyc:
 	find . -name '*.pyo' -exec rm -f {} +
 	find . -name '*~' -exec rm -f {} +
 
+check: lint test        ## Run linter and software tests
+check-ci: lint test-ci  ## Run linter and software tests on CI
+
 lint: ## flake8 lint the project
 	flake8 epo_ops tests
 	black --check .
