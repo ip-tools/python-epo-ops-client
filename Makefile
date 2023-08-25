@@ -18,9 +18,6 @@ help: ## Display this help message
 install-develop: ## Install project into sandbox.
 	pip install --use-pep517 --prefer-binary --editable=.[develop,docs,test]
 
-seed-isort-config: ## Update known third party dependencies
-	seed-isort-config --application-directories .:epo_ops --exclude setup.py
-
 clean: clean-build clean-pyc
 
 clean-build:
