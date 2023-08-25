@@ -42,23 +42,19 @@ Running the software tests require a working OPS account.
 
 ### Prerequisites
 
-Before running the software tests, you will need to define the `APIARY_URL`,
+Before running the software tests, you will need to define the
 `OPS_KEY`, and `OPS_SECRET` environment variables.
 
 You can either define them interactively using `export VARNAME=VALUE`, or store
 them into an `.env` file within the same directory you are running the tests from.
 See `example.env` for a blueprint.
 
-The Apiary Mock Server API blueprint is available at <https://opsv31.docs.apiary.io/>.
-
 ```shell
-export APIARY_URL=https://private-[SECRET]-opsv31.apiary-mock.com/
 export OPS_KEY=NKdGMmedZBGLRxTrUwCZMQCYp7Ak5a0u
 export OPS_SECRET=v3vARPu7DFPEDB8i
 ```
 
-_Note that the Apiary URL and the OPS credentials are just for demonstration
-purposes, and will not work._
+_Note that the OPS credentials have been invalidated for demonstration purposes._
 
 
 ### Basics
@@ -68,7 +64,7 @@ make check
 ```
 
 ⚠️ Note that the software tests need a working internet connection, in order to
-access both the OPS and the [OPS Apiary Mock Services][apiary ops] services.
+access the OPS service.
 
 
 ### Advanced Usage
@@ -90,5 +86,4 @@ pytest -k api
 ```
 
 
-[apiary ops]: https://opsv31.docs.apiary.io/
 [ops registration]: https://developers.epo.org/user/register
