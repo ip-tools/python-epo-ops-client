@@ -1,5 +1,7 @@
 # Change Log
 
+- Add support for Python 3.10 and 3.11
+
 ## 4.0.0 (2021-09-19)
 
 - Upgrade dependencies
