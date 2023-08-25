@@ -1,6 +1,7 @@
 # Change Log
 
 - Add support for Python 3.10 and 3.11
+- Configure HTTP client to use a network timeout of 10 seconds
 
 ## 4.0.0 (2021-09-19)
 
