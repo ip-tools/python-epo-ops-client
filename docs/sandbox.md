@@ -78,6 +78,9 @@ system.
 
 ### Advanced Usage
 
+In order to run either the linter, or the software tests exclusively,
+use `make lint` vs. `make test`.
+
 To focus on specific parts of the code base, you run a subset of the software
 tests.
 
