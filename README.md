@@ -165,6 +165,6 @@ details.
 [dogpile.cache region]: http://dogpilecache.readthedocs.org/en/latest/api.html#module-dogpile.cache.region
 [dogpile.cache]: https://bitbucket.org/zzzeek/dogpile.cache
 [epo]: http://epo.org
-[ops guide]: http://documents.epo.org/projects/babylon/eponet.nsf/0/F3ECDCC915C9BCD8C1258060003AA712/$File/ops_v3.2_documentation_-_version_1.3.16_en.pdf
+[ops guide]: https://link.epo.org/web/ops_v3.2_documentation_-_version_1.3.19_en.pdf
 [ops]: https://www.epo.org/searching-for-patents/data/web-services/ops.html
 [requests.response]: http://requests.readthedocs.org/en/latest/user/advanced/#request-and-response-objects
