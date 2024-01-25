@@ -10,19 +10,16 @@ repos:
       - id: check-case-conflict
       - id: detect-private-key
       - id: mixed-line-ending
-  - repo: https://github.com/timothycrosley/isort
-    rev: 5.9.3
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    # Ruff version.
+    rev: v0.0.285
     hooks:
-      - id: isort
+      # Run the linter.
+      - id: ruff
   - repo: https://github.com/python/black
     rev: 21.9b0
     hooks:
       - id: black
-  - repo: https://gitlab.com/pycqa/flake8
-    rev: 3.9.2
-    hooks:
-      - id: flake8
-        additional_dependencies: ["flake8-bugbear"]
   - repo: https://github.com/pre-commit/mirrors-prettier
     rev: v2.4.1
     hooks:
