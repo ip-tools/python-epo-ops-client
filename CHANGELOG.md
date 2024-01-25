@@ -1,8 +1,10 @@
 # Change Log
 
-- Verify support for Python 3.10, 3.11, and 3.12
+## 4.1.0 (2024-01-25)
+
 - Configure HTTP client to use a network timeout of 10 seconds
-- Use `versioningit` for versioning
+- Verify support for Python 3.10, 3.11, and 3.12
+- Project: Use `versioningit` for versioning
 - Tests: Remove dependency on Apiary Mock Server API
 
 ## 4.0.0 (2021-09-19)
