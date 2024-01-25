@@ -53,18 +53,16 @@ coverage: clean ## Check code coverage locally
 	open htmlcov/index.html
 
 release: clean # Package and upload a release to PyPI
-	python setup.py sdist
-	python setup.py bdist_wheel
+	python -m build
 	twine check dist/*
 	twine upload --repository pypi dist/*
-	open https://pypi.python.org/pypi/python-epo-ops-client
+	open https://pypi.org/project/python-epo-ops-client/
 
 release-test: clean # Package and upload a release to testpypi
-	python setup.py sdist
-	python setup.py bdist_wheel
+	python -m build
 	twine check dist/*
 	twine upload --repository testpypi dist/*
-	open https://testpypi.python.org/pypi/python-epo-ops-client
+	open https://test.pypi.org/project/python-epo-ops-client/
 
 sdist: clean
 	python setup.py sdist

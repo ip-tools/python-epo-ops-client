@@ -27,6 +27,7 @@ requires = [
 extras = {
     "develop": [
         "black<24",
+        "build<2",
         "ruff==0.0.285; python_version >= '3.7'",
         "twine<5",
         "wheel<1",
