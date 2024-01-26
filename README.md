@@ -15,7 +15,7 @@ import epo_ops
 client = epo_ops.Client(key='abc', secret='xyz')  # Instantiate client
 response = client.published_data(  # Retrieve bibliography data
   reference_type = 'publication',  # publication, application, priority
-  input = epo_ops.models.Docdb('1000000', 'EP', 'A1'),  # original, docdb, epodoc
+  input = epo_ops.models.Docdb('1000000', 'EP', 'A1'),  # docdb, epodoc
   endpoint = 'biblio',  # optional, defaults to biblio in case of published_data
   constituents = []  # optional, list of constituents
 )
