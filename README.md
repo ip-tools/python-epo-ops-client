@@ -69,7 +69,6 @@ Currently the Client knows how to issue request for the following services:
 | `published_data_search(cql, range_begin=1, range_end=25, constituents=None)`  | published-data/search | search    |
 | `register(reference_type, input, constituents=['biblio'])`                    | register              | other     |
 | `register_search(cql, range_begin=1, range_end=25)`                           | register/search       | other     |
-| `register_search(cql, range_begin=1, range_end=25)`                           | register/search       | other     |
 
 Bulk operations can be achieved by passing a list of valid models to the
 published_data input field.
