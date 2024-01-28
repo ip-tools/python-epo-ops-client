@@ -9,6 +9,7 @@ from __future__ import (
 import os
 from os.path import abspath, dirname, join
 
+import pytest
 from dotenv import load_dotenv
 
 # Prune environment variables.
@@ -20,6 +21,13 @@ for k in ("OPS_KEY", "OPS_SECRET"):
 dotenv_path = abspath(join(dirname(__file__), "../.env"))
 load_dotenv(dotenv_path)
 
+
 # Set environment variables as constants.
-OPS_KEY = os.environ["OPS_KEY"]
-OPS_SECRET = os.environ["OPS_SECRET"]
+def get_secrets_or_skip_tests():
+    try:
+        ops_key = os.environ["OPS_KEY"]
+        ops_secret = os.environ["OPS_SECRET"]
+    except KeyError as ex:
+        raise pytest.skip("No OPS credentials configured") from ex
+
+    return ops_key, ops_secret
