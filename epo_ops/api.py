@@ -9,14 +9,7 @@ from requests.exceptions import HTTPError
 
 from . import exceptions
 from .middlewares import Throttler
-from .models import (
-    NETWORK_TIMEOUT,
-    AccessToken,
-    Docdb,
-    Epodoc,
-    Original,
-    Request,
-)
+from .models import NETWORK_TIMEOUT, AccessToken, Docdb, Epodoc, Request
 
 log = logging.getLogger(__name__)
 
