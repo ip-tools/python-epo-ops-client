@@ -43,13 +43,13 @@ format: ## Run code formatting
 	black .
 
 test: clean ## Run tests with virtualenv Python
-	py.test -s -v --lf --cov epo_ops tests --cov-report term-missing --cov-report xml
+	pytest --lf
 
 test-ci: clean ## Run tests in CI environment with virtualenv Python
-	py.test -v --cov epo_ops tests --cov-report term-missing --cov-report xml
+	pytest
 
-coverage: clean ## Check code coverage locally
-	py.test -s -v --cov epo_ops tests --cov-report term-missing --cov-report xml --cov-report html
+coverage: clean test-ci ## Check code coverage locally
+	coverage html
 	open htmlcov/index.html
 
 release: clean # Package and upload a release to PyPI

@@ -9,6 +9,18 @@ requires = [
 ]
 build-backend = "setuptools.build_meta"
 
+[tool.pytest.ini_options]
+minversion = "2.0"
+addopts = """
+  -rsfEX -p pytester --strict-markers --verbosity=3
+  --cov=epo_ops tests --cov-report=term-missing --cov-report=xml
+  """
+log_level = "DEBUG"
+log_cli_level = "DEBUG"
+testpaths = ["tests"]
+xfail_strict = true
+markers = [
+]
 
 [tool.ruff]
 line-length = 80
