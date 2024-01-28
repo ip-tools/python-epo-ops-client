@@ -1,7 +1,7 @@
 import pytest
 
 from .helpers import mkcache, mksqlite, mkthrottler
-from .secrets import OPS_KEY, OPS_SECRET
+from .secrets import get_secrets_or_skip_tests
 
 
 @pytest.fixture
@@ -13,8 +13,9 @@ def storage(request):
 def reset_cached_client(request):
     from epo_ops import Client
 
+    ops_key, ops_secret = get_secrets_or_skip_tests()
     return Client(
-        OPS_KEY, OPS_SECRET, middlewares=[mkcache(request), mkthrottler(request)]
+        ops_key, ops_secret, middlewares=[mkcache(request), mkthrottler(request)]
     )
 
 
@@ -32,14 +33,18 @@ def module_cache(request):
 def default_client(request):
     from epo_ops import Client
 
-    return Client(OPS_KEY, OPS_SECRET, middlewares=[mkthrottler(request)])
+    ops_key, ops_secret = get_secrets_or_skip_tests()
+
+    return Client(ops_key, ops_secret, middlewares=[mkthrottler(request)])
 
 
 @pytest.fixture(scope="module")
 def cached_client(request, module_cache):
     from epo_ops import Client
 
-    return Client(OPS_KEY, OPS_SECRET, middlewares=[module_cache, mkthrottler(request)])
+    ops_key, ops_secret = get_secrets_or_skip_tests()
+
+    return Client(ops_key, ops_secret, middlewares=[module_cache, mkthrottler(request)])
 
 
 @pytest.fixture(scope="module", params=["cached_client", "default_client"])
