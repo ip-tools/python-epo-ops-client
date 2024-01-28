@@ -47,7 +47,6 @@ class Client(object):
         self,
         reference_type: str,
         input: Union[Docdb, Epodoc],
-        endpoint=None,
         constituents: Optional[List[str]] = None,
     ):
         """
@@ -56,7 +55,6 @@ class Client(object):
         Args:
             reference_type (str): Any of "publication", "application", or "priority".
             input (Epodoc or Docdb): The document number. Cannot be Original.
-            endpoint (optional): None. Not applicable for family service.
             constituents (list[str], optional): List of 'biblio', 'legal' or both.
                                                 Defaults to None.
 
