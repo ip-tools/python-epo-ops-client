@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import logging
 from base64 import b64encode
+from typing import List, Optional, Union
 from xml.etree import ElementTree as ET
 
 import requests
@@ -8,7 +9,14 @@ from requests.exceptions import HTTPError
 
 from . import exceptions
 from .middlewares import Throttler
-from .models import NETWORK_TIMEOUT, AccessToken, Request
+from .models import (
+    NETWORK_TIMEOUT,
+    AccessToken,
+    Docdb,
+    Epodoc,
+    Original,
+    Request,
+)
 
 log = logging.getLogger(__name__)
 
@@ -35,13 +43,32 @@ class Client(object):
         self.secret = secret
         self._access_token = None
 
-    def family(self, reference_type, input, endpoint=None, constituents=None):
+    def family(
+        self,
+        reference_type: str,
+        input: Union[Docdb, Epodoc],
+        endpoint=None,
+        constituents: Optional[List[str]] = None,
+    ):
+        """
+        Retrieves the patent numbers of the extended patent family related to the input (INPADOC family).
+
+        Args:
+            reference_type (str): Any of "publication", "application", or "priority".
+            input (Epodoc or Docdb): The document number. Cannot be Original.
+            endpoint (optional): None. Not applicable for family service.
+            constituents (list[str], optional): List of 'biblio', 'legal' or both.
+                                                Defaults to None.
+
+        Returns:
+            Response: a requests.Response object
+        """
         url = self._make_request_url(
             dict(
                 service=self.__family_path__,
                 reference_type=reference_type,
                 input=input,
-                endpoint=endpoint,
+                endpoint=None,
                 constituents=constituents,
                 use_get=True,
             )
