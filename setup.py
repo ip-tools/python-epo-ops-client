@@ -37,7 +37,7 @@ setup(
     extras_require={
         "develop": [
             "black<24",
-            "ruff==0.0.285; python_version >= '3.7'",
+            "ruff==0.1.14; python_version >= '3.7'",
             "twine<5",
             "wheel<1",
         ],
