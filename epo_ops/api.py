@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import logging
+import warnings
 from base64 import b64encode
 from typing import List, Optional, Union
 from xml.etree import ElementTree as ET
@@ -40,20 +41,29 @@ class Client(object):
         self,
         reference_type: str,
         input: Union[Docdb, Epodoc],
+        endpoint=None,
         constituents: Optional[List[str]] = None,
-    ):
+    ) -> requests.Response:
         """
         Retrieves the patent numbers of the extended patent family related to the input (INPADOC family).
 
         Args:
             reference_type (str): Any of "publication", "application", or "priority".
             input (Epodoc or Docdb): The document number. Cannot be Original.
+            endpoint (optional): None. Not applicable for family service.
             constituents (list[str], optional): List of 'biblio', 'legal' or both.
                                                 Defaults to None.
 
         Returns:
-            Response: a requests.Response object
+            requests.Response: a requests.Response object.
         """
+        if endpoint is not None:
+            warnings.warn(
+                "The `endpoint` argument is not used in this context and will be removed.",
+                DeprecationWarning,
+                stacklevel=2,
+            )
+
         url = self._make_request_url(
             dict(
                 service=self.__family_path__,
