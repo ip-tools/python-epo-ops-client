@@ -56,6 +56,19 @@ class Client(object):
 
         Returns:
             requests.Response: a requests.Response object.
+
+        Examples:
+            >>> response = client.family('publication', epo_ops.models.Epodoc('EP1000000'))
+            >>> response
+            <Response [200]>
+            >>> len(response.text)
+            8790
+
+            >>> response_with_constituents = client.family('publication', epo_ops.models.Epodoc('EP1000000'), None, ['biblio', 'legal'])
+            >>> response_with_constituents
+            <Response [200]>
+            >>> len(response_with_constituents.text)
+            160206
         """
         if endpoint is not None:
             warnings.warn(
