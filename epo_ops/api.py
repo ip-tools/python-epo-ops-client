@@ -51,20 +51,20 @@ class Client(object):
             reference_type (str): Any of "publication", "application", or "priority".
             input (Epodoc or Docdb): The document number. Cannot be Original.
             endpoint (optional): None. Not applicable for family service.
-            constituents (list[str], optional): List of 'biblio', 'legal' or both.
+            constituents (list[str], optional): List of "biblio", "legal" or both.
                                                 Defaults to None.
 
         Returns:
             requests.Response: a requests.Response object.
 
         Examples:
-            >>> response = client.family('publication', epo_ops.models.Epodoc('EP1000000'))
+            >>> response = client.family("publication", epo_ops.models.Epodoc("EP1000000"))
             >>> response
             <Response [200]>
             >>> len(response.text)
             8790
 
-            >>> response_with_constituents = client.family('publication', epo_ops.models.Epodoc('EP1000000'), None, ['biblio', 'legal'])
+            >>> response_with_constituents = client.family("publication", epo_ops.models.Epodoc("EP1000000"), None, ["biblio", "legal"])
             >>> response_with_constituents
             <Response [200]>
             >>> len(response_with_constituents.text)
