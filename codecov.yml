@@ -1,0 +1,18 @@
+# https://docs.codecov.io/docs/common-recipe-list
+# https://docs.codecov.io/docs/commit-status#patch-status
+
+# This configures a large leniency of 25%, because patches submitted by
+# external contributors will not cover the whole codebase, because they
+# can't use OPS credentials on CI/GHA.
+
+coverage:
+  status:
+
+    project:
+      default:
+        target: auto     # the required coverage value
+        threshold: 25%   # the leniency in hitting the target
+
+    patch:
+      default:
+        informational: true
