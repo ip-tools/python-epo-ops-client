@@ -42,7 +42,7 @@ setup(
             "wheel<1",
         ],
         "test": [
-            "pytest<8",
+            "pytest<9",
             "pytest-cache<2",
             "pytest-cov<4.2",
             "python-dotenv<0.20",
