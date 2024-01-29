@@ -36,16 +36,16 @@ setup(
     ],
     extras_require={
         "develop": [
-            "black<24",
-            "ruff==0.0.285; python_version >= '3.7'",
+            "black<25",
+            "ruff<0.2; python_version >= '3.7'",
             "twine<5",
             "wheel<1",
         ],
         "test": [
-            "pytest<8",
+            "pytest<9",
             "pytest-cache<2",
             "pytest-cov<4.2",
-            "python-dotenv<0.20",
+            "python-dotenv<1.1",
             "responses<0.24",
         ],
     },
