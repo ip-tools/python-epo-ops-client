@@ -45,7 +45,7 @@ setup(
             "pytest<8",
             "pytest-cache<2",
             "pytest-cov<4.2",
-            "python-dotenv<0.20",
+            "python-dotenv<1.1",
             "responses<0.24",
         ],
     },
