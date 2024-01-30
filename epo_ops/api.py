@@ -10,7 +10,14 @@ from requests.exceptions import HTTPError
 
 from . import exceptions
 from .middlewares import Throttler
-from .models import NETWORK_TIMEOUT, AccessToken, Docdb, Epodoc, Request
+from .models import (
+    NETWORK_TIMEOUT,
+    AccessToken,
+    Docdb,
+    Epodoc,
+    Original,
+    Request,
+)
 
 log = logging.getLogger(__name__)
 
@@ -51,7 +58,7 @@ class Client(object):
             reference_type (str): Any of "publication", "application", or "priority".
             input (Epodoc or Docdb): The document number. Cannot be Original.
             endpoint (optional): None. Not applicable for family service.
-            constituents (list[str], optional): List of "biblio", "legal" or both.
+            constituents (List[str], optional): List of "biblio", "legal" or both.
                                                 Defaults to None.
 
         Returns:
@@ -89,10 +96,32 @@ class Client(object):
         )
         return self._make_request(url, None, params=input.as_api_input(), use_get=True)
 
-    def image(self, path, range=1, document_format="application/tiff"):
+    def image(
+        self, path: str, range: int = 1, document_format: str = "application/tiff"
+    ) -> requests.Response:
+        """
+        Retrieve the image page for a given path, one page at a time.
+        The path needs to be retrieved from the xml resulting from a prior inquiry using
+        the published_data() service with the endpoint='images'.
+        """
         return self._image_request(path, range, document_format)
 
-    def number(self, reference_type, input, output_format):
+    def number(
+        self,
+        reference_type: str,
+        input: Union[Original, Docdb, Epodoc],
+        output_format: Union[Original, Docdb, Epodoc],
+    ) -> requests.Response:
+        """
+        This service converts a patent number from one input format into another format.
+
+        Use-cases: Given that other OPS services use only the Epodoc or Docdb format,
+        the general use-case of this method would be to convert the Original format
+        into either the Docdb or the Epodoc format.
+
+        Note: It is especially important to include the date in number requests whenever
+        possible because number formatting may vary depending on the date.
+        """
         possible_conversions = {
             "docdb": ["original", "epodoc"],
             "epodoc": ["original"],
@@ -114,8 +143,32 @@ class Client(object):
         )
 
     def published_data(
-        self, reference_type, input, endpoint="biblio", constituents=None
-    ):
+        self,
+        reference_type: str,
+        input: Union[Docdb, Epodoc],
+        endpoint="biblio",
+        constituents: Optional[List[str]] = None,
+    ) -> requests.Response:
+        """
+        Retrieval service for published data.
+
+        Args:
+            reference_type (str): Any of "publication", "application", or "priority".
+            input (Epodoc or Docdb): The document number as a Epodoc or Docdb data object.
+            endpoint (str, optional): "biblio", "equivalents", "abstract", "claims", "description",
+                                      "fulltext", "images". Defaults to "biblio".
+            constituents (list[str], optional): List of "biblio", "abstract", "images", "full cycle".
+
+        Returns:
+            requests.Response: a requests.Response object
+
+        Note:
+        1) input cannot be a models.Original
+        2) only the endpoint "biblio" or "equivalents" use the constituents parameter.
+        3) the images and fulltext retrieval require a two-step process: inquiry, then retrieval, e.g.
+           - client.published_data(..., endpoint='images',...) to retrieve the image path, then
+           - client.image(path=...)
+        """
         return self._service_request(
             dict(
                 service=self.__published_data_path__,
@@ -127,8 +180,16 @@ class Client(object):
         )
 
     def published_data_search(
-        self, cql, range_begin=1, range_end=25, constituents=None
-    ):
+        self,
+        cql: str,
+        range_begin: int = 1,
+        range_end: int = 25,
+        constituents: Optional[List[str]] = None,
+    ) -> requests.Response:
+        """
+        Performs a bibliographic search ussing common query language (CQL) to retrieve the data.
+        Possible constituents: "abstract", "biblio" and/or "full-cycle".
+        """
         range = dict(key="X-OPS-Range", begin=range_begin, end=range_end)
         return self._search_request(
             dict(
@@ -138,7 +199,24 @@ class Client(object):
             range,
         )
 
-    def register(self, reference_type, input, constituents=None):
+    def register(
+        self,
+        reference_type: str,
+        input: Epodoc,
+        constituents: Optional[List[str]] = None,
+    ) -> requests.Response:
+        """
+        Provides the interface for the European Patent Register online service for retrieving all
+        the publicly available information on published European patent applications and
+        international PCT applications designating the EPO as they pass through the grant procedure.
+
+        Possible constituents: "biblio", "events", "procedural-steps" or "upp".
+
+        Notes:
+        1) Only the Epodoc input format is supported
+        2) the default behaviour of the register retrieval is biblio, so you don't have to add the
+           biblio constituent if you want to retrieve only bibliographic data.
+        """
         # TODO: input can only be Epodoc, not Docdb
         constituents = constituents or ["biblio"]
         return self._service_request(
@@ -150,7 +228,18 @@ class Client(object):
             )
         )
 
-    def register_search(self, cql, range_begin=1, range_end=25):
+    def register_search(
+        self, cql: str, range_begin: int = 1, range_end: int = 25
+    ) -> requests.Response:
+        """
+        Use this service to find specific register data
+        that is part of the public aspect of the patent lifecycle.
+
+        Example:
+            >>> response = client.register_search(cql="pa=IBM", range_begin=1, range_end=25)
+            >>> print(response.text)
+
+        """
         range = dict(key="Range", begin=range_begin, end=range_end)
         return self._search_request(
             {"service": self.__register_search_path__}, cql, range
