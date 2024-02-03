@@ -102,7 +102,15 @@ class Client(object):
         """
         Retrieve the image page for a given path, one page at a time.
         The path needs to be retrieved from the xml resulting from a prior inquiry using
-        the published_data() service with the endpoint='images'.
+        the published_data() service with the 'endpoint="images"' argument.
+
+        Args:
+            path (str): contained in the 'link' attribute of the document instance element (inquiry xml).
+            range (int, optional): the number of the image page to be fetched. Defaults to 1.
+            document_format (str, optional): depends on the inquiry response. Defaults to "application/tiff".
+
+        Returns:
+            requests.Response: a requests.Response object.
         """
         return self._image_request(path, range, document_format)
 
@@ -110,17 +118,50 @@ class Client(object):
         self,
         reference_type: str,
         input: Union[Original, Docdb, Epodoc],
-        output_format: Union[Original, Docdb, Epodoc],
+        output_format: str,
     ) -> requests.Response:
         """
         This service converts a patent number from one input format into another format.
 
-        Use-cases: Given that other OPS services use only the Epodoc or Docdb format,
-        the general use-case of this method would be to convert the Original format
-        into either the Docdb or the Epodoc format.
+        Args:
+            reference_type (str): Any of "publication", "application", or "priority".
+            input (Original, Epodoc or Docdb): The document number as a data object.
+            output_format (str): Any of "original", "epodoc" or "docdb".
 
-        Note: It is especially important to include the date in number requests whenever
-        possible because number formatting may vary depending on the date.
+        Returns:
+            requests.Response: a requests.Response object.
+
+
+        Examples:
+            # from JP original to docdb
+            >>> response = client.number(
+                    "application",
+                    Original(number="2006-147056", country_code="JP", kind_code="A", date="20060526"),
+                    "docdb,
+                )
+
+            # from US original to epodoc
+            >>> response = client.number(
+                    "application",
+                    Original("08/921,321", "US", "A", "19970829"),
+                    "epodoc",
+                )
+
+            # from PCT original to docdb
+            >>> response = client.number(
+                    "application",
+                    Original("PCT/GB02/04635", date="19970829"),
+                    "docdb",
+                )
+
+        Use-cases:
+            Given that other OPS services use only the Epodoc or Docdb format,
+            the general use-case of this method is to convert the Original format
+            into either the Docdb or the Epodoc format.
+
+        Note:
+            It is especially important to include the date of publication in the input
+            whenever possible because number formatting may vary depending on the date.
         """
         possible_conversions = {
             "docdb": ["original", "epodoc"],
@@ -160,7 +201,7 @@ class Client(object):
             constituents (list[str], optional): List of "biblio", "abstract", "images", "full cycle".
 
         Returns:
-            requests.Response: a requests.Response object
+            requests.Response: a requests.Response object.
 
         Note:
         1) input cannot be a models.Original
