@@ -46,7 +46,7 @@ setup(
             "pytest-cache<2",
             "pytest-cov<4.2",
             "python-dotenv<1.1",
-            "responses<0.24",
+            "responses<0.26",
         ],
     },
     zip_safe=False,
