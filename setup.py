@@ -38,7 +38,7 @@ setup(
         "develop": [
             "black<25",
             "ruff<0.3; python_version >= '3.7'",
-            "twine<5",
+            "twine<6",
             "wheel<1",
         ],
         "test": [
