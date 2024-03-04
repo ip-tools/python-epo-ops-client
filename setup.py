@@ -30,7 +30,7 @@ setup(
     install_requires=[
         "dogpile.cache<1.4",
         "importlib-metadata; python_version<'3.8'",
-        "python-dateutil<2.9",
+        "python-dateutil<2.10",
         "requests>=2.27,<3",
         "six<2",
     ],
