@@ -161,7 +161,7 @@ details.
 
 [apache license]: http://www.apache.org/licenses/LICENSE-2.0
 [developer's area]: https://developers.epo.org/ops-v3-2/apis
-[dogpile.cache region]: http://dogpilecache.readthedocs.org/en/latest/api.html#module-dogpile.cache.region
+[dogpile.cache region]: https://dogpilecache.sqlalchemy.org/en/latest/api.html#module-dogpile.cache.region
 [dogpile.cache]: https://bitbucket.org/zzzeek/dogpile.cache
 [epo]: http://epo.org
 [ops guide]: https://link.epo.org/web/ops_v3.2_documentation_-_version_1.3.19_en.pdf
