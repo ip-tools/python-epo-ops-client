@@ -33,7 +33,18 @@ class SQLite(Storage):
     def __init__(self, db_path=DEFAULT_DB_PATH):
         self.db_path = db_path
         makedirs(os.path.dirname(db_path))
-        self.db = sqlite3.connect(db_path, detect_types=sqlite3.PARSE_DECLTYPES)
+        
+        # Making SQLite more threadsafe, as described in https://ricardoanderegg.com/posts/python-sqlite-thread-safety/#conclusion
+        if sqlite3.threadsafety == 3:
+            check_same_thread = False
+        else:
+            check_same_thread = True
+
+        self.db = sqlite3.connect(
+            db_path,
+            detect_types=sqlite3.PARSE_DECLTYPES,
+            check_same_thread=check_same_thread,
+        )
         self.db.row_factory = sqlite3.Row
         self.prepare()
 
