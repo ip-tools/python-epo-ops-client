@@ -4,8 +4,8 @@
 
 [build-system]
 requires = [
-    "setuptools>=42",  # At least v42 of setuptools required!
-    "versioningit",
+  "setuptools>=42", # At least v42 of setuptools required!
+  "versioningit",
 ]
 build-backend = "setuptools.build_meta"
 
@@ -19,13 +19,12 @@ log_level = "DEBUG"
 log_cli_level = "DEBUG"
 testpaths = ["tests"]
 xfail_strict = true
-markers = [
-]
+markers = []
 
 [tool.ruff]
 line-length = 80
 
-select = [
+lint.select = [
   # Bandit
   "S",
   # Bugbear
@@ -52,51 +51,56 @@ select = [
   # return
   "RET",
   # from `.flake8` file
-  "T",   # T4
+  "T",  # T4
   "B9",
 ]
 
-extend-exclude = [
-  "__init__.py",
-]
+extend-exclude = ["__init__.py"]
 
-ignore = [
+lint.ignore = [
   "E203",
   "E266",
   "E501",
-  "ERA001",  # Found commented-out code
-  "RET505",  # Unnecessary `else` after `return` statement
+  "ERA001", # Found commented-out code
+  "RET505", # Unnecessary `else` after `return` statement
   # "W503",  # Unknown rule selector
 ]
 
 # from `.isort.cfg` file
-[tool.ruff.isort]
+[tool.ruff.lint.isort]
 combine-as-imports = true
 force-wrap-aliases = true
-known-third-party = ["dateutil", "dogpile", "dotenv", "pytest", "requests", "six"]
+known-third-party = [
+  "dateutil",
+  "dogpile",
+  "dotenv",
+  "pytest",
+  "requests",
+  "six",
+]
 split-on-trailing-comma = false
 
 # from `.flake8` file
-[tool.ruff.mccabe]
+[tool.ruff.lint.mccabe]
 # Flag errors (`C901`) whenever the complexity level exceeds the configured value.
 max-complexity = 7
 
 
-[tool.ruff.per-file-ignores]
+[tool.ruff.lint.per-file-ignores]
 "tests/*" = [
-  "S101",  # Use of `assert` detected
+  "S101", # Use of `assert` detected
 ]
 "epo_ops/api.py" = [
-  "A001",  # Variable `range` is shadowing a Python builtin
-  "A002",  # Argument `input` is shadowing a Python builtin
-  "C408",  # Unnecessary `dict` call (rewrite as a literal)
+  "A001", # Variable `range` is shadowing a Python builtin
+  "A002", # Argument `input` is shadowing a Python builtin
+  "C408", # Unnecessary `dict` call (rewrite as a literal)
 ]
 # FIXME: Improve this situation wrt. SQL injection, even it is not be an actual attack vector.
 "*sqlite.py" = [
-  "S608",  # Possible SQL injection vector through string-based query construction
+  "S608", # Possible SQL injection vector through string-based query construction
 ]
 "tests/middlewares/throttle/conftest.py" = [
-  "S311",  # Standard pseudo-random generators are not suitable for cryptographic purposes
+  "S311", # Standard pseudo-random generators are not suitable for cryptographic purposes
 ]
 
 

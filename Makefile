@@ -33,7 +33,7 @@ check: lint test        ## Run linter and software tests
 check-ci: lint test-ci  ## Run linter and software tests on CI
 
 lint: ## lint the project
-	ruff .
+	ruff check .
 	black --check .
 
 format: ## Run code formatting
