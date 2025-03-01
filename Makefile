@@ -34,13 +34,13 @@ check-ci: lint test-ci  ## Run linter and software tests on CI
 
 lint: ## lint the project
 	ruff check .
-	black --check .
+	ruff format --check .
 
 format: ## Run code formatting
+	ruff format .
 	# Configure Ruff not to auto-fix (remove!):
 	# Ignore unused imports (F401), unused variables (F841), `print` statements (T201), and commented-out code (ERA001).
 	ruff check --fix --ignore=ERA --ignore=F401 --ignore=F841 --ignore=T20 --ignore=ERA001 .
-	black .
 
 test: clean ## Run tests with virtualenv Python
 	pytest --lf

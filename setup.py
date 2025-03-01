@@ -13,8 +13,7 @@ setup(
     name="python-epo-ops-client",
     cmdclass=get_cmdclasses(),
     description=(
-        "Python client for EPO OPS, "
-        "the European Patent Office's Open Patent Services API."
+        "Python client for EPO OPS, the European Patent Office's Open Patent Services API."
     ),
     long_description_content_type="text/markdown",
     long_description=readme,
@@ -36,7 +35,6 @@ setup(
     ],
     extras_require={
         "develop": [
-            "black<25",
             "ruff<0.10; python_version >= '3.7'",
             "twine<7",
             "wheel<1",

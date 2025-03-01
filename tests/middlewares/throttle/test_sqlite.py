@@ -16,7 +16,9 @@ def single_col_query(storage, col):
 
 # Tests
 def test_columns_generation(cols):
-    for service, field in product(SQLite.SERVICES, ("status", "limit", "retry_after")):
+    for service, field in product(
+        SQLite.SERVICES, ("status", "limit", "retry_after")
+    ):
         assert "{0}_{1}".format(service, field) in cols
 
 
@@ -63,7 +65,9 @@ def test_parse_throttle_header(storage, throttle_snapshot):
     assert storage.parse_throttle(header) == expected
 
 
-def test_update_with_header(storage, header, throttle_snapshot, retry_after_value):
+def test_update_with_header(
+    storage, header, throttle_snapshot, retry_after_value
+):
     start = now()
     storage.update(header)
     assert table_count(storage) == 1

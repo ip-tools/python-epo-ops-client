@@ -75,7 +75,9 @@ class SQLite(Storage):
         """
         try:
             with self.db:
-                self.db.execute(sql.format(", ".join(self.service_columns(True))))
+                self.db.execute(
+                    sql.format(", ".join(self.service_columns(True)))
+                )
         except sqlite3.OperationalError:
             pass
 
@@ -101,8 +103,7 @@ class SQLite(Storage):
 
     def convert(self, status, retry):
         sql = (
-            "INSERT INTO throttle_history(timestamp, system_status, {0}) "
-            "VALUES ({1})"
+            "INSERT INTO throttle_history(timestamp, system_status, {0}) VALUES ({1})"
         ).format(", ".join(self.service_columns()), ", ".join(["?"] * 17))
         values = [now(), status["system_status"]]
         for service in self.SERVICES:
@@ -120,7 +121,9 @@ class SQLite(Storage):
         _now = now()
         limit = "{0}_limit".format(service)
         self.prune()
-        sql = ("SELECT * FROM throttle_history ORDER BY {0} limit 1").format(limit)
+        sql = ("SELECT * FROM throttle_history ORDER BY {0} limit 1").format(
+            limit
+        )
         with self.db:
             r = self.db.execute(sql).fetchone()
 

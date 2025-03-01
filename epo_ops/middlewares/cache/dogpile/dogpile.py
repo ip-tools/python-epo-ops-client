@@ -21,7 +21,9 @@ DEFAULT_TIMEOUT = 60 * 60 * 24 * 7 * 2  # 2 weeks in seconds
 
 
 class Dogpile(Middleware):
-    def __init__(self, region=None, kwargs_handlers=None, http_status_codes=None):
+    def __init__(
+        self, region=None, kwargs_handlers=None, http_status_codes=None
+    ):
         if not region:
             dbm_path = os.path.dirname(DEFAULT_DBM_PATH)
             if not os.path.exists(dbm_path):

@@ -36,4 +36,6 @@ def validate_date(date):
         datetime.strptime(date, "%Y%m%d")
         return date
     except ValueError as exc:
-        raise InvalidDate("{0} is not a valid YYYYMMDD date.".format(date)) from exc
+        raise InvalidDate(
+            "{0} is not a valid YYYYMMDD date.".format(date)
+        ) from exc

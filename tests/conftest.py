@@ -46,7 +46,9 @@ def cached_client(request, module_cache):
 
     ops_key, ops_secret = get_secrets_or_skip_tests()
 
-    return Client(ops_key, ops_secret, middlewares=[module_cache, mkthrottler(request)])
+    return Client(
+        ops_key, ops_secret, middlewares=[module_cache, mkthrottler(request)]
+    )
 
 
 @pytest.fixture(scope="module", params=["cached_client", "default_client"])
