@@ -15,7 +15,9 @@ def reset_cached_client(request):
 
     ops_key, ops_secret = get_secrets_or_skip_tests()
     return Client(
-        ops_key, ops_secret, middlewares=[mkcache(request), mkthrottler(request)]
+        ops_key,
+        ops_secret,
+        middlewares=[mkcache(request), mkthrottler(request)],
     )
 
 

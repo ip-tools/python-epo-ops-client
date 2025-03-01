@@ -97,7 +97,10 @@ class Client(object):
         return self._make_request(url, None, params=input.as_api_input(), use_get=True)
 
     def image(
-        self, path: str, range: int = 1, document_format: str = "application/tiff"
+        self,
+        path: str,
+        range: int = 1,
+        document_format: str = "application/tiff",
     ) -> requests.Response:
         """
         Retrieve the image page for a given path, one page at a time.
@@ -234,7 +237,8 @@ class Client(object):
         range = dict(key="X-OPS-Range", begin=range_begin, end=range_end)
         return self._search_request(
             dict(
-                service=self.__published_data_search_path__, constituents=constituents
+                service=self.__published_data_search_path__,
+                constituents=constituents,
             ),
             cql,
             range,
@@ -306,7 +310,10 @@ class Client(object):
         }
         payload = {"grant_type": "client_credentials"}
         response = requests.post(
-            self.__auth_url__, headers=headers, data=payload, timeout=NETWORK_TIMEOUT
+            self.__auth_url__,
+            headers=headers,
+            data=payload,
+            timeout=NETWORK_TIMEOUT,
         )
         response.raise_for_status()
         self._access_token = AccessToken(response)
@@ -401,7 +408,10 @@ class Client(object):
         params = {"Range": range}
         data = path.replace(self.__images_path__ + "/", "")
         return self._make_request(
-            url, data=data, extra_headers={"Accept": document_format}, params=params
+            url,
+            data=data,
+            extra_headers={"Accept": document_format},
+            params=params,
         )
 
     def _check_for_expired_token(self, response):

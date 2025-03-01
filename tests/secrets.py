@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+# ruff: noqa: A005  # Module `secrets` shadows a Python standard-library module
 from __future__ import (
     absolute_import,
     division,
