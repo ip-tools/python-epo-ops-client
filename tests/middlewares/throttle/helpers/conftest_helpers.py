@@ -18,7 +18,10 @@ class ThrottleSnapshot(object):
 
     @property
     def base(self):
-        return {"system_status": "idle", "services": {}}  # idle, busy, overloaded
+        return {
+            "system_status": "idle",
+            "services": {},
+        }  # idle, busy, overloaded
 
     def as_header(self):
         services = [status.as_header() for status in self.service_statuses]

@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
-
+import codecs
 import os
-from codecs import open
 from datetime import timedelta
 from pprint import pformat
 from random import choice, shuffle
@@ -178,7 +177,7 @@ def generate_sample_throttle_snapshot_reprs(throttle_snapshot):
     makedirs(sample_path)
     fheader = os.path.join(sample_path, "throttle_snapshot.header")
     fdict = os.path.join(sample_path, "throttle_snapshot.dict")
-    with open(fheader, "wb+", encoding="utf-8") as of:
+    with codecs.open(fheader, "wb+", encoding="utf-8") as of:
         of.write(throttle_snapshot.as_header())
-    with open(fdict, "wb+", encoding="utf-8") as of:
+    with codecs.open(fdict, "wb+", encoding="utf-8") as of:
         of.write(pformat(throttle_snapshot.as_dict()))

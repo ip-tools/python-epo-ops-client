@@ -1,4 +1,4 @@
-from codecs import open
+import codecs
 from os import path
 
 from setuptools import setup
@@ -6,7 +6,7 @@ from versioningit import get_cmdclasses
 
 here = path.abspath(path.dirname(__file__))
 
-with open(path.join(here, "README.md"), encoding="utf-8") as f:
+with codecs.open(path.join(here, "README.md"), encoding="utf-8") as f:
     readme = f.read()
 
 setup(
@@ -37,7 +37,7 @@ setup(
     extras_require={
         "develop": [
             "black<25",
-            "ruff<0.9; python_version >= '3.7'",
+            "ruff<0.10; python_version >= '3.7'",
             "twine<6",
             "wheel<1",
         ],
