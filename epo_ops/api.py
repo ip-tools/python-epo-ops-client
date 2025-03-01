@@ -94,7 +94,9 @@ class Client(object):
                 use_get=True,
             )
         )
-        return self._make_request(url, None, params=input.as_api_input(), use_get=True)
+        return self._make_request(
+            url, None, params=input.as_api_input(), use_get=True
+        )
 
     def image(
         self,
@@ -175,7 +177,9 @@ class Client(object):
 
         if output_format not in possible_conversions[input_format]:
             raise exceptions.InvalidNumberConversion(
-                "Cannot convert from {0} to {1}".format(input_format, output_format)
+                "Cannot convert from {0} to {1}".format(
+                    input_format, output_format
+                )
             )
         return self._service_request(
             dict(
@@ -337,7 +341,9 @@ class Client(object):
                 raise
         return response  # pragma: no cover
 
-    def _make_request(self, url, data, extra_headers=None, params=None, use_get=False):
+    def _make_request(
+        self, url, data, extra_headers=None, params=None, use_get=False
+    ):
         token = "Bearer {0}".format(self.access_token.token)
         headers = {
             "Accept": self.accept_type,
@@ -349,7 +355,9 @@ class Client(object):
         if use_get:
             request_method = self.request.get
 
-        response = request_method(url, data=data, headers=headers, params=params)
+        response = request_method(
+            url, data=data, headers=headers, params=params
+        )
         response = self._check_for_expired_token(response)
         response = self._check_for_exceeded_quota(response)
         response.raise_for_status()
@@ -422,5 +430,7 @@ class Client(object):
         message = ET.fromstring(response.content)  # noqa: S314
         if message.findtext("message") == "invalid_access_token":
             self._acquire_token()
-            response = self._make_request(response.request.url, response.request.body)
+            response = self._make_request(
+                response.request.url, response.request.body
+            )
         return response

@@ -55,7 +55,9 @@ def issue_request(client):
 
 # Tests
 @responses.activate
-def test_mock_quota_exceeded(ops_backend_with_quota_exceeded, all_clients, monkeypatch):
+def test_mock_quota_exceeded(
+    ops_backend_with_quota_exceeded, all_clients, monkeypatch
+):
     errors = {
         "individual-per-hour-exceeded": IndividualQuotaPerHourExceeded,
         "registered-per-week-exceeded": RegisteredQuotaPerWeekExceeded,

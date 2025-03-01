@@ -150,7 +150,9 @@ def throttle_history(expired_throttle_history, retry_after_value):
 
     for d in _services_dicts(service_limits):
         storage.update(
-            make_header(make_throttle_snapshot(choice(system_stats), d).as_header())
+            make_header(
+                make_throttle_snapshot(choice(system_stats), d).as_header()
+            )
         )
 
     # Make a special header with search=black with retry value
@@ -173,7 +175,9 @@ def throttle_history(expired_throttle_history, retry_after_value):
 @pytest.fixture
 def generate_sample_throttle_snapshot_reprs(throttle_snapshot):
     "Generate sample header and dict representations"
-    sample_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "sample")
+    sample_path = os.path.join(
+        os.path.dirname(os.path.abspath(__file__)), "sample"
+    )
     makedirs(sample_path)
     fheader = os.path.join(sample_path, "throttle_snapshot.header")
     fdict = os.path.join(sample_path, "throttle_snapshot.dict")

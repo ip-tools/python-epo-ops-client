@@ -95,7 +95,9 @@ class Request(object):
         self.reset_env()
 
         for mw in self.middlewares:
-            url, data, kwargs = mw.process_request(self.env, url, data, **kwargs)
+            url, data, kwargs = mw.process_request(
+                self.env, url, data, **kwargs
+            )
 
         # Either get response from cache environment or request from upstream
         # bool(<Response [200]>) is True
