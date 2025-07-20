@@ -1,5 +1,9 @@
 # Change Log
 
+- Added support for the "legal" service endpoint, providing legal status
+  information for patents as documented in chapter 3.5 of the OPS v3.2
+  documentation. Thanks, @MartiONE.
+
 ## 4.1.0 (2024-01-25)
 
 - Configure HTTP client to use a network timeout of 10 seconds
