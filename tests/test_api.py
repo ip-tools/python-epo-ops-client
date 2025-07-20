@@ -12,6 +12,7 @@ from .helpers.api_helpers import (
     assert_family_legal_success,
     assert_family_success,
     assert_image_success,
+    assert_legal_success,
     assert_number_service_success,
     assert_published_data_search_success,
     assert_published_data_search_with_range_success,
@@ -44,6 +45,8 @@ def test_family_legal(all_clients):
 def test_image(all_clients):
     assert_image_success(all_clients)
 
+def test_legal(all_clients):
+    assert_legal_success(all_clients)
 
 def test_published_data(all_clients):
     assert_published_data_success(all_clients)

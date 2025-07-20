@@ -28,6 +28,7 @@ class Client(object):
 
     __family_path__ = "family"
     __images_path__ = "published-data/images"
+    __legal_path__ = "legal"
     __number_path__ = "number-service"
     __published_data_path__ = "published-data"
     __published_data_search_path__ = "published-data/search"
@@ -119,6 +120,39 @@ class Client(object):
         """
         return self._image_request(path, range, document_format)
 
+    def legal(
+        self,
+        reference_type: str,
+        input: Union[Original, Docdb, Epodoc],
+    ) -> requests.Response:
+        """
+        Retrieval service for legal data.
+
+        Args:
+            reference_type (str): Any of "publication", "application", or "priority".
+            input (Original, Epodoc, or Docdb): The document number as an Original, Epodoc, or Docdb data object.
+        Returns:
+            requests.Response: a requests.Response object.
+
+        Examples:
+            >>> response = client.legal("publication", epo_ops.models.Epodoc("EP1000000"))
+            >>> response
+            <Response [200]>
+            >>> "ops:legal" in response.text
+            True
+
+        Note:
+            This service provides access to legal status information for patents
+            as documented in chapter 3.5 of the OPS v3.2 documentation.˜
+        """
+
+        return self._service_request(
+            dict(
+                service=self.__legal_path__,
+                reference_type=reference_type,
+                input=input,
+            )
+        )
     def number(
         self,
         reference_type: str,

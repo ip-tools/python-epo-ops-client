@@ -48,6 +48,11 @@ def assert_image_success(client):
     assert_request_success(response)
     return response
 
+def assert_legal_success(client):
+    response = client.legal(*data)
+    assert_request_success(response)
+    assert "ops:legal" in response.text
+    return response
 
 def assert_published_data_success(client):
     response = client.published_data(*data)
