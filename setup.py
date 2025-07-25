@@ -23,7 +23,7 @@ setup(
     maintainer_email="andreas.motl@ip-tools.org",
     url="https://github.com/ip-tools/python-epo-ops-client",
     download_url="https://pypi.org/project/python-epo-ops-client/#files",
-    packages=["epo_ops"],
+    packages=["epo_ops", "epo_ops.middlewares"],
     package_dir={"epo_ops": "epo_ops"},
     include_package_data=True,
     install_requires=[
