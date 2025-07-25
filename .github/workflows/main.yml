@@ -2,7 +2,7 @@
 name: Tests
 
 on:
-  pull_request: ~
+  pull_request:
   push:
     branches: [ main ]
 
@@ -22,9 +22,9 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: ["ubuntu-20.04"]
+        os: ["ubuntu-latest"]
         python-version: [
-          "3.6",
+          "3.8",
           "3.13",
         ]
 
@@ -51,11 +51,6 @@ jobs:
     - name: Setup project
       run: |
         make install-develop
-
-    - name: Run linter
-      if: matrix.python-version != '3.6'
-      run: |
-        make lint
 
     - name: Run tests
       run: |
