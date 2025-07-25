@@ -7,17 +7,42 @@
 
 python-epo-ops-client is an [Apache2 licensed][apache license] client library
 for accessing the [European Patent Office][epo]'s ("EPO") [Open Patent
-Services][ops] ("OPS") v.3.2 (based on [v 1.3.16 of the reference guide][ops guide]).
+Services][ops] ("OPS") v3.2 (based on [v1.3.16 of the reference guide][ops guide]).
 
 ```python
 import epo_ops
 
-client = epo_ops.Client(key='abc', secret='xyz')  # Instantiate client
-response = client.published_data(  # Retrieve bibliography data
-  reference_type = 'publication',  # publication, application, priority
-  input = epo_ops.models.Docdb('1000000', 'EP', 'A1'),  # docdb, epodoc
-  endpoint = 'biblio',  # optional, defaults to biblio in case of published_data
-  constituents = []  # optional, list of constituents
+# Instantiate client.
+client = epo_ops.Client(key="abc", secret="xyz")
+
+# Retrieve bibliography data.
+response = client.published_data(
+
+  # publication, application, priority
+  reference_type="publication",
+
+  # docdb, epodoc
+  input=epo_ops.models.Docdb("1000000", "EP", "A1"),
+
+  # optional, defaults to biblio in case of published_data
+  endpoint="biblio",
+
+  # optional, list of constituents
+  constituents=[],
+)
+
+# Retrieve description.
+response = client.published_data(
+  reference_type="publication",
+  input=epo_ops.models.Docdb("1000000", "EP", "A1"),
+  endpoint="description",
+)
+
+# Retrieve claims.
+response = client.published_data(
+  reference_type="publication",
+  input=epo_ops.models.Docdb("1000000", "EP", "A1"),
+  endpoint="claims",
 )
 ```
 
