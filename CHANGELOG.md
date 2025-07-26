@@ -1,5 +1,7 @@
 # Change Log
 
+## 4.2.0 (2025-07-26)
+
 - Added support for the "legal" service endpoint, providing legal status
   information for patents as documented in chapter 3.5 of the OPS v3.2
   documentation. Thanks, @MartiONE.
