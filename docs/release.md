@@ -15,5 +15,5 @@ To release the package, exercise those steps:
 
 - Push to remote.
   ```shell
-  git push --follow-tags
+  git push && git push --tags
   ```
