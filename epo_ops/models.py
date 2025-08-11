@@ -10,10 +10,6 @@ from .utils import quote, validate_date
 
 log = logging.getLogger(__name__)
 
-
-NETWORK_TIMEOUT = 10.0
-
-
 def _prepare_part(part):
     return "({0})".format(quote(part))
 
@@ -68,8 +64,9 @@ class AccessToken(object):
 
 
 class Request(object):
-    def __init__(self, middlewares):
+    def __init__(self, middlewares, timeout=None):
         self.middlewares = middlewares
+        self.timeout = timeout
         self.reset_env()
 
     @property
@@ -86,10 +83,10 @@ class Request(object):
         self.env.update(self.default_env)
 
     def post(self, url, data=None, **kwargs):
-        return self._request(_post_callback, url, data, **kwargs)
+        return self._request(self._post_callback, url, data, **kwargs)
 
     def get(self, url, data=None, **kwargs):
-        return self._request(_get_callback, url, data, **kwargs)
+        return self._request(self._get_callback, url, data, **kwargs)
 
     def _request(self, callback, url, data=None, **kwargs):
         self.reset_env()
@@ -111,9 +108,8 @@ class Request(object):
         return response
 
 
-def _post_callback(url, data, **kwargs):
-    return requests.post(url, data, **kwargs, timeout=NETWORK_TIMEOUT)
+    def _post_callback(self, url, data, **kwargs):
+        return requests.post(url, data, **kwargs, timeout=self.timeout)
 
-
-def _get_callback(url, data, **kwargs):
-    return requests.get(url, **kwargs, timeout=NETWORK_TIMEOUT)
+    def _get_callback(self, url, data, **kwargs):
+        return requests.get(url, **kwargs, timeout=self.timeout)
