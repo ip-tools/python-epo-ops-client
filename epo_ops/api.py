@@ -11,7 +11,6 @@ from requests.exceptions import HTTPError
 from . import exceptions
 from .middlewares import Throttler
 from .models import (
-    NETWORK_TIMEOUT,
     AccessToken,
     Docdb,
     Epodoc,
@@ -21,6 +20,7 @@ from .models import (
 
 log = logging.getLogger(__name__)
 
+DEFAULT_NETWORK_TIMEOUT = 10.0
 
 class Client(object):
     __auth_url__ = "https://ops.epo.org/3.2/auth/accesstoken"
@@ -35,14 +35,15 @@ class Client(object):
     __register_path__ = "register"
     __register_search_path__ = "register/search"
 
-    def __init__(self, key, secret, accept_type="xml", middlewares=None):
+    def __init__(self, key, secret, accept_type="xml", middlewares=None, timeout=DEFAULT_NETWORK_TIMEOUT):
         self.accept_type = "application/{0}".format(accept_type)
         self.middlewares = middlewares
         if middlewares is None:
             self.middlewares = [Throttler()]
-        self.request = Request(self.middlewares)
+        self.request = Request(self.middlewares, timeout)
         self.key = key
         self.secret = secret
+        self.timeout = timeout
         self._access_token = None
 
     def family(
@@ -351,7 +352,7 @@ class Client(object):
             self.__auth_url__,
             headers=headers,
             data=payload,
-            timeout=NETWORK_TIMEOUT,
+            timeout=self.timeout,
         )
         response.raise_for_status()
         self._access_token = AccessToken(response)
