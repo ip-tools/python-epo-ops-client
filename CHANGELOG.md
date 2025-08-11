@@ -1,5 +1,7 @@
 # Change Log
 
+- Made network timeout configurable. Thanks, @ofipify.
+
 ## 4.2.0 (2025-07-26)
 
 - Added support for the "legal" service endpoint, providing legal status
