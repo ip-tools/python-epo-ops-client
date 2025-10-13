@@ -27,7 +27,7 @@ setup(
     package_dir={"epo_ops": "epo_ops"},
     include_package_data=True,
     install_requires=[
-        "dogpile.cache<1.5",
+        "dogpile.cache<1.6",
         "importlib-metadata; python_version<'3.8'",
         "python-dateutil<2.10",
         "requests>=2.27,<3",
