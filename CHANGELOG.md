@@ -1,5 +1,7 @@
 # Change Log
 
+- Verify support for Python 3.14
+
 ## 4.2.1 (2025-09-09)
 
 - Made network timeout configurable. Thanks, @ofipify.

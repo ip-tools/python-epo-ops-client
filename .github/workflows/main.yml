@@ -23,10 +23,9 @@ jobs:
       fail-fast: false
       matrix:
         os: ["ubuntu-latest"]
-        python-version: [
-          "3.8",
-          "3.13",
-        ]
+        python-version:
+          - "3.8"
+          - "3.14"
 
     env:
       OS: ${{ matrix.os }}
