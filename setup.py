@@ -1,7 +1,7 @@
 import codecs
 from os import path
 
-from setuptools import setup
+from setuptools import find_packages, setup
 from versioningit import get_cmdclasses
 
 here = path.abspath(path.dirname(__file__))
@@ -15,6 +15,7 @@ setup(
     description=(
         "Python client for EPO OPS, the European Patent Office's Open Patent Services API."
     ),
+    license="Apache-2.0",
     long_description_content_type="text/markdown",
     long_description=readme,
     author="George Song",
@@ -23,8 +24,9 @@ setup(
     maintainer_email="andreas.motl@ip-tools.org",
     url="https://github.com/ip-tools/python-epo-ops-client",
     download_url="https://pypi.org/project/python-epo-ops-client/#files",
-    packages=["epo_ops", "epo_ops.middlewares"],
-    package_dir={"epo_ops": "epo_ops"},
+    packages=find_packages(
+        include=["epo_ops*"],
+    ),
     include_package_data=True,
     install_requires=[
         "dogpile.cache<1.6",
@@ -52,7 +54,6 @@ setup(
         "Development Status :: 5 - Production/Stable",
         "Intended Audience :: Developers",
         "Natural Language :: English",
-        "License :: OSI Approved :: Apache Software License",
         "Programming Language :: Python",
         "Programming Language :: Python :: 3.6",
         "Programming Language :: Python :: 3.7",
