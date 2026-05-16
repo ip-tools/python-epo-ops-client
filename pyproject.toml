@@ -58,6 +58,7 @@ lint.select = [
 extend-exclude = ["__init__.py"]
 
 lint.ignore = [
+  "B905", # B905 `zip()` without an explicit `strict=` parameter
   "E203",
   "E266",
   "E501",

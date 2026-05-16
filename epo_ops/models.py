@@ -10,6 +10,7 @@ from .utils import quote, validate_date
 
 log = logging.getLogger(__name__)
 
+
 def _prepare_part(part):
     return "({0})".format(quote(part))
 
@@ -106,7 +107,6 @@ class Request(object):
 
         self.reset_env()
         return response
-
 
     def _post_callback(self, url, data, **kwargs):
         return requests.post(url, data, **kwargs, timeout=self.timeout)
