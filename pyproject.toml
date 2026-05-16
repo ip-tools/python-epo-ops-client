@@ -105,7 +105,6 @@ max-complexity = 7
 
 
 [tool.versioningit]
-
-[tool.versioningit.vcs]
-method = "git"
-default-tag = "0.0.0"
+vcs.method = "git-archive"
+vcs.default-tag = "v0.0.0"
+vcs.describe-subst = "$Format:%(describe:tags,match=v*)$"
