@@ -1,64 +1,45 @@
-# ==================
-# Build system setup
-# ==================
-
 [build-system]
+build-backend = "setuptools.build_meta"
 requires = [
   "setuptools>=42", # At least v42 of setuptools required!
   "versioningit",
 ]
-build-backend = "setuptools.build_meta"
-
-[tool.pytest.ini_options]
-minversion = "2.0"
-addopts = """
-  -rsfEX -p pytester --strict-markers --verbosity=3
-  --cov=epo_ops tests --cov-report=term-missing --cov-report=xml
-  """
-log_level = "DEBUG"
-log_cli_level = "DEBUG"
-testpaths = ["tests"]
-xfail_strict = true
-markers = []
 
 [tool.ruff]
 line-length = 80
-
+extend-exclude = [ "__init__.py" ]
 lint.select = [
-  # Bandit
-  "S",
-  # Bugbear
-  "B",
   # Builtins
   "A",
+  # Bugbear
+  "B",
+  "B9",
   # comprehensions
   "C",
+  # Pycodestyle
+  "E",
   # eradicate
   "ERA",
-  # flake8-2020
-  "YTT",
+  # Pyflakes
+  "F",
   # isort
   "I",
   # pandas-vet
   "PD",
-  # print
-  "T20",
-  # Pycodestyle
-  "E",
-  "W",
-  # Pyflakes
-  "F",
   # return
   "RET",
+  # Bandit
+  "S",
   # from `.flake8` file
-  "T",  # T4
-  "B9",
+  "T",   # T4
+  # print
+  "T20",
+  "W",
+  # flake8-2020
+  "YTT",
 ]
-
-extend-exclude = ["__init__.py"]
-
 lint.ignore = [
-  "B905", # B905 `zip()` without an explicit `strict=` parameter
+  "B905",   # B905 `zip()` without an explicit `strict=` parameter
   "E203",
   "E266",
   "E501",
@@ -66,12 +47,25 @@ lint.ignore = [
   "RET505", # Unnecessary `else` after `return` statement
   # "W503",  # Unknown rule selector
 ]
-
+# FIXME: Improve this situation wrt. SQL injection, even it is not be an actual attack vector.
+lint.per-file-ignores."*sqlite.py" = [
+  "S608", # Possible SQL injection vector through string-based query construction
+]
+lint.per-file-ignores."epo_ops/api.py" = [
+  "A001", # Variable `range` is shadowing a Python builtin
+  "A002", # Argument `input` is shadowing a Python builtin
+  "C408", # Unnecessary `dict` call (rewrite as a literal)
+]
+lint.per-file-ignores."tests/*" = [
+  "S101", # Use of `assert` detected
+]
+lint.per-file-ignores."tests/middlewares/throttle/conftest.py" = [
+  "S311", # Standard pseudo-random generators are not suitable for cryptographic purposes
+]
 # from `.isort.cfg` file
-[tool.ruff.lint.isort]
-combine-as-imports = true
-force-wrap-aliases = true
-known-third-party = [
+lint.isort.combine-as-imports = true
+lint.isort.force-wrap-aliases = true
+lint.isort.known-third-party = [
   "dateutil",
   "dogpile",
   "dotenv",
@@ -79,31 +73,22 @@ known-third-party = [
   "requests",
   "six",
 ]
-split-on-trailing-comma = false
-
+lint.isort.split-on-trailing-comma = false
 # from `.flake8` file
-[tool.ruff.lint.mccabe]
 # Flag errors (`C901`) whenever the complexity level exceeds the configured value.
-max-complexity = 7
+lint.mccabe.max-complexity = 7
 
-
-[tool.ruff.lint.per-file-ignores]
-"tests/*" = [
-  "S101", # Use of `assert` detected
-]
-"epo_ops/api.py" = [
-  "A001", # Variable `range` is shadowing a Python builtin
-  "A002", # Argument `input` is shadowing a Python builtin
-  "C408", # Unnecessary `dict` call (rewrite as a literal)
-]
-# FIXME: Improve this situation wrt. SQL injection, even it is not be an actual attack vector.
-"*sqlite.py" = [
-  "S608", # Possible SQL injection vector through string-based query construction
-]
-"tests/middlewares/throttle/conftest.py" = [
-  "S311", # Standard pseudo-random generators are not suitable for cryptographic purposes
-]
-
+[tool.pytest]
+ini_options.minversion = "2.0"
+ini_options.addopts = """
+  -rsfEX -p pytester --strict-markers --verbosity=3
+  --cov=epo_ops tests --cov-report=term-missing --cov-report=xml
+  """
+ini_options.log_level = "DEBUG"
+ini_options.log_cli_level = "DEBUG"
+ini_options.testpaths = [ "tests" ]
+ini_options.xfail_strict = true
+ini_options.markers = []
 
 [tool.versioningit]
 vcs.method = "git-archive"

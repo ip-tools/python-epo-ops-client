@@ -37,6 +37,7 @@ lint: ## lint the project
 	ruff format --check .
 
 format: ## Run code formatting
+	pyproject-fmt --keep-full-version pyproject.toml
 	ruff format .
 	# Configure Ruff not to auto-fix (remove!):
 	# Ignore unused imports (F401), unused variables (F841), `print` statements (T201), and commented-out code (ERA001).
