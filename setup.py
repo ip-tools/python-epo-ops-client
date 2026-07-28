@@ -39,7 +39,7 @@ setup(
         "develop": [
             "pyproject-fmt<3",
             "ruff<0.16; python_version >= '3.7'",
-            "twine<7",
+            "twine<8",
             "wheel<1",
         ],
         "test": [
