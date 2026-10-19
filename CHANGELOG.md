@@ -1,5 +1,9 @@
 # Change Log
 
+## In progress
+
+- Verified support for Python 3.15
+
 ## 4.2.2 (2026-05-17)
 
 - Verify support for Python 3.14
