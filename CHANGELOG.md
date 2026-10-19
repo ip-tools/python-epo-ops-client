@@ -2,6 +2,8 @@
 
 ## In progress
 
+## 4.2.3 (2026-10-19)
+
 - Verified support for Python 3.15
 
 ## 4.2.2 (2026-05-17)
