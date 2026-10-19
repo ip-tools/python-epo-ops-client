@@ -17,32 +17,28 @@ client = epo_ops.Client(key="abc", secret="xyz")
 
 # Retrieve bibliography data.
 response = client.published_data(
-
-  # publication, application, priority
-  reference_type="publication",
-
-  # docdb, epodoc
-  input=epo_ops.models.Docdb("1000000", "EP", "A1"),
-
-  # optional, defaults to biblio in case of published_data
-  endpoint="biblio",
-
-  # optional, list of constituents
-  constituents=[],
+    # publication, application, priority
+    reference_type="publication",
+    # docdb, epodoc
+    input=epo_ops.models.Docdb("1000000", "EP", "A1"),
+    # optional, defaults to biblio in case of published_data
+    endpoint="biblio",
+    # optional, list of constituents
+    constituents=[],
 )
 
 # Retrieve description.
 response = client.published_data(
-  reference_type="publication",
-  input=epo_ops.models.Docdb("1000000", "EP", "A1"),
-  endpoint="description",
+    reference_type="publication",
+    input=epo_ops.models.Docdb("1000000", "EP", "A1"),
+    endpoint="description",
 )
 
 # Retrieve claims.
 response = client.published_data(
-  reference_type="publication",
-  input=epo_ops.models.Docdb("1000000", "EP", "A1"),
-  endpoint="claims",
+    reference_type="publication",
+    input=epo_ops.models.Docdb("1000000", "EP", "A1"),
+    endpoint="claims",
 )
 ```
 
@@ -134,8 +130,8 @@ middlewares = [
     epo_ops.middlewares.Throttler(),
 ]
 client = epo_ops.Client(
-    key='key',
-    secret='secret',
+    key="key",
+    secret="secret",
     middlewares=middlewares,
 )
 ```
