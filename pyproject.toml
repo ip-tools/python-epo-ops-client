@@ -80,15 +80,15 @@ lint.mccabe.max-complexity = 7
 
 [tool.pytest]
 ini_options.minversion = "2.0"
+ini_options.testpaths = [ "tests" ]
 ini_options.addopts = """
   -rsfEX -p pytester --strict-markers --verbosity=3
   --cov=epo_ops tests --cov-report=term-missing --cov-report=xml
   """
+ini_options.markers = []
+ini_options.xfail_strict = true
 ini_options.log_level = "DEBUG"
 ini_options.log_cli_level = "DEBUG"
-ini_options.testpaths = [ "tests" ]
-ini_options.xfail_strict = true
-ini_options.markers = []
 
 [tool.versioningit]
 vcs.method = "git-archive"
